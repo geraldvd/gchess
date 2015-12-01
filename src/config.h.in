@@ -1,0 +1,4 @@
+// This file contains the CMAKE configured #define's
+#cmakedefine WITH_GRAPHICS
+#cmakedefine WITH_ENGINE
+#cmakedefine WITH_GAME

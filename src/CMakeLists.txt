@@ -32,12 +32,16 @@ include_directories(include)
 add_subdirectory(3rdparty)
 
 # Add game library
-add_subdirectory(game)
-include_directories(game)
+if(WITH_GAME)
+    add_subdirectory(game)
+    include_directories(game)
+endif()
 
 # Add engine library
-add_subdirectory(engine)
-include_directories(engine)
+if(WITH_ENGINE)
+    add_subdirectory(engine)
+    include_directories(engine)
+endif()
 
 # Add gui library
 if(WITH_GRAPHICS)

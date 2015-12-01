@@ -57,9 +57,12 @@ set(BASE_DIR_QT5
 #########################################################################
 ### Project settings
 set(GCHESS_LIBS)
-#if(WITH_BT)
-#    set(GCHESS_LIBS ${GCHESS_LIBS} ${PROJECT_NAME}_ENGINE)
-#endif()
+if(WITH_GAME)
+    set(GCHESS_LIBS ${GCHESS_LIBS} ${PROJECT_NAME}_game)
+endif()
+if(WITH_ENGINE)
+    set(GCHESS_LIBS ${GCHESS_LIBS} ${PROJECT_NAME}_engine)
+endif()
 
 # Add sources
 set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)

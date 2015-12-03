@@ -2,6 +2,7 @@
 
 // Include standard libraries
 #include <iostream>
+#include <utility>
 
 // Include Qt
 #ifdef WITH_GRAPHICS
@@ -27,6 +28,12 @@ int main(int argc, char **argv) {
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;
+
+    pair<int,int> a(1,2);
+    pair<int,int> b(1,2);
+    pair<int,int> c(2,1);
+
+    qDebug() << int(a==b) << ", " << int(b==c) << endl;
 
     return 0;
 #endif

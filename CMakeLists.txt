@@ -40,7 +40,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 #########################################################################
 ### Configuration options
-option(WITH_GRAPHICS "Should the executable have a graphical interface?" ON)
+option(WITH_GRAPHICS "Should the executable have a graphical interface?" OFF)
 option(WITH_GAME "Should the chess game (rules) be compiled?" ON)
 option(WITH_ENGINE "Should the chess engine be compiled?" OFF)
 
@@ -48,7 +48,7 @@ option(WITH_ENGINE "Should the chess engine be compiled?" OFF)
 #########################################################################
 ### Qt 5 settings
 set(BASE_DIR_QT5
-    "/opt/Qt/5.5/gcc_64"
+    "/opt/Qt/5.4/gcc_64"
 #    "/Applications/Qt/5.4/clang_64"
     CACHE FILEPATH "The full path to the Qt 5 installation."
 )

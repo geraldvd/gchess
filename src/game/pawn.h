@@ -9,7 +9,7 @@ public:
     Pawn(int x, int y, int c);
 
 protected:
-    void populateMoves();
+    std::vector<Field> findTheoreticalMoves();
 };
 
 #endif // PAWN_H

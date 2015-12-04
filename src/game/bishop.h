@@ -9,7 +9,7 @@ public:
     Bishop(int x, int y, int c);
 
 protected:
-    void populateMoves();
+    void findTheoreticalMoves();
 };
 
 #endif // BISHOP_H

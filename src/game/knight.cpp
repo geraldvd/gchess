@@ -8,7 +8,7 @@ Knight::Knight(int x, int y, int c) :
     this->type = "Knight";
 }
 
-void Knight::populateMoves()
+std::vector<Field> Knight::findTheoreticalMoves()
 {
     // List all move pairs
     vector<pair<int,int> > moves;
@@ -22,6 +22,6 @@ void Knight::populateMoves()
     moves.push_back(pair<int,int>(-1,-2));
 
     // Check whether moves are still on board
-    this->setMoves(this->movesOnBoard(moves));
+    return this->movesOnBoard(moves);
 }
 

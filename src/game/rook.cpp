@@ -8,7 +8,7 @@ Rook::Rook(int x, int y, int c) :
     this->type = "Rook";
 }
 
-void Rook::populateMoves()
+void Rook::findTheoreticalMoves()
 {
     // List all move pairs
     vector<pair<int,int> > moves;

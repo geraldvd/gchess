@@ -9,7 +9,7 @@ public:
     Knight(int x, int y, int c);
 
 protected:
-    void populateMoves();
+    void findTheoreticalMoves();
 };
 
 #endif // KNIGHT_H

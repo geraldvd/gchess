@@ -183,7 +183,7 @@ void Game::addWhitePiece(Piece *p)
     this->white.push_back(p);
 
     // Initialize possible moves
-    p->populateMoves();
+    p->findTheoreticalMoves();
 }
 
 void Game::addBlackPiece(Piece *p)
@@ -191,7 +191,7 @@ void Game::addBlackPiece(Piece *p)
     this->black.push_back(p);
 
     // Initialize possible moves
-    p->populateMoves();
+    p->findTheoreticalMoves();
 }
 
 vector<Piece *> Game::getBlackPieces() const

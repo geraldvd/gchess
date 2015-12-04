@@ -8,7 +8,7 @@ Pawn::Pawn(int x, int y, int c) :
     this->type = "Pawn";
 }
 
-void Pawn::populateMoves()
+void Pawn::findTheoreticalMoves()
 {
     // List all move pairs
     vector<pair<int,int> > moves;

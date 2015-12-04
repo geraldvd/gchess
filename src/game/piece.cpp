@@ -11,12 +11,12 @@ Piece::Piece(int x, int y, int c) :
 
 }
 
-std::vector<std::pair<int, int> > Piece::getMoves() const
+std::vector<Field> Piece::getMoves() const
 {
     return this->moves;
 }
 
-std::vector<std::pair<int, int> > Piece::getGlobalMoves() const
+std::vector<Field> Piece::getGlobalMoves() const
 {
     vector<pair<int,int> > moves = this->getMoves();
 
@@ -32,17 +32,17 @@ std::vector<std::pair<int, int> > Piece::getGlobalMoves() const
     return moves;
 }
 
-void Piece::setMoves(const std::vector<std::pair<int, int> > & moves)
+void Piece::setMoves(const std::vector<Field> &moves)
 {
     this->moves = moves;
 }
 
-std::pair<int, int> Piece::getPosition() const
+Field Piece::getPosition() const
 {
     return this->position;
 }
 
-std::pair<int, int> Piece::getGlobalPosition() const
+Field Piece::getGlobalPosition() const
 {
     pair<int,int> position = this->getPosition();
 
@@ -67,9 +67,15 @@ string Piece::getLetterPosition() const
     return ss.str();
 }
 
-void Piece::setPosition(const std::pair<int, int> & p)
+void Piece::setPosition(const Field &p)
 {
     this->position = p;
+}
+
+void Piece::findMoves()
+{
+    // Find all possible locations
+
 }
 
 string Piece::getType() const

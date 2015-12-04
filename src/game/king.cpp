@@ -8,7 +8,7 @@ King::King(int x, int y, int c) :
     this->type = "King";
 }
 
-void King::populateMoves()
+std::vector<Field> King::findTheoreticalMoves()
 {
     // List all move pairs
     vector<pair<int,int> > moves;
@@ -22,6 +22,6 @@ void King::populateMoves()
     moves.push_back(pair<int,int>(1,-1));
 
     // Check whether moves are still on board
-    this->setMoves(this->movesOnBoard(moves));
+    return this->movesOnBoard(moves);
 }
 

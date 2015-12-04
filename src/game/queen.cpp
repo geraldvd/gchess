@@ -8,7 +8,7 @@ Queen::Queen(int x, int y, int c) :
     this->type = "Queen";
 }
 
-void Queen::populateMoves()
+void Queen::findTheoreticalMoves()
 {
     // List all move pairs
     vector<pair<int,int> > moves;

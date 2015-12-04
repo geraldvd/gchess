@@ -8,7 +8,7 @@ Bishop::Bishop(int x, int y, int c) :
     this->type = "Bishop";
 }
 
-void Bishop::populateMoves()
+std::vector<Field> Bishop::findTheoreticalMoves()
 {
     // List all move pairs
     vector<pair<int,int> > moves;
@@ -21,6 +21,6 @@ void Bishop::populateMoves()
     }
 
     // Check whether moves are still on board
-    this->setMoves(this->movesOnBoard(moves));
+    return this->movesOnBoard(moves);
 }
 

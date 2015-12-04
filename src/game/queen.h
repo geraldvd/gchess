@@ -10,7 +10,7 @@ public:
     Queen(int x, int y, int c);
 
 protected:
-    void populateMoves();
+    std::vector< findTheoreticalMoves();
 };
 
 #endif // QUEEN_H

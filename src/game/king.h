@@ -9,7 +9,7 @@ public:
     King(int x, int y, int c);
 
 protected:
-    void populateMoves();
+    void findTheoreticalMoves();
 };
 
 #endif // KING_H

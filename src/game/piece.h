@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+// Typedef for chess field
+typedef std::pair<int,int> Field;
 
 class Piece
 {
@@ -14,17 +16,18 @@ public:
     std::string getType() const;
     int getColor() const;
 
-    std::vector<std::pair<int,int> > getMoves() const;
-    std::vector<std::pair<int,int> > getGlobalMoves() const;
-    void setMoves(const std::vector<std::pair<int, int> > & moves);
+    std::vector<Field> getMoves() const;
+    std::vector<Field> getGlobalMoves() const;
+    void setMoves(const std::vector<Field> & moves);
 
-    std::pair<int, int> getPosition() const;
-    std::pair<int, int> getGlobalPosition() const;
+    Field getPosition() const;
+    Field getGlobalPosition() const;
     std::string getLetterPosition() const;
-    void setPosition(const std::pair<int, int> & p);
+    void setPosition(const Field & p);
 
 
-    virtual void populateMoves() = 0;
+    virtual std::vector<Field> findTheoreticalMoves() = 0;
+    void findMoves();
 private:
     std::pair<int,int> position;
     std::vector<std::pair<int,int> > moves;

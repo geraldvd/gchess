@@ -30,17 +30,17 @@ int main(int argc, char **argv) {
 
     // Setup game
     Game g;
-    //g.init();
-    Piece * p1 = new King(0,0,1);
-    Piece * p2 = new Queen(5,0,-1);
-    Piece * p3 = new Pawn(5,1,-1);
-    Piece * p4 = new Pawn(2,4,1);
-    Piece * p5 = new Knight(6,5, 1);
-    g.addWhitePiece(p1);
-    g.addBlackPiece(p2);
-    g.addBlackPiece(p3);
-    g.addWhitePiece(p4);
-    g.addWhitePiece(p5);
+    g.init();
+//    Piece * p1 = new King(0,0,1);
+//    Piece * p2 = new Queen(5,0,-1);
+//    Piece * p3 = new Pawn(5,1,-1);
+//    Piece * p4 = new Pawn(2,4,1);
+//    Piece * p5 = new Knight(6,5, 1);
+//    g.addWhitePiece(p1);
+//    g.addBlackPiece(p2);
+//    g.addBlackPiece(p3);
+//    g.addWhitePiece(p4);
+//    g.addWhitePiece(p5);
     g.updateAllMoves();
 
     // Position initial pieces
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     }
 
     //cb.highlightPossibleMove(3,5);
-    cb.highlightPossibleMoves(g.getBlackPieces().at(0));
+    cb.highlightPossibleMoves(g.getBlackPieces().at(1));
 
     cb.show();
     return a.exec();

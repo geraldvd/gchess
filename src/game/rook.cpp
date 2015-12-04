@@ -2,10 +2,10 @@
 
 using namespace std;
 
-Rook::Rook(int x, int y) :
-    Piece(x, y)
+Rook::Rook(int x, int y, int c) :
+    Piece(x, y, c)
 {
-
+    this->type = "Rook";
 }
 
 void Rook::populateMoves()

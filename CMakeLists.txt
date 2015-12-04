@@ -40,7 +40,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 #########################################################################
 ### Configuration options
-option(WITH_GRAPHICS "Should the executable have a graphical interface?" OFF)
+option(WITH_GRAPHICS "Should the executable have a graphical interface?" ON)
 option(WITH_GAME "Should the chess game (rules) be compiled?" ON)
 option(WITH_ENGINE "Should the chess engine be compiled?" OFF)
 

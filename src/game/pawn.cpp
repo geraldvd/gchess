@@ -2,10 +2,10 @@
 
 using namespace std;
 
-Pawn::Pawn(int x, int y) :
-    Piece(x, y)
+Pawn::Pawn(int x, int y, int c) :
+    Piece(x, y, c)
 {
-
+    this->type = "Pawn";
 }
 
 void Pawn::populateMoves()

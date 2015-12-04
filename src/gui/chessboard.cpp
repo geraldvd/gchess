@@ -3,6 +3,9 @@
 
 #include <QPainter>
 #include <QAction>
+#include <QDebug>
+#include <QBitmap>
+
 
 using namespace std;
 
@@ -14,7 +17,7 @@ Chessboard::Chessboard(QWidget *parent) :
 
     fileMenu(new QMenu("File")),
 
-    pixelSizeBoard(800)
+    pixelSizeBoard(400)
 {
     ui->setupUi(this);
 
@@ -57,6 +60,13 @@ Chessboard::Chessboard(QWidget *parent) :
             // Add label to grid
             this->squares.append(QPair<QLabel*, QString>(l, currentColor));
             grid->addWidget(l, i, j,  Qt::AlignTop);
+
+            // Test
+            QPixmap pm("/home/gerald/git/gchess/src/gui/king_black_icon.png");
+            QLabel *lb = new QLabel(l);
+            lb->setPixmap(pm);
+            lb->setMask(pm.mask());
+            lb->setAlignment(Qt::AlignCenter);
         }
         lastColor *= -1;
     }
@@ -76,13 +86,12 @@ void Chessboard::setStatusBar(QString text)
     this->ui->statusBar->showMessage(text);
 }
 
-void Chessboard::highlightPossibleMove(int row, int col)
+void Chessboard::highlightPossibleMove(std::pair<int, int> position)
 {
-    QPair<QLabel*,QString> l{this->squares[8*col + row]};
+    QPair<QLabel*,QString> l{this->squares[8*(7-position.second) + position.first]};
     int radius = 10;
 
     QPixmap pm(l.first->width(),l.first->height());
-
     QPainter p(&pm);
     p.fillRect(pm.rect(), QColor(l.second));
     p.setRenderHint(QPainter::Antialiasing, true);
@@ -92,4 +101,94 @@ void Chessboard::highlightPossibleMove(int row, int col)
     p.setBrush(brush);
     p.drawEllipse(l.first->width()/2-radius,l.first->height()/2-radius,2*radius,2*radius);
     l.first->setPixmap(pm);
+}
+
+void Chessboard::highlightPossibleMoves(Piece *p)
+{
+    vector<pair<int,int> > moves = p->getGlobalMoves();
+
+    for(auto &m : moves) {
+        this->highlightPossibleMove(m);
+    }
+
+    qDebug() << "Number of moves (" << QString::fromStdString(p->getLetterPosition()) << "): " << moves.size() << endl;
+}
+
+void Chessboard::addPiece(string type, int color, pair<int,int> globalPosition)
+{
+    // Determine image file name
+    QString filename;
+    if(type == "King") {
+        if(color > 0) {
+            filename = "king_white.png";
+        } else {
+            filename = "king_black.png";
+        }
+    } else if(type == "Queen") {
+        if(color > 0) {
+            filename = "queen_white.png";
+        } else {
+            filename = "queen_black.png";
+        }
+    } else if(type == "Rook") {
+        if(color > 0) {
+            filename = "rook_white.png";
+        } else {
+            filename = "rook_black.png";
+        }
+    } else if(type == "Knight") {
+        if(color > 0) {
+            filename = "knight_white.png";
+        } else {
+            filename = "knight_black.png";
+        }
+    } else if(type == "Bishop") {
+        if(color > 0) {
+            filename = "bishop_white.png";
+        } else {
+            filename = "bishop_black.png";
+        }
+    } else if(type == "Pawn") {
+        if(color > 0) {
+            filename = "pawn_white.png";
+        } else {
+            filename = "pawn_black.png";
+        }
+    }
+
+    // Convert chess coordinate system to qt coordinate system
+    int x = globalPosition.first;
+    int y = 7 - globalPosition.second;
+
+    // Draw piece
+    QPixmap pm("/home/gerald/git/gchess/src/gui/"+filename);
+    QLabel *lb = new QLabel(this->squares.at(8*y + x).first);
+    lb->setPixmap(pm);
+    lb->setMask(pm.mask());
+
+    // Add piece to list
+    //this->pieces[globalPosition] = QPair<QLabel*,Piece*>(lb, p);
+    this->pieces[globalPosition] = lb;
+}
+
+void Chessboard::addPiece(Piece *p)
+{
+    this->addPiece(p->getType(), p->getColor(), p->getGlobalPosition());
+}
+
+void Chessboard::removePiece(std::pair<int, int> position)
+{
+    QLabel *lb = this->pieces[position];
+    delete lb;
+
+    this->pieces.erase(position);
+}
+
+void Chessboard::movePiece(std::pair<int, int> from, std::pair<int, int> to)
+{
+    int x = to.first;
+    int y = 7 - to.second;
+
+    QLabel *lb = this->pieces[from];
+    lb->setParent(this->squares.at(8*y + x).first);
 }

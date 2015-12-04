@@ -7,7 +7,7 @@
 class Rook : public Piece
 {
 public:
-    Rook(int x, int y);
+    Rook(int x, int y, int c);
 
 protected:
     void populateMoves();

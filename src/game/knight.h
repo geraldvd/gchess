@@ -6,7 +6,7 @@
 class Knight : public Piece
 {
 public:
-    Knight(double x, double y);
+    Knight(int x, int y, int c);
 
 protected:
     void populateMoves();

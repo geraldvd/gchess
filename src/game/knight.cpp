@@ -2,10 +2,10 @@
 
 using namespace std;
 
-Knight::Knight(double x, double y) :
-    Piece(x, y)
+Knight::Knight(int x, int y, int c) :
+    Piece(x, y, c)
 {
-
+    this->type = "Knight";
 }
 
 void Knight::populateMoves()

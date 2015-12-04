@@ -6,7 +6,7 @@
 class Bishop : public Piece
 {
 public:
-    Bishop(int x, int y);
+    Bishop(int x, int y, int c);
 
 protected:
     void populateMoves();

@@ -2,10 +2,10 @@
 
 using namespace std;
 
-Queen::Queen(int x, int y) :
-    Piece(x, y)
+Queen::Queen(int x, int y, int c) :
+    Piece(x, y, c)
 {
-
+    this->type = "Queen";
 }
 
 void Queen::populateMoves()

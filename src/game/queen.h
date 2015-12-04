@@ -7,7 +7,7 @@
 class Queen : public Piece
 {
 public:
-    Queen(int x, int y);
+    Queen(int x, int y, int c);
 
 protected:
     void populateMoves();

@@ -2,10 +2,10 @@
 
 using namespace std;
 
-King::King(int x, int y) :
-    Piece(x, y)
+King::King(int x, int y, int c) :
+    Piece(x, y, c)
 {
-
+    this->type = "King";
 }
 
 void King::populateMoves()

@@ -6,7 +6,7 @@
 class King : public Piece
 {
 public:
-    King(int x, int y);
+    King(int x, int y, int c);
 
 protected:
     void populateMoves();

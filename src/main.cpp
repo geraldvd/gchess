@@ -27,22 +27,9 @@ int main(int argc, char **argv) {
 
     // Initialize board
     Chessboard cb;
-    cb.newGame();
 
-//    // Setup game
-//    Game g;
-//    g.init();
-
-//    // Position initial pieces
-//    for(auto &p : g.getPieces()) {
-//        cb.addPiece(p);
-//    }
-
-
-//    //cb.highlightPossibleMoves(g.getPieces().at(15));
-
+    // Show chessboard
     cb.show();
-//    cb.movePiece(g.getPieces().at(0)->getPosition(), g.getPieces().at(0)->getPosition() + Field(0,1));
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;

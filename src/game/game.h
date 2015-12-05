@@ -35,7 +35,8 @@ public:
     void addBishop(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
     void addPawn(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
 
-    std::string getActivePlayer() const;
+    std::string getActivePlayerString() const;
+    enum Color getActivePlayer() const;
 
 private:
     // Vectors containing all chesspieces

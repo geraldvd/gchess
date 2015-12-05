@@ -63,6 +63,7 @@ void Game::resetBoard()
 {
     // Release memory!
     for(Piece* p : this->pieces) {
+        // TODO sometimes causes segmentation fault when closing program - probably when moves are still highlighted in gui!
         delete p;
     }
 
@@ -106,7 +107,12 @@ void Game::addPawn(const int & x, const int & y, const Color & c, const bool & h
     this->pieces.push_back(p);
 }
 
-string Game::getActivePlayer() const
+Color Game::getActivePlayer() const
+{
+    return this->activePlayer;
+}
+
+string Game::getActivePlayerString() const
 {
     if(this->activePlayer == WHITE)
         return "White";

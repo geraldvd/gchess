@@ -1,6 +1,7 @@
 #include "piece.h"
 
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ Field Piece::getPosition() const
     return this->position;
 }
 
-string Piece::getLetterPosition() const
+string Piece::getPositionString() const
 {
     // ASCII 65 == A; ASCII 49 == 1
     char xPos = static_cast<char>(this->getPosition().first+65);
@@ -63,6 +64,19 @@ std::vector<Field> Piece::movesOnboard(const std::vector<Field> & moves)
     }
 
     return newMoves;
+}
+
+bool Piece::move(const Field & m)
+{
+    if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
+        // Move is in list of possible moves
+        this->position = m;
+        this->hasMoved = true;
+        return true;
+    } else {
+        // Move is not allowed!
+        return false;
+    }
 }
 
 

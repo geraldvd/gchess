@@ -28,7 +28,7 @@ public:
 
     // Getters for position
     Field getPosition() const;
-    std::string getLetterPosition() const;
+    std::string getPositionString() const;
 
     // Obtain all possible moves
     virtual void findMoves(const std::vector<Piece*> & pieces) = 0;
@@ -36,6 +36,9 @@ public:
     // Helper functions
     bool moveOnboard(const Field & m);
     std::vector<Field> movesOnboard(const std::vector<Field> &moves);
+
+    // Perform move
+    bool move(const Field & m);
 
     // Has to be false for Rook and King when castling
     bool hasMoved;

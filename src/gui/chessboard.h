@@ -1,6 +1,7 @@
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
+// Qt include files
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QMenu>
@@ -9,10 +10,13 @@
 #include <QPair>
 #include <QString>
 
+// Standard library include files
 #include <utility>
 #include <map>
 
+// Project include files
 #include "game.h"
+#include "piecelabel.h"
 
 namespace Ui {
 class Chessboard;
@@ -23,34 +27,61 @@ class Chessboard : public QMainWindow
     Q_OBJECT
 
 public:
+    // Constructor and destructor
     explicit Chessboard(QWidget *parent = 0);
     ~Chessboard();
-    void newGame();
 
-    void setStatusBar(QString text);
+    // Initializers
+    void initBoard();
 
-    void highlightField(Field position);
+    // Highlight methods
+    void drawCircleOnField(const Field & position);
+    void removeCircleFromField(const Field & position);
     void highlightPossibleMoves(Piece *p);
 
     // Piece methods
     void addPiece(Piece *p);
-    void removePiece(Field position);
-    void movePiece(Field from, Field to);
+    void removePiece(const Field & position);
+    void movePiece(const Field & from, const Field & to);
+
+    // Setters and getters
+    void setStatusBar(const QString & text);
+
+    // Pixel size of square board
+    const static int pixelSizeBoard;
+
+    void test();
+
+public slots:
+    // Slot for highlighting and unhighlighting moves
+    void toggleHighlightMoves();
+
+    // Slot for moving to certain field (specified by signal sender() )
+    void movePieceSlot();
+
+    // Slot for starting new game
+    void newGame();
+
+signals:
+    void doUpdate();
 
 private:
     // UI elements
     Ui::Chessboard *ui;
     QGridLayout * grid;
-    QList<QPair<QLabel*, QString> > squares;
-    //TODO do I need the QPair?? Should move be covered by game class?
-    std::map<std::pair<int,int>,QLabel*> pieces;
+    std::vector<PieceLabel*> squares;
     QMenu * fileMenu;
 
-    // Pixel size of square board
-    int pixelSizeBoard;
+    // Pieces currently on board
+    std::map<Field,PieceLabel*> pieces;
+
 
     // Game variables
     Game game;
+
+    // Highlight variables
+    Piece* pieceWithHighlightedMoves;
+    std::vector<Field> possibleMoves;
 };
 
 #endif // CHESSBOARD_H

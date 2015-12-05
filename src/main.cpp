@@ -27,50 +27,28 @@ int main(int argc, char **argv) {
 
     // Initialize board
     Chessboard cb;
+    cb.newGame();
 
-    // Setup game
-    Game g;
-    g.init();
-//    Piece * p1 = new King(0,0,1);
-//    Piece * p2 = new Queen(5,0,-1);
-//    Piece * p3 = new Pawn(5,1,-1);
-//    Piece * p4 = new Pawn(2,4,1);
-//    Piece * p5 = new Knight(6,5, 1);
-//    g.addWhitePiece(p1);
-//    g.addBlackPiece(p2);
-//    g.addBlackPiece(p3);
-//    g.addWhitePiece(p4);
-//    g.addWhitePiece(p5);
-    g.updateAllMoves();
+//    // Setup game
+//    Game g;
+//    g.init();
 
-    // Position initial pieces
-    for(auto &p : g.getWhitePieces()) {
-        cb.addPiece(p);
-        //qDebug() << QString::fromStdString(p->getType()) <<" (white) -> " << QString::fromStdString(p->getLetterPosition()) << endl;
-    }
-    for(auto &p : g.getBlackPieces()) {
-        cb.addPiece(p);
-        //qDebug() << QString::fromStdString(p->getType()) <<" (black) -> " << QString::fromStdString(p->getLetterPosition()) << endl;
-    }
+//    // Position initial pieces
+//    for(auto &p : g.getPieces()) {
+//        cb.addPiece(p);
+//    }
 
-    //cb.highlightPossibleMove(3,5);
-    cb.highlightPossibleMoves(g.getBlackPieces().at(1));
+
+//    //cb.highlightPossibleMoves(g.getPieces().at(15));
 
     cb.show();
+//    cb.movePiece(g.getPieces().at(0)->getPosition(), g.getPieces().at(0)->getPosition() + Field(0,1));
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;
 
     Game g;
     g.init();
-
-    Piece *p = g.getWhitePieces().at(0);
-
-    qDebug() << g.isValidMove(p, pair<int,int>(0,1)) << ", type=" << QString::fromStdString(p->getType()) << ", position=(" << p->getPosition().first << ", " << p->getPosition().second << ")" << endl;
-
-    for(auto &i : p->getMoves()) {
-        qDebug() << i.first << ", " << i.second << endl;
-    }
 
     return 0;
 #endif

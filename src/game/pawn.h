@@ -6,10 +6,13 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(int x, int y, int c);
+    Pawn(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
 
 protected:
-    std::vector<Field> findTheoreticalMoves();
+    virtual void findMoves(const std::vector<Piece*> & pieces);
+
+    // TODO needed for en passant capturing - https://en.wikipedia.org/wiki/En_passant
+    bool justMovedDouble;
 };
 
 #endif // PAWN_H

@@ -1,206 +1,121 @@
 #include "game.h"
 
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
-Game::Game()
+Game::Game(const Color & activePlayer) :
+    activePlayer(activePlayer)
 {
 
+}
+
+Game::~Game()
+{
+    // Release memory
+    this->resetBoard();
 }
 
 void Game::init()
 {
+    // Clean board
+    this->resetBoard();
+
     // Pawns
     for(int i=0; i<8; i++) {
-        this->addWhitePiece(new Pawn(i, 1, 1));
-        this->addBlackPiece(new Pawn(i, 1, -1));
+        this->addPawn(i, 1, WHITE);
+        this->addPawn(i, 6, BLACK);
     }
 
     // White pieces
-    this->addWhitePiece(new King(4, 0, 1));
-    this->addWhitePiece(new Queen(3, 0, 1));
-    this->addWhitePiece(new Rook(0, 0, 1));
-    this->addWhitePiece(new Rook(7, 0, 1));
-    this->addWhitePiece(new Knight(1, 0, 1));
-    this->addWhitePiece(new Knight(6, 0, 1));
-    this->addWhitePiece(new Bishop(2, 0, 1));
-    this->addWhitePiece(new Bishop(5, 0, 1));
+    this->addKing(4, 0, WHITE);
+    this->addQueen(3, 0, WHITE);
+    this->addRook(0, 0, WHITE);
+    this->addRook(7, 0, WHITE);
+    this->addKnight(1, 0, WHITE);
+    this->addKnight(6, 0, WHITE);
+    this->addBishop(2, 0, WHITE);
+    this->addBishop(5, 0, WHITE);
 
     // Black pieces
-    this->addBlackPiece(new King(4, 0, -1));
-    this->addBlackPiece(new Queen(3, 0, -1));
-    this->addBlackPiece(new Rook(0, 0, -1));
-    this->addBlackPiece(new Rook(7, 0, -1));
-    this->addBlackPiece(new Knight(1, 0, -1));
-    this->addBlackPiece(new Knight(6, 0, -1));
-    this->addBlackPiece(new Bishop(2, 0, -1));
-    this->addBlackPiece(new Bishop(5, 0, -1));
-}
+    this->addKing(4, 7, BLACK);
+    this->addQueen(3, 7, BLACK);
+    this->addRook(0, 7, BLACK);
+    this->addRook(7, 7, BLACK);
+    this->addKnight(1, 7, BLACK);
+    this->addKnight(6, 7, BLACK);
+    this->addBishop(2, 7, BLACK);
+    this->addBishop(5, 7, BLACK);
 
-bool Game::isValidMove(Piece *p, std::pair<int, int> m)
-{
-    bool valid{false};
-
-    // Check moves without checking environment
-    for(auto &i : p->getMoves()) {
-        if(m==i) {
-            valid = true;
-        }
-    }
-
-    // Return if false
-    if(! valid) return valid;
-
-    // Check own pieces
-    vector<Piece*> myPieces;
-    if(p->getColor() > 0)
-        myPieces = this->getWhitePieces();
-    else
-        myPieces = this->getBlackPieces();
-
-    for(auto &mp : myPieces) {
-        // Cannot be on top of other piece
-        if(m==mp->getPosition()) {
-            valid = false;
-            return valid;
-        }
-
-        // Only knigh can jump over pieces
-        if(mp->getType() != "Knight") {
-
-
-        } else {
-        }
-    }
-
-    // Check opponent pieces
-
-    // Check check status king
-
-    // Return result
-    return valid;
-}
-
-vector<pair<int, int> > Game::getValidMoves(Piece * p) const
-{
-    // TODO finish this function to get all possible moves of a piece!
-    auto moves = p->getMoves();
-    vector<pair<int,int> > newMoves;
-
-    // Obtain own and opponent pieces
-    vector<Piece*> myPieces;
-    vector<Piece*> opponentPieces;
-    if(p->getColor() > 0) {
-        myPieces = this->getWhitePieces();
-        opponentPieces = this->getBlackPieces();
-    } else {
-        myPieces = this->getBlackPieces();
-        opponentPieces = this->getWhitePieces();
-    }
-
-    // Check own pieces
-    vector<Piece*> obstructingPieces;
-    bool valid;
-    for(auto &m : moves) {
-        // Assume valid move
-        valid = true;
-
-        // Find moves on top of other pieces
-        for(auto &mp : myPieces) {
-            if(m==mp->getPosition()) {
-                obstructingPieces.push_back(mp);
-                valid = false;
-            }
-        }
-
-        if(valid)
-            newMoves.push_back(m);
-    }
-    // New moves become old moves
-    moves = newMoves;
-    newMoves = vector<pair<int,int> >();
-
-    for(auto &m : moves) {
-        for(Piece* mp : obstructingPieces) {
-            // Check whether moves are behind piece!
-            if(mp->getType() == "Knight" || mp->getType() == "King") {
-                // Knight jumps over pieces, king can only move 1 step!
-                break;
-            } else if(mp->getType() == "Queen") {
-                if(mp->getPosition().first - p->getPosition().first && mp->getPosition().second - p->getPosition().second) {
-                    // Obstructing piece on diagonal
-                    if(m.first - mp->getPosition().first != m.second - mp->getPosition().second) {
-                        newMoves.push_back(m);
-                        // TODO: mistake, diagonal might be the other side than obstructing piece!
-                        break;
-                    }
-                } else if(mp->getPosition().first - p->getPosition().first) {
-                    // Obstructing piece in x
-                    // TODO start here
-                }
-
-            } else if(mp->getType() == "Rook") {
-
-            } else if(mp->getType() == "Bishop") {
-
-            } else if(mp->getType() == "Pawn") {
-
-            }
-        }
-    }
-
-    // Return remaining moves
-    return newMoves;
-}
-
-void Game::updateMoves(Piece *p)
-{
-    vector<pair<int,int> > newMoves;
-
-    for(auto &m : p->getMoves()) {
-        if(this->isValidMove(p, m)) {
-            newMoves.push_back(m);
-        }
-    }
-
-    p->setMoves(newMoves);
+    // Initialize all possible moves
+    this->updateAllMoves();
 }
 
 void Game::updateAllMoves()
 {
-    for(auto &p : this->getWhitePieces()) {
-        this->updateMoves(p);
-    }
-
-    for(auto &p : this->getBlackPieces()) {
-        this->updateMoves(p);
+    for(auto &p : this->pieces) {
+        p->findMoves(this->pieces);
     }
 }
 
-void Game::addWhitePiece(Piece *p)
+void Game::resetBoard()
 {
-    this->white.push_back(p);
+    // Release memory!
+    for(Piece* p : this->pieces) {
+        delete p;
+    }
 
-    // Initialize possible moves
-    p->findTheoreticalMoves();
+    // Reinitialize pieces vector
+    this->pieces = vector<Piece*>();
 }
 
-void Game::addBlackPiece(Piece *p)
+void Game::addKing(const int & x, const int & y, const Color & c, const bool & hasMoved)
 {
-    this->black.push_back(p);
-
-    // Initialize possible moves
-    p->findTheoreticalMoves();
+    Piece* p = new King(x, y, c, hasMoved);
+    this->pieces.push_back(p);
 }
 
-vector<Piece *> Game::getBlackPieces() const
+void Game::addQueen(const int & x, const int & y, const Color & c, const bool & hasMoved)
 {
-    return this->black;
+    Piece* p = new Queen(x, y, c, hasMoved);
+    this->pieces.push_back(p);
 }
 
-vector<Piece *> Game::getWhitePieces() const
+void Game::addRook(const int & x, const int & y, const Color & c, const bool & hasMoved)
 {
-    return this->white;
+    Piece* p = new Rook(x, y, c, hasMoved);
+    this->pieces.push_back(p);
+}
+
+void Game::addKnight(const int & x, const int & y, const Color & c, const bool & hasMoved)
+{
+    Piece* p = new Knight(x, y, c, hasMoved);
+    this->pieces.push_back(p);
+}
+
+void Game::addBishop(const int & x, const int & y, const Color & c, const bool & hasMoved)
+{
+    Piece* p = new Bishop(x, y, c, hasMoved);
+    this->pieces.push_back(p);
+}
+
+void Game::addPawn(const int & x, const int & y, const Color & c, const bool & hasMoved, const bool & justMovedDouble)
+{
+    Piece* p = new Pawn(x, y, c, hasMoved, justMovedDouble);
+    this->pieces.push_back(p);
+}
+
+string Game::getActivePlayer() const
+{
+    if(this->activePlayer == WHITE)
+        return "White";
+    else
+        return "Black";
+}
+
+vector<Piece *> Game::getPieces() const
+{
+    return this->pieces;
 }
 

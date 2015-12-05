@@ -1,16 +1,13 @@
 #ifndef ROOK_H
 #define ROOK_H
 
-#include "piece.h"
+#include "linepiece.h"
 
 
-class Rook : public Piece
+class Rook : public LinePiece
 {
 public:
-    Rook(int x, int y, int c);
-
-protected:
-    void findTheoreticalMoves();
+    Rook(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
 };
 
 #endif // ROOK_H

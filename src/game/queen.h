@@ -1,16 +1,12 @@
 #ifndef QUEEN_H
 #define QUEEN_H
 
-#include "piece.h"
+#include "linepiece.h"
 
-
-class Queen : public Piece
+class Queen : public LinePiece
 {
 public:
-    Queen(int x, int y, int c);
-
-protected:
-    std::vector< findTheoreticalMoves();
+    Queen(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
 };
 
 #endif // QUEEN_H

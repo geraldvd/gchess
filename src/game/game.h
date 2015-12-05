@@ -15,26 +15,34 @@
 class Game
 {
 public:
-    Game();
+    // Constructor
+    Game(const enum Color & activePlayer=WHITE);
+    ~Game();
 
+    // Initialize chessboard
     void init();
 
-    bool isValidMove(Piece * p, std::pair<int,int> m);
-    std::vector<std::pair<int,int> > getValidMoves(Piece * p) const;
-    void updateMoves(Piece * p);
+    // Methods for moves
     void updateAllMoves();
 
-    std::vector<std::pair<int,int> > getMoves(Piece * p) const;
+    // Getter and setter for pieces
+    std::vector<Piece *> getPieces() const;
+    void resetBoard();
+    void addKing(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
+    void addQueen(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
+    void addRook(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
+    void addKnight(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
+    void addBishop(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
+    void addPawn(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
 
-    void addWhitePiece(Piece* p);
-    void addBlackPiece(Piece* p);
-
-    std::vector<Piece *> getBlackPieces() const;
-    std::vector<Piece *> getWhitePieces() const;
+    std::string getActivePlayer() const;
 
 private:
-    std::vector<Piece*> white;
-    std::vector<Piece*> black;
+    // Vectors containing all chesspieces
+    std::vector<Piece*> pieces;
+
+    // Color to play
+    enum Color activePlayer;
 
 };
 

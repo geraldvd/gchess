@@ -6,10 +6,10 @@
 class King : public Piece
 {
 public:
-    King(int x, int y, int c);
+    King(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
 
 protected:
-    void findTheoreticalMoves();
+    virtual void findMoves(const std::vector<Piece*> & pieces);
 };
 
 #endif // KING_H

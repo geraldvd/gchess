@@ -1,15 +1,12 @@
 #ifndef BISHOP_H
 #define BISHOP_H
 
-#include "piece.h"
+#include "linepiece.h"
 
-class Bishop : public Piece
+class Bishop : public LinePiece
 {
 public:
-    Bishop(int x, int y, int c);
-
-protected:
-    void findTheoreticalMoves();
+    Bishop(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
 };
 
 #endif // BISHOP_H

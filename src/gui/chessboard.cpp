@@ -60,25 +60,34 @@ Chessboard::Chessboard(QWidget *parent) :
             // Add label to grid
             this->squares.append(QPair<QLabel*, QString>(l, currentColor));
             grid->addWidget(l, i, j,  Qt::AlignTop);
-
-            // Test
-            QPixmap pm("/home/gerald/git/gchess/src/gui/king_black_icon.png");
-            QLabel *lb = new QLabel(l);
-            lb->setPixmap(pm);
-            lb->setMask(pm.mask());
-            lb->setAlignment(Qt::AlignCenter);
         }
         lastColor *= -1;
     }
     ui->centralwidget->setLayout(grid);
+
+    // Start new chess game
+    this->newGame();
 }
 
 Chessboard::~Chessboard()
 {
+    // Release memory gui
     delete this->ui;
     delete this->grid;
-
     delete this->fileMenu;
+}
+
+void Chessboard::newGame()
+{
+    // Start new game
+    this->game = Game();
+    this->game.init();
+    this->setStatusBar(QString::fromStdString(this->game.getActivePlayer()));
+
+    // Place pieces
+    for(auto &p : this->game.getPieces()) {
+        this->addPiece(p);
+    }
 }
 
 void Chessboard::setStatusBar(QString text)
@@ -86,7 +95,7 @@ void Chessboard::setStatusBar(QString text)
     this->ui->statusBar->showMessage(text);
 }
 
-void Chessboard::highlightPossibleMove(std::pair<int, int> position)
+void Chessboard::highlightField(Field position)
 {
     QPair<QLabel*,QString> l{this->squares[8*(7-position.second) + position.first]};
     int radius = 10;
@@ -105,51 +114,51 @@ void Chessboard::highlightPossibleMove(std::pair<int, int> position)
 
 void Chessboard::highlightPossibleMoves(Piece *p)
 {
-    vector<pair<int,int> > moves = p->getGlobalMoves();
+    vector<Field> moves = p->getMoves();
 
     for(auto &m : moves) {
-        this->highlightPossibleMove(m);
+        this->highlightField(m);
     }
 
     qDebug() << "Number of moves (" << QString::fromStdString(p->getLetterPosition()) << "): " << moves.size() << endl;
 }
 
-void Chessboard::addPiece(string type, int color, pair<int,int> globalPosition)
-{
+void Chessboard::addPiece(Piece* p)
+{    
     // Determine image file name
     QString filename;
-    if(type == "King") {
-        if(color > 0) {
+    if(p->getType() == "King") {
+        if(p->getColor() == WHITE) {
             filename = "king_white.png";
         } else {
             filename = "king_black.png";
         }
-    } else if(type == "Queen") {
-        if(color > 0) {
+    } else if(p->getType() == "Queen") {
+        if(p->getColor() == WHITE) {
             filename = "queen_white.png";
         } else {
             filename = "queen_black.png";
         }
-    } else if(type == "Rook") {
-        if(color > 0) {
+    } else if(p->getType() == "Rook") {
+        if(p->getColor() == WHITE) {
             filename = "rook_white.png";
         } else {
             filename = "rook_black.png";
         }
-    } else if(type == "Knight") {
-        if(color > 0) {
+    } else if(p->getType() == "Knight") {
+        if(p->getColor() == WHITE) {
             filename = "knight_white.png";
         } else {
             filename = "knight_black.png";
         }
-    } else if(type == "Bishop") {
-        if(color > 0) {
+    } else if(p->getType() == "Bishop") {
+        if(p->getColor() == WHITE) {
             filename = "bishop_white.png";
         } else {
             filename = "bishop_black.png";
         }
-    } else if(type == "Pawn") {
-        if(color > 0) {
+    } else if(p->getType() == "Pawn") {
+        if(p->getColor() == WHITE) {
             filename = "pawn_white.png";
         } else {
             filename = "pawn_black.png";
@@ -157,8 +166,8 @@ void Chessboard::addPiece(string type, int color, pair<int,int> globalPosition)
     }
 
     // Convert chess coordinate system to qt coordinate system
-    int x = globalPosition.first;
-    int y = 7 - globalPosition.second;
+    int x = p->getPosition().first;
+    int y = 7 - p->getPosition().second;
 
     // Draw piece
     QPixmap pm("/home/gerald/git/gchess/src/gui/"+filename);
@@ -167,16 +176,10 @@ void Chessboard::addPiece(string type, int color, pair<int,int> globalPosition)
     lb->setMask(pm.mask());
 
     // Add piece to list
-    //this->pieces[globalPosition] = QPair<QLabel*,Piece*>(lb, p);
-    this->pieces[globalPosition] = lb;
+    this->pieces[p->getPosition()] = lb;
 }
 
-void Chessboard::addPiece(Piece *p)
-{
-    this->addPiece(p->getType(), p->getColor(), p->getGlobalPosition());
-}
-
-void Chessboard::removePiece(std::pair<int, int> position)
+void Chessboard::removePiece(Field position)
 {
     QLabel *lb = this->pieces[position];
     delete lb;
@@ -184,7 +187,7 @@ void Chessboard::removePiece(std::pair<int, int> position)
     this->pieces.erase(position);
 }
 
-void Chessboard::movePiece(std::pair<int, int> from, std::pair<int, int> to)
+void Chessboard::movePiece(Field from, Field to)
 {
     int x = to.first;
     int y = 7 - to.second;

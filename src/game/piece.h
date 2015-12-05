@@ -7,38 +7,51 @@
 
 // Typedef for chess field
 typedef std::pair<int,int> Field;
+Field operator+(const Field & f1, const Field & f2);
+
+// Color type
+enum Color {WHITE, BLACK};
 
 class Piece
 {
 public:
-    Piece(int x, int y, int c);
+    // Constructor and destructor
+    Piece(const int & x, const int & y, const enum Color & c, const bool & hasMoved);
+    virtual ~Piece();
 
+    // Getters for type and color
     std::string getType() const;
-    int getColor() const;
+    enum Color getColor() const;
 
+    // Getter for moves
     std::vector<Field> getMoves() const;
-    std::vector<Field> getGlobalMoves() const;
-    void setMoves(const std::vector<Field> & moves);
 
+    // Getters for position
     Field getPosition() const;
-    Field getGlobalPosition() const;
     std::string getLetterPosition() const;
-    void setPosition(const Field & p);
 
+    // Obtain all possible moves
+    virtual void findMoves(const std::vector<Piece*> & pieces) = 0;
 
-    virtual std::vector<Field> findTheoreticalMoves() = 0;
-    void findMoves();
-private:
-    std::pair<int,int> position;
-    std::vector<std::pair<int,int> > moves;
+    // Helper functions
+    bool moveOnboard(const Field & m);
+    std::vector<Field> movesOnboard(const std::vector<Field> &moves);
+
+    // Has to be false for Rook and King when castling
+    bool hasMoved;
 
 protected:
+    // Type of piece
     std::string type;
-    int color;
 
-protected:
-    std::vector<std::pair<int, int> > movesOnBoard(std::vector<std::pair<int, int> > moves);
+    // Position on the board (dependent on color)
+    Field position;
 
+    // White or black?
+    enum Color color;
+
+    // Possible moves; populated by findMoves()
+    std::vector<Field> moves;
 
 };
 

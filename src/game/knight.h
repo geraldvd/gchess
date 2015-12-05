@@ -6,10 +6,10 @@
 class Knight : public Piece
 {
 public:
-    Knight(int x, int y, int c);
+    Knight(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
 
 protected:
-    void findTheoreticalMoves();
+    virtual void findMoves(const std::vector<Piece*> & pieces);
 };
 
 #endif // KNIGHT_H

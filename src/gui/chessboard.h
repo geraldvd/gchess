@@ -25,32 +25,32 @@ class Chessboard : public QMainWindow
 public:
     explicit Chessboard(QWidget *parent = 0);
     ~Chessboard();
+    void newGame();
 
     void setStatusBar(QString text);
 
-    void highlightPossibleMove(std::pair<int,int> position);
+    void highlightField(Field position);
     void highlightPossibleMoves(Piece *p);
 
     // Piece methods
-    void addPiece(std::string type, int color, std::pair<int, int> globalPosition);
     void addPiece(Piece *p);
-    void removePiece(std::pair<int,int> position);
-    void movePiece(std::pair<int,int> from, std::pair<int,int> to);
+    void removePiece(Field position);
+    void movePiece(Field from, Field to);
 
 private:
+    // UI elements
     Ui::Chessboard *ui;
-
     QGridLayout * grid;
     QList<QPair<QLabel*, QString> > squares;
     //TODO do I need the QPair?? Should move be covered by game class?
-    //std::map<std::pair<int,int>,QPair<QLabel*,Piece*> > pieces;
     std::map<std::pair<int,int>,QLabel*> pieces;
-
-    // Menu bar
     QMenu * fileMenu;
 
     // Pixel size of square board
     int pixelSizeBoard;
+
+    // Game variables
+    Game game;
 };
 
 #endif // CHESSBOARD_H

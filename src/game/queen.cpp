@@ -2,31 +2,9 @@
 
 using namespace std;
 
-Queen::Queen(int x, int y, int c) :
-    Piece(x, y, c)
+Queen::Queen(const int & x, const int & y, const Color & c, const bool & hasMoved) :
+    LinePiece(x, y, c, hasMoved)
 {
     this->type = "Queen";
-}
-
-void Queen::findTheoreticalMoves()
-{
-    // List all move pairs
-    vector<pair<int,int> > moves;
-    for(int i=1; i<8; i++) {
-        // Straight moves
-        moves.push_back(pair<int,int>(i,0));
-        moves.push_back(pair<int,int>(-i,0));
-        moves.push_back(pair<int,int>(0,i));
-        moves.push_back(pair<int,int>(0,-i));
-
-        // Diagonal moves
-        moves.push_back(pair<int,int>(i,i));
-        moves.push_back(pair<int,int>(-i,-i));
-        moves.push_back(pair<int,int>(i,-i));
-        moves.push_back(pair<int,int>(-i,i));
-    }
-
-    // Check whether moves are still on board
-    this->setMoves(this->movesOnBoard(moves));
 }
 

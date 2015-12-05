@@ -2,25 +2,8 @@
 
 using namespace std;
 
-Bishop::Bishop(int x, int y, int c) :
-    Piece(x, y, c)
+Bishop::Bishop(const int & x, const int & y, const Color & c, const bool & hasMoved) :
+    LinePiece(x, y, c, hasMoved)
 {
     this->type = "Bishop";
 }
-
-std::vector<Field> Bishop::findTheoreticalMoves()
-{
-    // List all move pairs
-    vector<pair<int,int> > moves;
-    for(int i=1; i<8; i++) {
-        // Diagonal moves
-        moves.push_back(pair<int,int>(i,i));
-        moves.push_back(pair<int,int>(-i,-i));
-        moves.push_back(pair<int,int>(i,-i));
-        moves.push_back(pair<int,int>(-i,i));
-    }
-
-    // Check whether moves are still on board
-    return this->movesOnBoard(moves);
-}
-

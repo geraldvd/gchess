@@ -100,7 +100,7 @@ void Chessboard::initBoard()
 
             /* Create piece holder */
             auto pl = new PieceLabel(sl);
-            QPixmap pm("/home/gerald/git/gchess/src/gui/king_black.png");
+            QPixmap pm;
             pl->setPixmap(pm);
             pl->setMask(pm.mask());
             this->pieces.insert(pair<Field,PieceLabel*>(Field(i, 7-j), pl));

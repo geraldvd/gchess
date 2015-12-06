@@ -24,6 +24,7 @@ public:
 
     // Methods for moves
     void updateAllMoves();
+    bool move(Piece *p, const Field & m);
 
     // Getter and setter for pieces
     std::vector<Piece *> getPieces() const;

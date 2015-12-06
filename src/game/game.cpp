@@ -59,6 +59,23 @@ void Game::updateAllMoves()
     }
 }
 
+bool Game::move(Piece *p, const Field & m)
+{
+    if(p->move(m)) {
+        // Calculate all new moves
+        this->updateAllMoves();
+        // Switch player
+        if(this->activePlayer == WHITE) {
+            this->activePlayer = BLACK;
+        } else {
+            this->activePlayer = WHITE;
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Game::resetBoard()
 {
     // Release memory!

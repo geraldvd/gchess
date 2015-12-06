@@ -52,6 +52,7 @@ endif()
 #########################################################################
 ### CMake options
 # Set c++ defines from cmake options
+# TODO config.h is not found by Qt Creator
 configure_file(config.h.in ../config.h)
 include_directories(${PROJECT_BINARY_DIR})
 

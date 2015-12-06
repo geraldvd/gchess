@@ -103,6 +103,7 @@ void Chessboard::newGame()
 {
     // Reset variables
     this->pieces = map<Field,PieceLabel*>();
+    this->pieces2 = map<Piece*,PieceLabel*>();
     this->game = Game();
     this->pieceWithHighlightedMoves = NULL;
     this->possibleMoves = vector<Field>();
@@ -117,18 +118,12 @@ void Chessboard::newGame()
         this->addPiece(p);
     }
 
-    emit doUpdate();
     qDebug() << "New game started!" << endl;
 }
 
 void Chessboard::setStatusBar(const QString &text)
 {
     this->ui->statusBar->showMessage(text);
-}
-
-void Chessboard::test()
-{
-    this->addPiece(new Rook(5,5,WHITE,true));
 }
 
 void Chessboard::drawCircleOnField(const Field & position)
@@ -165,6 +160,7 @@ void Chessboard::removeCircleFromField(const Field & position)
     l->setPixmap(pm);
 }
 
+
 void Chessboard::highlightPossibleMoves(Piece *p)
 {
     // Unhighlight already highlighted fields
@@ -198,6 +194,12 @@ void Chessboard::highlightPossibleMoves(Piece *p)
         qDebug() << "Number of moves (" << QString::fromStdString(p->getPositionString()) << "): " << moves.size() << endl;
     }
 
+}
+
+void Chessboard::unhighlightPossibleMoves() {
+    for(auto &m : this->possibleMoves) {
+        this->removeCircleFromField(m);
+    }
 }
 
 void Chessboard::addPiece(Piece* p)
@@ -257,23 +259,122 @@ void Chessboard::addPiece(Piece* p)
 
     // Add piece to list
     this->pieces[p->getPosition()] = lb;
+    this->pieces2[p] = lb;
 }
+
+//void Chessboard::addPiece(const Field & position, const string & type, const enum Color & c)
+//{
+//    // Determine image file name
+//    QString filename;
+//    if(type == "King") {
+//        if(c == WHITE) {
+//            filename = "king_white.png";
+//        } else {
+//            filename = "king_black.png";
+//        }
+//    } else if(type == "Queen") {
+//        if(c == WHITE) {
+//            filename = "queen_white.png";
+//        } else {
+//            filename = "queen_black.png";
+//        }
+//    } else if(type == "Rook") {
+//        if(c == WHITE) {
+//            filename = "rook_white.png";
+//        } else {
+//            filename = "rook_black.png";
+//        }
+//    } else if(type == "Knight") {
+//        if(c == WHITE) {
+//            filename = "knight_white.png";
+//        } else {
+//            filename = "knight_black.png";
+//        }
+//    } else if(type == "Bishop") {
+//        if(c == WHITE) {
+//            filename = "bishop_white.png";
+//        } else {
+//            filename = "bishop_black.png";
+//        }
+//    } else if(type == "Pawn") {
+//        if(c == WHITE) {
+//            filename = "pawn_white.png";
+//        } else {
+//            filename = "pawn_black.png";
+//        }
+//    }
+
+//    // Convert chess coordinate system to qt coordinate system
+//    int x = position.first;
+//    int y = 7 - position.second;
+
+//    // Draw piece
+//    QPixmap pm("/home/gerald/git/gchess/src/gui/"+filename);
+//    PieceLabel *lb = new PieceLabel(p, this->squares.at(8*y + x));
+//    lb->setPixmap(pm);
+//    lb->setMask(pm.mask());
+
+//    // Add signal/slot for move highlighting
+//    connect(lb, SIGNAL(clicked()), this, SLOT(toggleHighlightMoves()));
+
+//    // Add piece to list
+//    this->pieces[p->getPosition()] = lb;
+//    this->pieces2[p] = lb;
+//}
 
 void Chessboard::removePiece(const Field &position)
 {
     PieceLabel *lb = this->pieces[position];
+
+    // Remove piece
+    QPixmap pm;
+    lb->setPixmap(pm);
+    lb->setMask(pm.mask());
+
     delete lb;
+    this->show();
 
     this->pieces.erase(position);
 }
 
-void Chessboard::movePiece(const Field &from, const Field &to)
+void Chessboard::removePiece(Piece *p)
+{
+    PieceLabel *lb = this->pieces2[p];
+
+    // Remove piece from board
+    QPixmap pm;
+    lb->setPixmap(pm);
+    lb->setMask(pm.mask());
+
+    // Delete piece memory
+    delete lb;
+
+    // Delete piece from pieces list
+    this->pieces2.erase(p);
+}
+
+void Chessboard::movePiece(const Field & from, const Field & to)
 {
     int x = to.first;
-    int y = 7 - to.second;
+    int y = (7 - to.second);
 
     PieceLabel *lb = this->pieces[from];
     lb->setParent(this->squares.at(8*y + x));
+
+    //QPixmap pm("/home/gerald/git/gchess/src/gui/king_black.png");
+    //lb->setPixmap(pm);
+    //lb->setMask(pm.mask());
+
+    lb->move(x,y);
+}
+
+void Chessboard::movePiece(Piece *p, const Field & from)
+{
+    // Remove old piece
+    this->removePiece(from);
+
+    // Redraw piece
+    this->addPiece(p);
 }
 
 void Chessboard::toggleHighlightMoves()
@@ -284,39 +385,26 @@ void Chessboard::toggleHighlightMoves()
 
 void Chessboard::movePieceSlot()
 {
+    // Specify originating field
     PieceLabel* lb = dynamic_cast<PieceLabel*>(sender());
 
     // Check whether square is populated
     if(this->pieceWithHighlightedMoves != NULL) {
+        // Store data before move
+        Field from(this->pieceWithHighlightedMoves->getPosition());
+
         // Move piece
-        qDebug() << lb->getField().first << ", " << lb->getField().second << endl;
-
-//        qDebug() << "----------------------------";
-//        for(Piece* p : this->game.getPieces()) {
-//            qDebug() << QString::fromStdString(p->getType()) << ": " << QString::fromStdString(p->getPositionString()) << endl;
-//        }
-//        qDebug() << "----------------------------";
-
-        if(this->pieceWithHighlightedMoves->move(lb->getField())) {
-            qDebug() << this->pieceWithHighlightedMoves->getPosition().first << ", " << this->pieceWithHighlightedMoves->getPosition().second << endl;
+        if(this->game.move(this->pieceWithHighlightedMoves, lb->getField())) {
             // Move is allowed!
-//            int x = this->pieceWithHighlightedMoves->getPosition().first;
-//            int y = 7 - this->pieceWithHighlightedMoves->getPosition().second;
-//            lb->setParent(this->squares.at(8*y + x));
-            this->addPiece(this->pieceWithHighlightedMoves);
             qDebug() << "Move allowed!" << endl;
-            qDebug() << this->pieceWithHighlightedMoves->getPosition().first << ", " << this->pieceWithHighlightedMoves->getPosition().second << endl;
+            //this->movePiece(this->pieceWithHighlightedMoves, from);
+            this->movePiece(from, this->pieceWithHighlightedMoves->getPosition());
 
-            // TODO not working yet; find a way to move piece
-//            qDebug() << "----------------------------";
-//            for(Piece* p : this->game.getPieces()) {
-//                qDebug() << QString::fromStdString(p->getType()) << ": " << QString::fromStdString(p->getPositionString()) << endl;
-//            }
-//            qDebug() << "----------------------------";
-
-
+            // Set new active player
+            this->setStatusBar(QString::fromStdString(this->game.getActivePlayerString()));
         }
+
         // Remove move highlighting
-        this->highlightPossibleMoves(this->pieceWithHighlightedMoves);
+        this->unhighlightPossibleMoves();
     }
 }

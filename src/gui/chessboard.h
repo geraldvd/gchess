@@ -33,6 +33,7 @@ public:
 
     // Initializers
     void initBoard();
+    void clearPieces();
 
     // Highlight methods
     void drawCircleOnField(const Field & position);
@@ -42,14 +43,9 @@ public:
 
     // Piece methods
     void addPiece(Piece *p);
-    void addPiece(const Field &position, const std::string &type, const Color &c);
     void removePiece(const Field & position);
-    void removePiece(Piece *p);
     void movePiece(const Field & from, const Field & to);
     void movePiece(Piece *p, const Field & from);
-
-    // Setters and getters
-    void setStatusBar(const QString & text);
 
     // Pixel size of square board
     const static int pixelSizeBoard;
@@ -68,13 +64,11 @@ private:
     // UI elements
     Ui::Chessboard *ui;
     QGridLayout * grid;
-    std::vector<PieceLabel*> squares;
     QMenu * fileMenu;
 
-    // Pieces currently on board
+    // Squares and pieces
+    std::map<Field,PieceLabel*> squares;
     std::map<Field,PieceLabel*> pieces;
-    std::map<Piece*,PieceLabel*> pieces2;
-
 
     // Game variables
     Game game;

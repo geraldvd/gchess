@@ -27,16 +27,11 @@ int main(int argc, char **argv) {
 
     // Initialize board
     Chessboard cb;
-
-    // Show chessboard
     cb.show();
+
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;
-
-    Game g;
-    g.init();
-
     return 0;
 #endif
 }

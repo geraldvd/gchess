@@ -35,12 +35,11 @@ Chessboard::Chessboard(QWidget *parent) :
     // Add menu's
     this->fileMenu->addActions(actions);
     this->menuBar()->addMenu(this->fileMenu);
-
     // Setup menu signals and slots
     connect(this->fileMenu->actions().at(0), SIGNAL(triggered()), this, SLOT(newGame()));
     connect(this->fileMenu->actions().at(1), SIGNAL(triggered()), this, SLOT(close()));
 
-    // Setup board (empty fields)
+    // Setup board (empty fields and empty pieces)
     this->initBoard();
 
     // Start new chess game
@@ -62,6 +61,12 @@ Chessboard::~Chessboard()
 
 void Chessboard::initBoard()
 {
+    // Empty existing variables
+    this->squares = map<Field,PieceLabel*>();
+    this->pieces = map<Field,PieceLabel*>();
+    this->pieceWithHighlightedMoves = NULL;
+    this->possibleMoves = vector<Field>();
+
     // Setup grid
     this->grid->setSpacing(0);
     this->grid->setMargin(0);
@@ -71,39 +76,57 @@ void Chessboard::initBoard()
     char lastColor = 1;
     for(int i=0; i<8; i++) {
         for(int j=0; j<8; j++) {
+            /* Create square */
             // Create a label
-            auto l = new PieceLabel(ui->centralwidget);
+            auto sl = new PieceLabel(ui->centralwidget);
 
             // Specify label color
             QString currentColor{"white"};
             if(lastColor < 0) {
                 currentColor = "#a36629";
             }
-            l->setStyleSheet("background-color: " + currentColor);
-            l->setSquareColor(currentColor);
+            sl->setStyleSheet("background-color: " + currentColor);
+            sl->setSquareColor(currentColor);
             lastColor *= -1;
 
             // Specify label size
-            l->setFixedHeight(Chessboard::pixelSizeBoard / 8);
-            l->setFixedWidth(Chessboard::pixelSizeBoard / 8);
+            sl->setFixedHeight(Chessboard::pixelSizeBoard / 8);
+            sl->setFixedWidth(Chessboard::pixelSizeBoard / 8);
 
-            // Connect signal to slot for moving pieces
-            connect(l, SIGNAL(clicked()),this, SLOT(movePieceSlot()));
 
             // Add label to grid
-            this->squares.push_back(l);
-            grid->addWidget(l, i, j,  Qt::AlignTop);
+            this->squares.insert(pair<Field,PieceLabel*>(Field(i,7-j), sl));
+            grid->addWidget(sl, j, i,  Qt::AlignTop);
+
+            /* Create piece holder */
+            auto pl = new PieceLabel(sl);
+            QPixmap pm("/home/gerald/git/gchess/src/gui/king_black.png");
+            pl->setPixmap(pm);
+            pl->setMask(pm.mask());
+            this->pieces.insert(pair<Field,PieceLabel*>(Field(i, 7-j), pl));
+
+            // Connect signal to slot for moving pieces
+            connect(pl, SIGNAL(clicked()),this, SLOT(movePieceSlot()));
+            connect(sl, SIGNAL(clicked()),this, SLOT(movePieceSlot()));
         }
         lastColor *= -1;
     }
     ui->centralwidget->setLayout(grid);
 }
 
+void Chessboard::clearPieces() {
+    for(auto &p : this->pieces) {
+        auto pl = p.second;
+        QPixmap pm;
+        pl->setPixmap(pm);
+        pl->setMask(pm.mask());
+    }
+}
+
 void Chessboard::newGame()
 {
     // Reset variables
-    this->pieces = map<Field,PieceLabel*>();
-    this->pieces2 = map<Piece*,PieceLabel*>();
+    this->clearPieces();
     this->game = Game();
     this->pieceWithHighlightedMoves = NULL;
     this->possibleMoves = vector<Field>();
@@ -111,7 +134,7 @@ void Chessboard::newGame()
     // Start new game
     this->game = Game();
     this->game.init();
-    this->setStatusBar(QString::fromStdString(this->game.getActivePlayerString()));
+    this->ui->statusBar->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
     // Place pieces
     for(auto &p : this->game.getPieces()) {
@@ -121,15 +144,10 @@ void Chessboard::newGame()
     qDebug() << "New game started!" << endl;
 }
 
-void Chessboard::setStatusBar(const QString &text)
-{
-    this->ui->statusBar->showMessage(text);
-}
-
 void Chessboard::drawCircleOnField(const Field & position)
 {
     // Determine location of highlight
-    PieceLabel* l{this->squares[8*(7-position.second) + position.first]};
+    PieceLabel* l{this->squares[position]};
 
     // Draw circle for highlighting
     int radius = 10;
@@ -151,7 +169,7 @@ void Chessboard::drawCircleOnField(const Field & position)
 void Chessboard::removeCircleFromField(const Field & position)
 {
     // Determine location to un-highlight
-    PieceLabel* l{this->squares[8*(7-position.second) + position.first]};
+    PieceLabel* l{this->squares[position]};
 
     // Add empty pixmap to field
     QPixmap pm(l->width(), l->height());
@@ -244,128 +262,42 @@ void Chessboard::addPiece(Piece* p)
         }
     }
 
-    // Convert chess coordinate system to qt coordinate system
-    int x = p->getPosition().first;
-    int y = 7 - p->getPosition().second;
-
     // Draw piece
     QPixmap pm("/home/gerald/git/gchess/src/gui/"+filename);
-    PieceLabel *lb = new PieceLabel(p, this->squares.at(8*y + x));
+    //PieceLabel *lb = new PieceLabel(p, this->squares[p->getPosition()]);
+    auto lb = this->pieces[p->getPosition()];
+    lb->setPiece(p);
     lb->setPixmap(pm);
     lb->setMask(pm.mask());
 
     // Test signals/slots
     connect(lb, SIGNAL(clicked()), this, SLOT(toggleHighlightMoves()));
-
-    // Add piece to list
-    this->pieces[p->getPosition()] = lb;
-    this->pieces2[p] = lb;
 }
-
-//void Chessboard::addPiece(const Field & position, const string & type, const enum Color & c)
-//{
-//    // Determine image file name
-//    QString filename;
-//    if(type == "King") {
-//        if(c == WHITE) {
-//            filename = "king_white.png";
-//        } else {
-//            filename = "king_black.png";
-//        }
-//    } else if(type == "Queen") {
-//        if(c == WHITE) {
-//            filename = "queen_white.png";
-//        } else {
-//            filename = "queen_black.png";
-//        }
-//    } else if(type == "Rook") {
-//        if(c == WHITE) {
-//            filename = "rook_white.png";
-//        } else {
-//            filename = "rook_black.png";
-//        }
-//    } else if(type == "Knight") {
-//        if(c == WHITE) {
-//            filename = "knight_white.png";
-//        } else {
-//            filename = "knight_black.png";
-//        }
-//    } else if(type == "Bishop") {
-//        if(c == WHITE) {
-//            filename = "bishop_white.png";
-//        } else {
-//            filename = "bishop_black.png";
-//        }
-//    } else if(type == "Pawn") {
-//        if(c == WHITE) {
-//            filename = "pawn_white.png";
-//        } else {
-//            filename = "pawn_black.png";
-//        }
-//    }
-
-//    // Convert chess coordinate system to qt coordinate system
-//    int x = position.first;
-//    int y = 7 - position.second;
-
-//    // Draw piece
-//    QPixmap pm("/home/gerald/git/gchess/src/gui/"+filename);
-//    PieceLabel *lb = new PieceLabel(p, this->squares.at(8*y + x));
-//    lb->setPixmap(pm);
-//    lb->setMask(pm.mask());
-
-//    // Add signal/slot for move highlighting
-//    connect(lb, SIGNAL(clicked()), this, SLOT(toggleHighlightMoves()));
-
-//    // Add piece to list
-//    this->pieces[p->getPosition()] = lb;
-//    this->pieces2[p] = lb;
-//}
 
 void Chessboard::removePiece(const Field &position)
 {
     PieceLabel *lb = this->pieces[position];
 
     // Remove piece
+    lb->setPiece(NULL);
     QPixmap pm;
     lb->setPixmap(pm);
     lb->setMask(pm.mask());
-
-    delete lb;
-    this->show();
-
-    this->pieces.erase(position);
-}
-
-void Chessboard::removePiece(Piece *p)
-{
-    PieceLabel *lb = this->pieces2[p];
-
-    // Remove piece from board
-    QPixmap pm;
-    lb->setPixmap(pm);
-    lb->setMask(pm.mask());
-
-    // Delete piece memory
-    delete lb;
-
-    // Delete piece from pieces list
-    this->pieces2.erase(p);
 }
 
 void Chessboard::movePiece(const Field & from, const Field & to)
 {
-    int x = to.first;
-    int y = (7 - to.second);
+    this->removePiece(from);
+    this->addPiece(this->pieceWithHighlightedMoves);
 
-    PieceLabel *lb = this->pieces[from];
-    lb->setParent(this->squares.at(8*y + x));
+    //PieceLabel *lb = this->pieces[from];
+    //lb->setParent(this->squares[to]);
 
     //QPixmap pm("/home/gerald/git/gchess/src/gui/king_black.png");
     //lb->setPixmap(pm);
     //lb->setMask(pm.mask());
 
-    lb->move(x,y);
+    //lb->move(x,y);
 }
 
 void Chessboard::movePiece(Piece *p, const Field & from)
@@ -397,11 +329,10 @@ void Chessboard::movePieceSlot()
         if(this->game.move(this->pieceWithHighlightedMoves, lb->getField())) {
             // Move is allowed!
             qDebug() << "Move allowed!" << endl;
-            //this->movePiece(this->pieceWithHighlightedMoves, from);
             this->movePiece(from, this->pieceWithHighlightedMoves->getPosition());
-
+qDebug() << this->pieces.size() << endl;
             // Set new active player
-            this->setStatusBar(QString::fromStdString(this->game.getActivePlayerString()));
+            this->ui->statusBar->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
         }
 
         // Remove move highlighting

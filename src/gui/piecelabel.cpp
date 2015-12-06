@@ -52,6 +52,11 @@ Field PieceLabel::getField() const
     return Field(this->x() * 8 / Chessboard::pixelSizeBoard, 7 - this->y() * 8 / Chessboard::pixelSizeBoard);
 }
 
+void PieceLabel::setPiece(Piece *p)
+{
+    this->piece = p;
+}
+
 QString PieceLabel::getSquareColor() const
 {
     return this->squareColor;

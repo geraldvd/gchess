@@ -26,6 +26,7 @@ public:
     QString getSquareColor() const;
     void setSquareColor(const QString & squareColor);
     Field getField() const;
+    void setPiece(Piece *p);
 
 signals:
     void clicked();

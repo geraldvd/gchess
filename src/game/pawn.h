@@ -6,7 +6,7 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
+    Pawn(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
 
 protected:
     virtual void findMoves(const std::vector<Piece*> & pieces);

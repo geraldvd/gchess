@@ -2,7 +2,7 @@
 
 using namespace std;
 
-King::King(const int & x, const int & y, const Color & c, const bool & hasMoved) :
+King::King(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
     Piece(x, y, c, hasMoved)
 {
     this->type = "King";

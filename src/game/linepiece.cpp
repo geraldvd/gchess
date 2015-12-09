@@ -2,7 +2,7 @@
 
 using namespace std;
 
-LinePiece::LinePiece(const int & x, const int & y, const Color & c, const bool & hasMoved) :
+LinePiece::LinePiece(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
     Piece(x, y, c, hasMoved)
 {
 }

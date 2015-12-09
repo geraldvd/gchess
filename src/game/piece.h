@@ -9,19 +9,22 @@
 typedef std::pair<int,int> Field;
 Field operator+(const Field & f1, const Field & f2);
 
+// Piece type
+enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
+
 // Color type
-enum Color {WHITE, BLACK};
+enum PieceColor {WHITE, BLACK};
 
 class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const int & x, const int & y, const enum Color & c, const bool & hasMoved);
+    Piece(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved);
     virtual ~Piece();
 
     // Getters for type and color
     std::string getType() const;
-    enum Color getColor() const;
+    enum PieceColor getColor() const;
 
     // Getter for moves
     std::vector<Field> getMoves() const;
@@ -51,7 +54,7 @@ protected:
     Field position;
 
     // White or black?
-    enum Color color;
+    enum PieceColor color;
 
     // Possible moves; populated by findMoves()
     std::vector<Field> moves;

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Piece::Piece(const int & x, const int & y, const Color & c, const bool & hasMoved) :
+Piece::Piece(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
     hasMoved(hasMoved),
     position(Field(x,y)),
     color(c)
@@ -22,7 +22,7 @@ string Piece::getType() const
     return this->type;
 }
 
-Color Piece::getColor() const
+PieceColor Piece::getColor() const
 {
     return this->color;
 }

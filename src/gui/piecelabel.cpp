@@ -37,6 +37,11 @@ Piece *PieceLabel::getPiece() const
     return this->piece;
 }
 
+QString PieceLabel::getSquareColor() const
+{
+    return this->squareColor;
+}
+
 void PieceLabel::mousePressEvent(QMouseEvent* event)
 {
     emit clicked();
@@ -57,7 +62,8 @@ void PieceLabel::setPiece(Piece *p)
     this->piece = p;
 }
 
-QString PieceLabel::getSquareColor() const
+void PieceLabel::setField(const Field & f)
 {
-    return this->squareColor;
+    this->move((f.first)*50, (7-f.second)*50);
 }
+

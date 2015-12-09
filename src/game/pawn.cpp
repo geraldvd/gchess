@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Pawn::Pawn(const int & x, const int & y, const Color & c, const bool & hasMoved, const bool & justMovedDouble) :
+Pawn::Pawn(const int & x, const int & y, const PieceColor & c, const bool & hasMoved, const bool & justMovedDouble) :
     Piece(x, y, c, hasMoved),
     justMovedDouble(justMovedDouble)
 {

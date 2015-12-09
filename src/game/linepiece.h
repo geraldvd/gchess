@@ -6,7 +6,7 @@
 class LinePiece : public Piece
 {
 public:
-    LinePiece(const int & x, const int & y, const enum Color & c, const bool & hasMoved);
+    LinePiece(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved);
 
 protected:
     virtual void findMoves(const std::vector<Piece*> & pieces);

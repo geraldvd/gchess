@@ -16,7 +16,7 @@ class Game
 {
 public:
     // Constructor
-    Game(const enum Color & activePlayer=WHITE);
+    Game(const enum PieceColor & activePlayer=WHITE);
     ~Game();
 
     // Initialize chessboard
@@ -29,22 +29,22 @@ public:
     // Getter and setter for pieces
     std::vector<Piece *> getPieces() const;
     void resetBoard();
-    void addKing(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
-    void addQueen(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
-    void addRook(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
-    void addKnight(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
-    void addBishop(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false);
-    void addPawn(const int & x, const int & y, const enum Color & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
+    void addKing(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
+    void addQueen(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
+    void addRook(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
+    void addKnight(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
+    void addBishop(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
+    void addPawn(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
 
     std::string getActivePlayerString() const;
-    enum Color getActivePlayer() const;
+    enum PieceColor getActivePlayer() const;
 
 private:
     // Vectors containing all chesspieces
     std::vector<Piece*> pieces;
 
     // Color to play
-    enum Color activePlayer;
+    enum PieceColor activePlayer;
 
 };
 

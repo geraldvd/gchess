@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Game::Game(const Color & activePlayer) :
+Game::Game(const PieceColor & activePlayer) :
     activePlayer(activePlayer)
 {
 
@@ -88,43 +88,43 @@ void Game::resetBoard()
     this->pieces = vector<Piece*>();
 }
 
-void Game::addKing(const int & x, const int & y, const Color & c, const bool & hasMoved)
+void Game::addKing(const int & x, const int & y, const PieceColor & c, const bool & hasMoved)
 {
     Piece* p = new King(x, y, c, hasMoved);
     this->pieces.push_back(p);
 }
 
-void Game::addQueen(const int & x, const int & y, const Color & c, const bool & hasMoved)
+void Game::addQueen(const int & x, const int & y, const PieceColor & c, const bool & hasMoved)
 {
     Piece* p = new Queen(x, y, c, hasMoved);
     this->pieces.push_back(p);
 }
 
-void Game::addRook(const int & x, const int & y, const Color & c, const bool & hasMoved)
+void Game::addRook(const int & x, const int & y, const PieceColor & c, const bool & hasMoved)
 {
     Piece* p = new Rook(x, y, c, hasMoved);
     this->pieces.push_back(p);
 }
 
-void Game::addKnight(const int & x, const int & y, const Color & c, const bool & hasMoved)
+void Game::addKnight(const int & x, const int & y, const PieceColor & c, const bool & hasMoved)
 {
     Piece* p = new Knight(x, y, c, hasMoved);
     this->pieces.push_back(p);
 }
 
-void Game::addBishop(const int & x, const int & y, const Color & c, const bool & hasMoved)
+void Game::addBishop(const int & x, const int & y, const PieceColor & c, const bool & hasMoved)
 {
     Piece* p = new Bishop(x, y, c, hasMoved);
     this->pieces.push_back(p);
 }
 
-void Game::addPawn(const int & x, const int & y, const Color & c, const bool & hasMoved, const bool & justMovedDouble)
+void Game::addPawn(const int & x, const int & y, const PieceColor & c, const bool & hasMoved, const bool & justMovedDouble)
 {
     Piece* p = new Pawn(x, y, c, hasMoved, justMovedDouble);
     this->pieces.push_back(p);
 }
 
-Color Game::getActivePlayer() const
+PieceColor Game::getActivePlayer() const
 {
     return this->activePlayer;
 }

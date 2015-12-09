@@ -43,6 +43,7 @@ public:
 
     // Piece methods
     void addPiece(Piece *p);
+    void addPiece(const Field &position, const std::string &type, const PieceColor &c);
     void removePiece(const Field & position);
     void movePiece(const Field & from, const Field & to);
     void movePiece(Piece *p, const Field & from);

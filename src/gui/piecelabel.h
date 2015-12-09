@@ -27,6 +27,7 @@ public:
     void setSquareColor(const QString & squareColor);
     Field getField() const;
     void setPiece(Piece *p);
+    void setField(const Field &f);
 
 signals:
     void clicked();

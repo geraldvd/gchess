@@ -25,7 +25,6 @@ Chessboard::Chessboard(QWidget *parent) :
     // Setup main window
     this->setWindowTitle("Chessboard");
     this->setFixedHeight(Chessboard::pixelSizeBoard + this->ui->menubar->height() + this->ui->statusBar->height());
-    this->setFixedWidth(Chessboard::pixelSizeBoard);
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Setup menubar

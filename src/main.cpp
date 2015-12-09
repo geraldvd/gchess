@@ -7,7 +7,7 @@
 // Include Qt
 #ifdef WITH_GRAPHICS
     #include <QtWidgets/QApplication>
-    #include <chessboard.h>
+    #include <chessboard2.h>
 #endif
 
 #include <QtCore/QDebug>
@@ -26,7 +26,9 @@ int main(int argc, char **argv) {
     QApplication a(argc,argv);
 
     // Initialize board
-    Chessboard cb;
+    Chessboard2 cb;
+
+    // Show chessboard
     cb.show();
 
     return a.exec();

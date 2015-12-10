@@ -1,6 +1,6 @@
 #include "chessgame.h"
 
-#include <QVBoxLayout>
+#include <QDebug>
 
 ChessGame::ChessGame(QWidget *parent) :
     QMainWindow(parent),
@@ -107,6 +107,12 @@ void ChessGame::slotMovePiece()
         Field from = this->activeField->getField();
 
         if(this->game.move(this->pieces[this->activeField->getField()], to->getField())) {
+            // Debug information
+            qDebug() << "Move " << QString::fromStdString(this->pieces[this->activeField->getField()]->getColorString()) << ": ";
+            qDebug() << "; From: (" << from.first << ", " << from.second << "), To: (" << to->getField().first << ", " << to->getField().second << ")";
+            qDebug() << endl;
+
+            // Move piece on board
             this->chessboard->movePiece(this->activeField->getField(), to->getField());
 
             // Update piece positions (in this class)

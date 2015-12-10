@@ -27,6 +27,15 @@ PieceColor Piece::getColor() const
     return this->color;
 }
 
+string Piece::getColorString() const
+{
+    if(this->color == WHITE) {
+        return string("white");
+    } else {
+        return string("black");
+    }
+}
+
 std::vector<Field> Piece::getMoves() const
 {
     return this->moves;

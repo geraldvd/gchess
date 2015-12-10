@@ -11,6 +11,7 @@
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QMenu>
+#include <QVBoxLayout>
 
 // Include project files
 #include "chessboard.h"

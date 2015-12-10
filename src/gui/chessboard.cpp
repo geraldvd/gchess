@@ -74,6 +74,9 @@ void Chessboard::movePiece(const Field &from, const Field &to)
         ChessLabel *l = this->pieces[from];
         this->pieces.erase(from);
         l->setField(to);
+
+
+
         this->pieces[to] = l;
     }
 }

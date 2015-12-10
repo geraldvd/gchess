@@ -25,6 +25,7 @@ public:
     // Getters for type and color
     enum PieceType getType() const;
     enum PieceColor getColor() const;
+    std::string getColorString() const;
 
     // Getter for moves
     std::vector<Field> getMoves() const;

@@ -4,6 +4,8 @@
 // Include standard libraries
 #include <map>
 
+#include <QtCore>
+#include <QtGui>
 // Include Qt files
 #include <QMainWindow>
 #include <QStatusBar>
@@ -42,9 +44,7 @@ public slots:
 
 private:
     // Widgets
-    QMenuBar *menubar;
     Chessboard *chessboard;
-    QStatusBar *statusbar;
 
     // Menu's
     QMenu *file_menu;

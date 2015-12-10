@@ -1,19 +1,28 @@
 #include "chessgame.h"
 
-ChessGame::ChessGame(QWidget *parent) :
-    menubar(new QMenuBar(this)),
-    chessboard(new Chessboard(this)),
-    statusbar(new QStatusBar(this)),
+#include <QVBoxLayout>
 
+ChessGame::ChessGame(QWidget *parent) :
+    QMainWindow(parent),
+
+    // Initialize widgets
+    chessboard(new Chessboard(this)),
+
+    // Initialize menu's
     file_menu(new QMenu("file")),
 
+    // Initialize game
     game(Game()),
     activeField(NULL)
 {
+
     // Setup window parameters
     this->setWindowTitle("Chess");
     this->setFixedWidth(this->chessboard->width());
-    this->setFixedHeight(this->chessboard->height() + this->menubar->height() + this->statusbar->height());
+    this->setFixedHeight(this->chessboard->height() + this->statusBar()->height());
+
+    // Setup layout
+    this->setCentralWidget(this->chessboard);
 
     // Setup menubar
     QList<QAction *> actions;
@@ -21,8 +30,8 @@ ChessGame::ChessGame(QWidget *parent) :
     actions.append(new QAction("Exit", this->file_menu));
 
     // Add menu's
+    this->file_menu = this->menuBar()->addMenu("&File");
     this->file_menu->addActions(actions);
-    this->menuBar()->addMenu(this->file_menu);
 
     // Setup menu signals and slots
     connect(this->file_menu->actions().at(0), SIGNAL(triggered()), this, SLOT(newGame()));
@@ -59,7 +68,7 @@ void ChessGame::newGame()
 
     // Start new game
     this->game.init();
-    this->statusbar->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
+    this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
     // Place pieces TODO: other interface? (more generic)
     for(auto p : this->game.getPieces()) {
@@ -109,7 +118,7 @@ void ChessGame::slotMovePiece()
             this->chessboard->clearHighlights();
 
             // Set new active player
-            this->statusbar->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
+            this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
         }
     }
 

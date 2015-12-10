@@ -12,11 +12,12 @@
 #include <QMenu>
 #include <QGridLayout>
 #include <QString>
+#include <QLabel>
 
 // Include project libraries
 #include "chesslabel.h"
 
-class Chessboard : public QWidget
+class Chessboard : public QLabel
 {
     Q_OBJECT
 
@@ -49,7 +50,7 @@ private:
     std::map<Field,ChessLabel*> highlights;
 
 public:
-    void paintEvent(QPaintEvent *p2);
+//    void paintEvent(QPaintEvent *p2);
 };
 
 #endif // CHESSBOARD_H

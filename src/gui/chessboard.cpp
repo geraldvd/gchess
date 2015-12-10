@@ -12,18 +12,20 @@
 #include <QPainter>
 #include <QPen>
 #include <QBrush>
-#include <QStyle>
 
 // Namespaces
 using namespace std;
 
 Chessboard::Chessboard(QWidget *parent) :
-    QWidget(parent),
+    QLabel(parent),
     parent(parent)
 {
     // Setup chessboard - TODO add resource file using cmake, so that images are packed in executable
     this->setFixedHeight(400);
     this->setFixedWidth(400);
+    //this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed)
+    this->setStyleSheet("background-image: url(../images/chessboard.png)");
+    this->setVisible(true);
 }
 
 Chessboard::~Chessboard()
@@ -40,6 +42,7 @@ void Chessboard::addPiece(const Field &position, const PieceColor &c, const Piec
     QPixmap pm(image_file);
     l->setPixmap(pm);
     l->setMask(pm.mask());
+    //l->setText("<i>&#9821;</i>"); - TODO example of bishop html character: http://stackoverflow.com/questions/18505921/chess-using-tables
     l->setVisible(true);
 
     // Check whether piece already exists in that location; if so: remove it
@@ -172,10 +175,10 @@ QString Chessboard::getImageFilename(const PieceColor &c, const PieceType &p)
 
 }
 
-void Chessboard::paintEvent(QPaintEvent *p2)
-{
-    QPixmap pm("/home/gerald/git/gchess/images/chessboard.png");
-    QPainter p(this);
-    p.drawPixmap(0, 0, pm);
-    QWidget::paintEvent(p2);
-}
+//void Chessboard::paintEvent(QPaintEvent *p2)
+//{
+//    QPixmap pm("/home/gerald/git/gchess/images/chessboard.png");
+//    QPainter p(this);
+//    p.drawPixmap(0, 0, pm);
+//    QWidget::paintEvent(p2);
+//}

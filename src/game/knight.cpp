@@ -5,7 +5,7 @@ using namespace std;
 Knight::Knight(const int & x, const int & y, const PieceColor & c, const bool &hasMoved) :
     Piece(x, y, c, hasMoved)
 {
-    this->type = "Knight";
+    this->type = KNIGHT;
 }
 
 void Knight::findMoves(const std::vector<Piece*> & pieces)
@@ -36,7 +36,7 @@ void Knight::findMoves(const std::vector<Piece*> & pieces)
                         break; // Stop looping through pieces
                     } else {
                         // Opponent check move
-                        if(p->getType() != "King") {
+                        if(p->getType() != KING) {
                             // Piece can be taken!
                             this->moves.push_back(m);
                             toAdd = false;

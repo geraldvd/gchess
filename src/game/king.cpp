@@ -5,7 +5,7 @@ using namespace std;
 King::King(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
     Piece(x, y, c, hasMoved)
 {
-    this->type = "King";
+    this->type = KING;
 }
 
 void King::findMoves(const std::vector<Piece*> & pieces)
@@ -36,7 +36,7 @@ void King::findMoves(const std::vector<Piece*> & pieces)
                         break; // Stop looping through pieces
                     } else {
                         // Opponent check move
-                        if(p->getType() != "King") {
+                        if(p->getType() != KING) {
                             // Piece can be taken!
                             this->moves.push_back(m);
                             toAdd = false;
@@ -55,7 +55,7 @@ void King::findMoves(const std::vector<Piece*> & pieces)
     // Check castling
     if(!this->hasMoved) {
         for(auto &p : pieces) {
-            if(p->getType() == "Rook" && p->getColor() == this->getColor() && !p->hasMoved) {
+            if(p->getType() == ROOK && p->getColor() == this->getColor() && !p->hasMoved) {
                 bool castlingAllowed{true};
                 // Check whether fields between King and Rook are empty
                 int a{0}, b{0};

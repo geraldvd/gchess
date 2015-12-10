@@ -1,5 +1,4 @@
 #include "chessboard2.h"
-#include "ui_chessboard2.h"
 
 // Include standard libraries
 #include <string>
@@ -13,48 +12,27 @@
 #include <QPainter>
 #include <QPen>
 #include <QBrush>
+#include <QStyle>
 
 // Namespaces
 using namespace std;
 
 Chessboard2::Chessboard2(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::Chessboard2),
-    grid(new QGridLayout),
-    fileMenu(new QMenu("file"))
+    QWidget(parent)
 {
-    // Import from ui file
-    ui->setupUi(this);
-
     // Setup chessboard - TODO add resource file using cmake, so that images are packed in executable
-    this->setWindowTitle("Chessboard");
-    this->ui->centralwidget->setFixedHeight(400);
-    this->ui->centralwidget->setFixedWidth(400);
-    this->ui->centralwidget->setStyleSheet("background-image: url(../images/chessboard.png)");
-    this->setFixedHeight(this->ui->centralwidget->height() + this->ui->menubar->height() + this->ui->statusbar->height());
-    this->setFixedWidth(this->ui->centralwidget->width());
-
-    // Setup menubar
-    QList<QAction *> actions;
-    actions.append(new QAction("Exit", this->fileMenu));
-    // Add menu's
-    this->fileMenu->addActions(actions);
-    this->menuBar()->addMenu(this->fileMenu);
-    // Setup menu signals and slots
-    connect(this->fileMenu->actions().at(0), SIGNAL(triggered()), this, SLOT(close()));
+    this->setFixedHeight(400);
+    this->setFixedWidth(400);
 
     // test
     this->addPiece(Field(3,3), BLACK, ROOK);
     this->highlightField(Field(2,2));
     this->highlightField(Field(4,4));
-    this->unhighlightAllFields();
+    //this->unhighlightAllFields();
 }
 
 Chessboard2::~Chessboard2()
 {
-    delete this->ui;
-    delete this->grid;
-    delete this->fileMenu;
 }
 
 void Chessboard2::addPiece(const Field &position, const PieceColor &c, const PieceType &p)
@@ -63,7 +41,7 @@ void Chessboard2::addPiece(const Field &position, const PieceColor &c, const Pie
     QString image_file = this->getImageFilename(c, p);
 
     // Set chesslabel with background image
-    ChessLabel *l = new ChessLabel(position, this->ui->centralwidget);
+    ChessLabel *l = new ChessLabel(position, this);
     QPixmap pm(image_file);
     l->setPixmap(pm);
     l->setMask(pm.mask());
@@ -76,7 +54,7 @@ void Chessboard2::addPiece(const Field &position, const PieceColor &c, const Pie
     }
 
     // Setup signals and slots
-    connect(l, SIGNAL(clicked()), this, SLOT(toggleHighlightMoves()));
+    //connect(l, SIGNAL(clicked()), this, SLOT(toggleHighlightMoves()));
 
     // Store new piece
     this->pieces[position] = l;
@@ -101,11 +79,21 @@ void Chessboard2::movePiece(const Field &from, const Field &to)
     }
 }
 
+void Chessboard2::clearPieces()
+{
+    for(auto &f: this->pieces) {
+        ChessLabel *l = f.second;
+        delete l;
+    }
+
+    this->pieces.clear();
+}
+
 void Chessboard2::highlightField(const Field &position)
 {
     if(this->highlights.find(position) == this->highlights.end()) {
         // Determine location of highlight
-        ChessLabel* l = new ChessLabel(position, this->ui->centralwidget);
+        ChessLabel* l = new ChessLabel(position, this);
 
         // Draw circle for highlighting
         QPixmap pm(l->width(),l->height());
@@ -137,7 +125,7 @@ void Chessboard2::unhighlightField(const Field &position)
     }
 }
 
-void Chessboard2::unhighlightAllFields()
+void Chessboard2::clearHighlights()
 {
     for(auto &f: this->highlights) {
         ChessLabel *l = f.second;
@@ -182,4 +170,12 @@ QString Chessboard2::getImageFilename(const PieceColor &c, const PieceType &p)
     ss << "../images/" << s_type << "_" << s_color << ".png";
     return QString::fromStdString(ss.str());
 
+}
+
+void Chessboard2::paintEvent(QPaintEvent *p2)
+{
+    QPixmap pm("/home/gerald/git/gchess/images/chessboard.png");
+    QPainter p(this);
+    p.drawPixmap(0, 0, pm);
+    QWidget::paintEvent(p2);
 }

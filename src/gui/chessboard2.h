@@ -7,7 +7,7 @@
 #include <utility>
 
 // Include Qt libraries
-#include <QMainWindow>
+#include <QWidget>
 #include <QMenu>
 #include <QGridLayout>
 #include <QString>
@@ -15,11 +15,7 @@
 // Include project libraries
 #include "chesslabel.h"
 
-namespace Ui {
-class Chessboard2;
-}
-
-class Chessboard2 : public QMainWindow
+class Chessboard2 : public QWidget
 {
     Q_OBJECT
 
@@ -32,25 +28,27 @@ public:
     void addPiece(const Field & position, const enum PieceColor & c, const enum PieceType & p);
     void removePiece(const Field & position);
     void movePiece(const Field & from, const Field & to);
+    void clearPieces();
 
     // Hightlight functions
     void highlightField(const Field & position);
     void unhighlightField(const Field & position);
-    void unhighlightAllFields();
+    void clearHighlights();
 
 
 private:
     // UI elements
-    Ui::Chessboard2 *ui;
-    QGridLayout *grid;
-    QMenu *fileMenu;
+    //Ui::Chessboard2 *ui;
 
-    //
+    // Get image filename of piece
     QString getImageFilename(const enum PieceColor & c, const enum PieceType & p);
 
     // Pieces and highlighted fields
     std::map<Field,ChessLabel*> pieces;
     std::map<Field,ChessLabel*> highlights;
+
+protected:
+    void paintEvent(QPaintEvent *p2);
 };
 
 #endif // CHESSBOARD2_H

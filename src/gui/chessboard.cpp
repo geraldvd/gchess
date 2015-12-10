@@ -223,37 +223,37 @@ void Chessboard::addPiece(Piece* p)
 {    
     // Determine image file name
     QString filename;
-    if(p->getType() == "King") {
+    if(p->getType() == KING) {
         if(p->getColor() == WHITE) {
             filename = "king_white.png";
         } else {
             filename = "king_black.png";
         }
-    } else if(p->getType() == "Queen") {
+    } else if(p->getType() == QUEEN) {
         if(p->getColor() == WHITE) {
             filename = "queen_white.png";
         } else {
             filename = "queen_black.png";
         }
-    } else if(p->getType() == "Rook") {
+    } else if(p->getType() == ROOK) {
         if(p->getColor() == WHITE) {
             filename = "rook_white.png";
         } else {
             filename = "rook_black.png";
         }
-    } else if(p->getType() == "Knight") {
+    } else if(p->getType() == KNIGHT) {
         if(p->getColor() == WHITE) {
             filename = "knight_white.png";
         } else {
             filename = "knight_black.png";
         }
-    } else if(p->getType() == "Bishop") {
+    } else if(p->getType() == BISHOP) {
         if(p->getColor() == WHITE) {
             filename = "bishop_white.png";
         } else {
             filename = "bishop_black.png";
         }
-    } else if(p->getType() == "Pawn") {
+    } else if(p->getType() == PAWN) {
         if(p->getColor() == WHITE) {
             filename = "pawn_white.png";
         } else {

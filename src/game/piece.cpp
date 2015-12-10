@@ -17,7 +17,7 @@ Piece::~Piece()
 
 }
 
-string Piece::getType() const
+PieceType Piece::getType() const
 {
     return this->type;
 }

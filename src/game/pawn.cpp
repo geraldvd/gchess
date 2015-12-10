@@ -6,7 +6,7 @@ Pawn::Pawn(const int & x, const int & y, const PieceColor & c, const bool & hasM
     Piece(x, y, c, hasMoved),
     justMovedDouble(justMovedDouble)
 {
-    this->type = "Pawn";
+    this->type = PAWN;
 }
 
 void Pawn::findMoves(const std::vector<Piece*> & pieces)
@@ -58,7 +58,7 @@ void Pawn::findMoves(const std::vector<Piece*> & pieces)
     }
     for(auto &m : moves) {
         for(auto &p : pieces) {
-            if(p->getPosition() == m && p->getColor() != this->getColor() && p->getType() != "King") {
+            if(p->getPosition() == m && p->getColor() != this->getColor() && p->getType() != KING) {
                 this->moves.push_back(m);
             }
         }

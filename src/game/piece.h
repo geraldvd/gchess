@@ -23,7 +23,7 @@ public:
     virtual ~Piece();
 
     // Getters for type and color
-    std::string getType() const;
+    enum PieceType getType() const;
     enum PieceColor getColor() const;
 
     // Getter for moves
@@ -48,7 +48,7 @@ public:
 
 protected:
     // Type of piece
-    std::string type;
+    enum PieceType type;
 
     // Position on the board (dependent on color)
     Field position;

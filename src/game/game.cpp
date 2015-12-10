@@ -48,6 +48,9 @@ void Game::init()
     this->addBishop(2, 7, BLACK);
     this->addBishop(5, 7, BLACK);
 
+    // Set active player
+    this->activePlayer = WHITE;
+
     // Initialize all possible moves
     this->updateAllMoves();
 }

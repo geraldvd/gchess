@@ -14,14 +14,14 @@ void LinePiece::findMoves(const std::vector<Piece *> & pieces)
 
     // Store whether line is blocked, and whether move is still valid
     vector<pair<Field,bool> > directions;
-    if(this->getType() == "Queen" || this->getType() == "Bishop") {
+    if(this->getType() == QUEEN || this->getType() == BISHOP) {
         // Diagonal lines
         directions.push_back(pair<Field,bool>(Field(1,1), true));
         directions.push_back(pair<Field,bool>(Field(-1,-1), true));
         directions.push_back(pair<Field,bool>(Field(-1,1), true));
         directions.push_back(pair<Field,bool>(Field(1,-1), true));
     }
-    if(this->getType() == "Queen" || this->getType() == "Rook") {
+    if(this->getType() == QUEEN || this->getType() == ROOK) {
         // Straigt lines
         directions.push_back(pair<Field,bool>(Field(1,0), true));
         directions.push_back(pair<Field,bool>(Field(-1,0), true));
@@ -45,7 +45,7 @@ void LinePiece::findMoves(const std::vector<Piece *> & pieces)
                                 break; // Stop looping through pieces
                             } else {
                                 // Opponent check move!
-                                if(p->getType() != "King") {
+                                if(p->getType() != KING) {
                                     // Piece can be taken! Don't continue; piece cannot be passed
                                     d.second = false;
                                     moves.push_back(m);

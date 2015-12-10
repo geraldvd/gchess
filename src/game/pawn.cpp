@@ -47,7 +47,16 @@ void Pawn::findMoves(const std::vector<Piece*> & pieces)
             }
         }
         if(valid && this->moveOnboard(m)) {
-            this->moves.push_back(Move(m, NORMAL));
+            // Check promotion
+            if((this->getColor() == WHITE && m.second==7) || ((this->getColor() == BLACK && m.second==0))) {
+                // Pawn promotion!
+                this->moves.push_back(Move(m, PROMOTION_QUEEN));
+                this->moves.push_back(Move(m, PROMOTION_ROOK));
+                this->moves.push_back(Move(m, PROMOTION_KNIGHT));
+                this->moves.push_back(Move(m, PROMOTION_BISHOP));
+            } else {
+                this->moves.push_back(Move(m, NORMAL));
+            }
         }
     }
 

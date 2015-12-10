@@ -1,82 +1,55 @@
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
-// Qt include files
-#include <QMainWindow>
-#include <QGridLayout>
+// Include standard libraries
+#include <vector>
+#include <map>
+#include <utility>
+#include <string>
+
+// Include Qt libraries
+#include <QWidget>
 #include <QMenu>
-#include <QLabel>
-#include <QList>
-#include <QPair>
+#include <QGridLayout>
 #include <QString>
 
-// Standard library include files
-#include <utility>
-#include <map>
+// Include project libraries
+#include "chesslabel.h"
 
-// Project include files
-#include "game.h"
-#include "piecelabel.h"
-
-namespace Ui {
-class Chessboard;
-}
-
-class Chessboard : public QMainWindow
+class Chessboard : public QWidget
 {
     Q_OBJECT
 
 public:
-    // Constructor and destructor
+    // Constructors and destructor
     explicit Chessboard(QWidget *parent = 0);
     ~Chessboard();
 
-    // Initializers
-    void initBoard();
-    void clearPieces();
-
-    // Highlight methods
-    void drawCircleOnField(const Field & position);
-    void removeCircleFromField(const Field & position);
-    void highlightPossibleMoves(Piece *p);
-    void unhighlightPossibleMoves();
-
-    // Piece methods
-    void addPiece(Piece *p);
-    void addPiece(const Field &position, const std::string &type, const PieceColor &c);
+    // Piece functions
+    void addPiece(const Field & position, const enum PieceColor & c, const enum PieceType & p);
     void removePiece(const Field & position);
     void movePiece(const Field & from, const Field & to);
-    void movePiece(Piece *p, const Field & from);
+    void clearPieces();
 
-    // Pixel size of square board
-    const static int pixelSizeBoard;
+    // Hightlight functions
+    void highlightField(const Field & position);
+    void unhighlightField(const Field & position);
+    void clearHighlights();
 
-public slots:
-    // Slot for highlighting and unhighlighting moves
-    void toggleHighlightMoves();
-
-    // Slot for moving to certain field (specified by signal sender() )
-    void movePieceSlot();
-
-    // Slot for starting new game
-    void newGame();
 
 private:
-    // UI elements
-    Ui::Chessboard *ui;
-    QGridLayout * grid;
-    QMenu * fileMenu;
+    // Parent needed for signals and slots (moving pieces)
+    QWidget *parent;
 
-    // Squares and pieces
-    std::map<Field,PieceLabel*> squares;
-    std::map<Field,PieceLabel*> pieces;
+    // Get image filename of piece
+    QString getImageFilename(const enum PieceColor & c, const enum PieceType & p);
 
-    // Game variables
-    Game game;
+    // Pieces and highlighted fields
+    std::map<Field,ChessLabel*> pieces;
+    std::map<Field,ChessLabel*> highlights;
 
-    // Highlight variables
-    Piece* pieceWithHighlightedMoves;
-    std::vector<Field> possibleMoves;
+public:
+    void paintEvent(QPaintEvent *p2);
 };
 
 #endif // CHESSBOARD_H

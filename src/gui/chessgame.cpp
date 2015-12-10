@@ -2,7 +2,7 @@
 
 ChessGame::ChessGame(QWidget *parent) :
     menubar(new QMenuBar(this)),
-    chessboard(new Chessboard2(this)),
+    chessboard(new Chessboard(this)),
     statusbar(new QStatusBar(this)),
 
     file_menu(new QMenu("file")),

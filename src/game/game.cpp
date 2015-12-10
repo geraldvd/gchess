@@ -83,7 +83,6 @@ void Game::resetBoard()
 {
     // Release memory!
     for(Piece* p : this->pieces) {
-        // TODO sometimes causes segmentation fault when closing program - probably when moves are still highlighted in gui!
         delete p;
     }
 

@@ -11,7 +11,7 @@
 #include <QMenu>
 
 // Include project files
-#include "chessboard2.h"
+#include "chessboard.h"
 #include "game.h"
 
 
@@ -43,7 +43,7 @@ public slots:
 private:
     // Widgets
     QMenuBar *menubar;
-    Chessboard2 *chessboard;
+    Chessboard *chessboard;
     QStatusBar *statusbar;
 
     // Menu's

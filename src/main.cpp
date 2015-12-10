@@ -6,11 +6,11 @@
 
 // Include Qt
 #ifdef WITH_GRAPHICS
-    #include <QtWidgets/QApplication>
+    #include <QApplication>
     #include <chessgame.h>
 #endif
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 // Include project libraries
 #ifdef WITH_GAME
@@ -27,21 +27,7 @@ int main(int argc, char **argv) {
 
     // Initialize board
     ChessGame chess;
-    //Chessboard2 chess;
     chess.show();
-
-//    Game g;
-//    g.init();
-//    for(auto &i : g.getPieces()) {
-//        chess.addPiece(i->getPosition(), i->getColor(), i->getType());
-//    }
-//    chess.clearPieces();
-//    g.init();
-//    for(auto &i : g.getPieces()) {
-//        chess.addPiece(i->getPosition(), i->getColor(), i->getType());
-//    }
-//    chess.show();
-
 
     return a.exec();
 #else

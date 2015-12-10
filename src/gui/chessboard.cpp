@@ -168,6 +168,7 @@ void Chessboard::checkField(const Field &position)
     this->check_field->setPixmap(pm);
     this->check_field->setMask(pm.mask());
     this->check_field->setVisible(true);
+    this->check_field->lower();
 }
 
 void Chessboard::unCheckField()

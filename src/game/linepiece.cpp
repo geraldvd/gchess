@@ -10,7 +10,10 @@ LinePiece::LinePiece(const int & x, const int & y, const PieceColor & c, const b
 void LinePiece::findMoves(const std::vector<Piece *> & pieces)
 {
     // Initialize moves
-    vector<Field> moves;
+    vector<Move> moves;
+
+    // Reset check status
+    this->otherKingCheck = false;
 
     // Store whether line is blocked, and whether move is still valid
     vector<pair<Field,bool> > directions;
@@ -48,7 +51,13 @@ void LinePiece::findMoves(const std::vector<Piece *> & pieces)
                                 if(p->getType() != KING) {
                                     // Piece can be taken! Don't continue; piece cannot be passed
                                     d.second = false;
-                                    moves.push_back(m);
+                                    moves.push_back(Move(m, NORMAL));
+                                    break; // Stop looping through pieces
+                                } else {
+                                    // King check! Move cannot be made!
+                                    d.second = false;
+                                    this->otherKingCheck = true;
+                                    //moves.push_back(Move(m, CHECK));
                                     break; // Stop looping through pieces
                                 }
                             }
@@ -56,7 +65,7 @@ void LinePiece::findMoves(const std::vector<Piece *> & pieces)
                     }
                     // Free place, so allowed
                     if(d.second) {
-                        moves.push_back(m);
+                        moves.push_back(Move(m, NORMAL));
                     }
                 } else {
                     // Next positions should not be tried

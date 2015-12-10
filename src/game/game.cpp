@@ -6,7 +6,8 @@
 using namespace std;
 
 Game::Game(const PieceColor & activePlayer) :
-    activePlayer(activePlayer)
+    activePlayer(activePlayer),
+    playerCheck(0)
 {
 
 }
@@ -91,12 +92,25 @@ void Game::initTest()
 
 void Game::updateAllMoves()
 {
+    // Reset playerCheck
+    this->playerCheck = 0;
+
+    // Loop through each piece
     for(auto &p : this->pieces) {
         p->findMoves(this->pieces);
+
+        // Find check positions
+        if(p->isOtherKingCheck()) {
+            if(p->getColor() == WHITE) {
+                this->playerCheck = BLACK;
+            } else {
+                this->playerCheck = WHITE;
+            }
+        }
     }
 }
 
-bool Game::move(Piece *p, const Field & m)
+bool Game::move(Piece *p, const Move &m)
 {
     if(p->move(m)) {
         // Calculate all new moves
@@ -163,6 +177,11 @@ void Game::addPawn(const int & x, const int & y, const PieceColor & c, const boo
 PieceColor Game::getActivePlayer() const
 {
     return this->activePlayer;
+}
+
+int Game::getPlayerCheck() const
+{
+    return this->playerCheck;
 }
 
 string Game::getActivePlayerString() const

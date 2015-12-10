@@ -8,7 +8,8 @@ using namespace std;
 Piece::Piece(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
     hasMoved(hasMoved),
     position(Field(x,y)),
-    color(c)
+    color(c),
+    otherKingCheck(false)
 {
 }
 
@@ -36,7 +37,7 @@ string Piece::getColorString() const
     }
 }
 
-std::vector<Field> Piece::getMoves() const
+std::vector<Move> Piece::getMoves() const
 {
     return this->moves;
 }
@@ -44,6 +45,11 @@ std::vector<Field> Piece::getMoves() const
 MoveType Piece::getMoveType() const
 {
     return this->moveType;
+}
+
+bool Piece::isOtherKingCheck() const
+{
+    return this->otherKingCheck;
 }
 
 Field Piece::getPosition() const
@@ -80,11 +86,11 @@ std::vector<Field> Piece::movesOnboard(const std::vector<Field> & moves)
     return newMoves;
 }
 
-bool Piece::move(const Field & m)
+bool Piece::move(const Move &m)
 {
     if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
         // Move is in list of possible moves
-        this->position = m;
+        this->position = m.first;
         this->hasMoved = true;
         this->moveType = NORMAL;
         return true;
@@ -100,4 +106,26 @@ bool Piece::move(const Field & m)
 Field operator+(const Field & f1, const Field & f2)
 {
     return Field(f1.first+f2.first, f1.second+f2.second);
+}
+
+bool operator==(const Move &m1, const Move &m2)
+{
+    return m1.first==m2.first;
+}
+
+bool operator==(const Field &f1, const Field &f2)
+{
+    return f1.first==f2.first && f1.second==f2.second;
+}
+
+bool operator==(const Field &f, const Move &m)
+{
+    return f==m.first;
+}
+
+Move operator+(const Move &m, const Field &f)
+{
+    Move m2 = m;
+    m2.first = m2.first + f;
+    return m2;
 }

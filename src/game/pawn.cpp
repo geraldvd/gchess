@@ -11,9 +11,15 @@ Pawn::Pawn(const int & x, const int & y, const PieceColor & c, const bool & hasM
 
 void Pawn::findMoves(const std::vector<Piece*> & pieces)
 {
+    // TODO en passant capturing + reaching other side of board
+
+
     // Initialize moves
     vector<Field> moves;
-    this->moves = vector<Field>();
+    this->moves = vector<Move>();
+
+    // Reset check status
+    this->otherKingCheck = false;
 
     // List all potiontially possible moves
     if(this->getColor() == WHITE) {
@@ -41,7 +47,7 @@ void Pawn::findMoves(const std::vector<Piece*> & pieces)
             }
         }
         if(valid && this->moveOnboard(m)) {
-            this->moves.push_back(m);
+            this->moves.push_back(Move(m, NORMAL));
         }
     }
 
@@ -58,8 +64,14 @@ void Pawn::findMoves(const std::vector<Piece*> & pieces)
     }
     for(auto &m : moves) {
         for(auto &p : pieces) {
-            if(p->getPosition() == m && p->getColor() != this->getColor() && p->getType() != KING) {
-                this->moves.push_back(m);
+            if(p->getPosition() == m && p->getColor() != this->getColor()) {
+                if(p->getType() != KING) {
+                    // Piece can be captured
+                    this->moves.push_back(Move(m, NORMAL));
+                } else {
+                    // King check!
+                    this->otherKingCheck = true;
+                }
             }
         }
     }

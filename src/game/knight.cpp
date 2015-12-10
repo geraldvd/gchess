@@ -12,7 +12,10 @@ void Knight::findMoves(const std::vector<Piece*> & pieces)
 {
     // Initialize moves
     vector<Field> moves;
-    this->moves = vector<Field>();
+    this->moves = vector<Move>();
+
+    // Reset check status
+    this->otherKingCheck = false;
 
     // List all potentially possible moves
     moves.push_back(this->getPosition() + Field(2,1));
@@ -38,8 +41,14 @@ void Knight::findMoves(const std::vector<Piece*> & pieces)
                         // Opponent check move
                         if(p->getType() != KING) {
                             // Piece can be taken!
-                            this->moves.push_back(m);
+                            this->moves.push_back(Move(m, NORMAL));
                             toAdd = false;
+                            break; // Stop looping through pieces
+                        } else {
+                            // King check!
+                            toAdd = false;
+                            //this->moves.push_back(Move(m, CHECK));
+                            this->otherKingCheck = true;
                             break; // Stop looping through pieces
                         }
                     }
@@ -47,7 +56,7 @@ void Knight::findMoves(const std::vector<Piece*> & pieces)
             }
             // Place is free, move!
             if(toAdd) {
-                this->moves.push_back(m);
+                this->moves.push_back(Move(m, NORMAL));
             }
         }
     }

@@ -11,7 +11,7 @@ public:
     King(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
 
     // Perform move - castling is special case!
-    virtual bool move(const Field & m);
+    virtual bool move(const Move & m);
 
 protected:
     virtual void findMoves(const std::vector<Piece*> & pieces);

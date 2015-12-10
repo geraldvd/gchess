@@ -56,7 +56,7 @@ void ChessGame::highlightMoves(Piece *p)
 {
     this->chessboard->clearHighlights();
     for(auto &m : p->getMoves()) {
-        this->chessboard->highlightField(m);
+        this->chessboard->highlightField(m.first);
     }
 }
 
@@ -106,13 +106,8 @@ void ChessGame::slotMovePiece()
     if(this->activeField != NULL) {
         Field from = this->activeField->getField();
 
-        if(this->game.move(this->pieces[this->activeField->getField()], to->getField())) {
-            // Debug information
-            qDebug() << "Move " << QString::fromStdString(this->pieces[this->activeField->getField()]->getColorString()) << ": ";
-            qDebug() << "From: (" << from.first << ", " << from.second << "), To: (" << to->getField().first << ", " << to->getField().second << ")";
-            qDebug() << endl;
-
-            // Check castling - TODO after castling, rook cannot be used for moves anymore!
+        if(this->game.move(this->pieces[this->activeField->getField()], Move(to->getField(), NORMAL))) {
+            // Check castling
             if(this->pieces[from]->getMoveType() == CASTLING) {
                 Piece* r;
                 int xStep;
@@ -145,6 +140,28 @@ void ChessGame::slotMovePiece()
             // Unhighlight all fields
             this->activeField = NULL;
             this->chessboard->clearHighlights();
+
+            // Unhighlight check position
+            this->chessboard->unCheckField();
+
+            // Highlight if king is in check position
+            if(this->game.getPlayerCheck()) {
+                if(this->game.getPlayerCheck() == WHITE) {
+                    // White king in check position
+                    for(auto &p : this->pieces) {
+                        if(p.second->getType() == KING && p.second->getColor() == WHITE) {
+                            this->chessboard->checkField(p.second->getPosition());
+                        }
+                    }
+                } else {
+                    // Black king in check position
+                    for(auto &p : this->pieces) {
+                        if(p.second->getType() == KING && p.second->getColor() == BLACK) {
+                            this->chessboard->checkField(p.second->getPosition());
+                        }
+                    }
+                }
+            }
 
             // Set new active player
             this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));

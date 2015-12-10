@@ -25,7 +25,7 @@ public:
 
     // Methods for moves
     void updateAllMoves();
-    bool move(Piece *p, const Field & m);
+    bool move(Piece *p, const Move & m);
 
     // Getter and setter for pieces
     std::vector<Piece *> getPieces() const;
@@ -40,12 +40,18 @@ public:
     std::string getActivePlayerString() const;
     enum PieceColor getActivePlayer() const;
 
+    // Check whether player is in check position
+    int getPlayerCheck() const;
+
 private:
     // Vectors containing all chesspieces
     std::vector<Piece*> pieces;
 
     // Color to play
     enum PieceColor activePlayer;
+
+    // Player check?
+    int playerCheck;
 
 };
 

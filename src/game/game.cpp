@@ -66,13 +66,14 @@ void Game::initTest()
         //this->addPawn(i, 1, WHITE);
         //this->addPawn(i, 6, BLACK);
     }
+    this->addPawn(2, 6, WHITE);
+    this->addPawn(1, 1, BLACK);
 
     // White pieces
     this->addKing(4, 0, WHITE);
     this->addQueen(3, 0, WHITE);
     this->addRook(0, 0, WHITE);
     this->addRook(7, 0, WHITE);
-    this->addKnight(1, 0, WHITE);
     this->addKnight(6, 0, WHITE);
     this->addBishop(2, 0, WHITE);
     this->addBishop(5, 0, WHITE);
@@ -84,7 +85,7 @@ void Game::initTest()
     this->addRook(7, 7, BLACK);
 
     // Set active player
-    this->activePlayer = BLACK;
+    this->activePlayer = WHITE;
 
     // Initialize all possible moves
     this->updateAllMoves();

@@ -14,7 +14,7 @@
 #include <QVBoxLayout>
 
 // Include project files
-#include "chessboard.h"
+#include "gui.h"
 #include "game.h"
 
 

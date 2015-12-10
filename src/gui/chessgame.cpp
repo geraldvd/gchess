@@ -106,6 +106,7 @@ void ChessGame::slotMovePiece()
     if(this->activeField != NULL) {
         Field from = this->activeField->getField();
 
+        // TODO: Normal discards possible promotions!
         if(this->game.move(this->pieces[this->activeField->getField()], Move(to->getField(), NORMAL))) {
             // Check castling
             if(this->pieces[from]->getMoveType() == CASTLING) {
@@ -128,6 +129,32 @@ void ChessGame::slotMovePiece()
                 // Update piece position (in this class)
                 this->pieces[r->getPosition()] = this->pieces[from];
                 this->pieces.erase(from);
+            }
+
+            // Check promotion - TODO should be handled by game class!
+            if(this->pieces[from]->getMoveType() == PROMOTION_QUEEN || this->pieces[from]->getMoveType() == PROMOTION_ROOK ||
+                    this->pieces[from]->getMoveType() == PROMOTION_KNIGHT || this->pieces[from]->getMoveType() == PROMOTION_BISHOP) {
+                PromotionDialog pd(this->pieces[from]->getColor());
+                if(pd.exec()) {
+                    Piece* p = this->pieces[from];
+                    Piece* p2;
+                    switch(pd.getPromotionType()) {
+                    case PROMOTION_ROOK:
+                        p2 = new Rook(p->getPosition().first, p->getPosition().second, p->getColor(), true);
+                        break;
+                    case PROMOTION_KNIGHT:
+                        p2 = new Knight(p->getPosition().first, p->getPosition().second, p->getColor(), true);
+                        break;
+                    case PROMOTION_BISHOP:
+                        p2 = new Bishop(p->getPosition().first, p->getPosition().second, p->getColor(), true);
+                        break;
+                    default:
+                        p2 = new Queen(p->getPosition().first, p->getPosition().second, p->getColor(), true);
+                        break;
+                    }
+                    this->pieces[from] = p2;
+                    delete p;
+                }
             }
 
             // Move piece on board

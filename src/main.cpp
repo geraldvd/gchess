@@ -7,7 +7,7 @@
 // Include Qt
 #ifdef WITH_GRAPHICS
     #include <QApplication>
-    #include <chessgame.h>
+    #include <gui.h>
 #endif
 
 #include <QDebug>

@@ -12,18 +12,19 @@
 #include <QPainter>
 #include <QPen>
 #include <QBrush>
+#include <QFont>
 
 // Namespaces
 using namespace std;
 
 Chessboard::Chessboard(QWidget *parent) :
     QLabel(parent),
-    parent(parent)
+    parent(parent),
+    check_field(NULL)
 {
     // Setup chessboard - TODO add resource file using cmake, so that images are packed in executable
     this->setFixedHeight(400);
     this->setFixedWidth(400);
-    //this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed)
     this->setStyleSheet("background-image: url(../images/chessboard.png)");
     this->setVisible(true);
 }
@@ -36,13 +37,23 @@ void Chessboard::addPiece(const Field &position, const PieceColor &c, const Piec
 {
     // Obtain image filename
     QString image_file = this->getImageFilename(c, p);
+    QString piece_html = this->getPieceHTML(c, p);
 
     // Set chesslabel with background image
     ChessLabel *l = new ChessLabel(position, this);
     QPixmap pm(image_file);
     l->setPixmap(pm);
     l->setMask(pm.mask());
-    //l->setText("<i>&#9821;</i>"); - TODO example of bishop html character: http://stackoverflow.com/questions/18505921/chess-using-tables
+
+    // Using Unicode pieces
+//    l->setText(piece_html);
+//    l->setAttribute(Qt::WA_TranslucentBackground);
+//    QFont f = l->font();
+//    f.setPointSize(36);
+//    f.setBold(true);
+//    f.setFamily("Arial");
+//    l->setFont(f);
+
     l->setVisible(true);
 
     // Check whether piece already exists in that location; if so: remove it
@@ -146,6 +157,25 @@ void Chessboard::clearHighlights()
     this->highlights.clear();
 }
 
+void Chessboard::checkField(const Field &position)
+{
+    // Determine location of highlight
+    this->check_field = new ChessLabel(position, this);
+
+    // Highlight check position
+    QPixmap pm(this->check_field->width(),this->check_field->height());
+    pm.fill(Qt::red);
+    this->check_field->setPixmap(pm);
+    this->check_field->setMask(pm.mask());
+    this->check_field->setVisible(true);
+}
+
+void Chessboard::unCheckField()
+{
+    delete this->check_field;
+    this->check_field = NULL;
+}
+
 QString Chessboard::getImageFilename(const PieceColor &c, const PieceType &p)
 {
     string s_color, s_type;
@@ -181,6 +211,38 @@ QString Chessboard::getImageFilename(const PieceColor &c, const PieceType &p)
     ss << "../images/" << s_type << "_" << s_color << ".png";
     return QString::fromStdString(ss.str());
 
+}
+
+QString Chessboard::getPieceHTML(const PieceColor &c, const PieceType &p)
+{
+    string pieceHTML;
+    stringstream ss;
+
+    // Get piece HTML code
+    switch(p) {
+    case KING:
+        pieceHTML = c==WHITE ? "&#9812;" : "&#9818;";
+        break;
+    case QUEEN:
+        pieceHTML = c==WHITE ? "&#9813;" : "&#9819;";
+        break;
+    case ROOK:
+        pieceHTML = c==WHITE ? "&#9814;" : "&#9820;";
+        break;
+    case KNIGHT:
+        pieceHTML = c==WHITE ? "&#9816;" : "&#9822;";
+        break;
+    case BISHOP:
+        pieceHTML = c==WHITE ? "&#9815;" : "&#9821;";
+        break;
+    default:
+        pieceHTML = c==WHITE ? "&#9817;" : "&#9823;";
+        break;
+    }
+
+    // Return formated html
+    ss << "<div align='center'>" << pieceHTML << "</div>";
+    return QString::fromStdString(ss.str());
 }
 
 //void Chessboard::paintEvent(QPaintEvent *p2)

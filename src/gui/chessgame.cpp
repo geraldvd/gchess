@@ -150,7 +150,5 @@ void ChessGame::slotMovePiece()
             this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
         }
     }
-
-
 }
 

@@ -36,6 +36,8 @@ public:
     void highlightField(const Field & position);
     void unhighlightField(const Field & position);
     void clearHighlights();
+    void checkField(const Field & position);
+    void unCheckField();
 
 
 private:
@@ -44,10 +46,12 @@ private:
 
     // Get image filename of piece
     QString getImageFilename(const enum PieceColor & c, const enum PieceType & p);
+    QString getPieceHTML(const enum PieceColor & c, const enum PieceType & p);
 
     // Pieces and highlighted fields
     std::map<Field,ChessLabel*> pieces;
     std::map<Field,ChessLabel*> highlights;
+    ChessLabel* check_field;
 
 public:
 //    void paintEvent(QPaintEvent *p2);

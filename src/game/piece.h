@@ -5,9 +5,6 @@
 #include <vector>
 #include <string>
 
-// Typedef for chess field
-typedef std::pair<int,int> Field;
-Field operator+(const Field & f1, const Field & f2);
 
 // Piece type
 enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
@@ -17,6 +14,11 @@ enum PieceColor {WHITE, BLACK};
 
 // Move type
 enum MoveType {NORMAL, CASTLING, CHECK, ENPASSANT};
+
+// Typedef for chess field
+typedef std::pair<int,int> Field;
+Field operator+(const Field & f1, const Field & f2);
+
 
 class Piece
 {
@@ -50,7 +52,6 @@ public:
 
     // Has to be false for Rook and King when castling
     bool hasMoved;
-    enum MoveType moveType;
 
 protected:
     // Type of piece
@@ -64,7 +65,7 @@ protected:
 
     // Possible moves; populated by findMoves()
     std::vector<Field> moves;
-
+    enum MoveType moveType;
 };
 
 #endif // PIECE_H

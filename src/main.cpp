@@ -27,7 +27,21 @@ int main(int argc, char **argv) {
 
     // Initialize board
     ChessGame chess;
+    //Chessboard2 chess;
     chess.show();
+
+//    Game g;
+//    g.init();
+//    for(auto &i : g.getPieces()) {
+//        chess.addPiece(i->getPosition(), i->getColor(), i->getType());
+//    }
+//    chess.clearPieces();
+//    g.init();
+//    for(auto &i : g.getPieces()) {
+//        chess.addPiece(i->getPosition(), i->getColor(), i->getType());
+//    }
+//    chess.show();
+
 
     return a.exec();
 #else

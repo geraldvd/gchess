@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <string>
 
 // Include Qt libraries
 #include <QWidget>
@@ -37,8 +38,8 @@ public:
 
 
 private:
-    // UI elements
-    //Ui::Chessboard2 *ui;
+    // Parent needed for signals and slots (moving pieces)
+    QWidget *parent;
 
     // Get image filename of piece
     QString getImageFilename(const enum PieceColor & c, const enum PieceType & p);
@@ -47,7 +48,7 @@ private:
     std::map<Field,ChessLabel*> pieces;
     std::map<Field,ChessLabel*> highlights;
 
-protected:
+public:
     void paintEvent(QPaintEvent *p2);
 };
 

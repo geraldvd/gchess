@@ -1,4 +1,4 @@
-set(gui_SRCS chessgame.cpp chessboard.cpp chessboard2.cpp piecelabel.cpp chesslabel.cpp)
+set(gui_SRCS chessgame.cpp chessboard2.cpp chesslabel.cpp)
 
 # For Ubuntu/gcc - automoc is not working
 #qt5_wrap_ui(gui_ui_moc chessboard2.ui)

@@ -18,17 +18,12 @@
 using namespace std;
 
 Chessboard2::Chessboard2(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    parent(parent)
 {
     // Setup chessboard - TODO add resource file using cmake, so that images are packed in executable
     this->setFixedHeight(400);
     this->setFixedWidth(400);
-
-    // test
-    this->addPiece(Field(3,3), BLACK, ROOK);
-    this->highlightField(Field(2,2));
-    this->highlightField(Field(4,4));
-    //this->unhighlightAllFields();
 }
 
 Chessboard2::~Chessboard2()
@@ -45,6 +40,7 @@ void Chessboard2::addPiece(const Field &position, const PieceColor &c, const Pie
     QPixmap pm(image_file);
     l->setPixmap(pm);
     l->setMask(pm.mask());
+    l->setVisible(true);
 
     // Check whether piece already exists in that location; if so: remove it
     if(this->pieces.find(position) != this->pieces.end()) {
@@ -54,7 +50,7 @@ void Chessboard2::addPiece(const Field &position, const PieceColor &c, const Pie
     }
 
     // Setup signals and slots
-    //connect(l, SIGNAL(clicked()), this, SLOT(toggleHighlightMoves()));
+    connect(l, SIGNAL(clicked()), this->parent, SLOT(toggleHighlighting()));
 
     // Store new piece
     this->pieces[position] = l;
@@ -110,6 +106,10 @@ void Chessboard2::highlightField(const Field &position)
         p.drawEllipse(l->width()/2-10, l->height()/2-10, 2*10, 2*10);
         l->setPixmap(pm);
         l->setMask(pm.mask());
+        l->setVisible(true);
+
+        // Setup signals and slots
+        connect(l, SIGNAL(clicked()), this->parent, SLOT(slotMovePiece()));
 
         // Add piece to highlighted fields
         this->highlights[position] = l;

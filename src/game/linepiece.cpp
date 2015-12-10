@@ -29,7 +29,7 @@ void LinePiece::findMoves(const std::vector<Piece *> & pieces)
         directions.push_back(pair<Field,bool>(Field(0,-1), true));
     }
 
-    // Initialize possible moves - only diagonals
+    // Initialize possible moves
     for(int i=1; i<8; i++) {
         for(auto &d : directions) {
             // Check whether line was already occupied

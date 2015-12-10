@@ -41,6 +41,11 @@ std::vector<Field> Piece::getMoves() const
     return this->moves;
 }
 
+MoveType Piece::getMoveType() const
+{
+    return this->moveType;
+}
+
 Field Piece::getPosition() const
 {
     return this->position;
@@ -81,6 +86,7 @@ bool Piece::move(const Field & m)
         // Move is in list of possible moves
         this->position = m;
         this->hasMoved = true;
+        this->moveType = NORMAL;
         return true;
     } else {
         // Move is not allowed!

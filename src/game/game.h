@@ -21,6 +21,7 @@ public:
 
     // Initialize chessboard
     void init();
+    void initTest(); // TODO remove!
 
     // Methods for moves
     void updateAllMoves();

@@ -1,4 +1,5 @@
 #include "king.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -6,6 +7,31 @@ King::King(const int & x, const int & y, const PieceColor & c, const bool & hasM
     Piece(x, y, c, hasMoved)
 {
     this->type = KING;
+}
+
+bool King::move(const Field &m)
+{
+    if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
+        // Move is in list of possible moves, check castling
+        if(abs(m.first-this->position.first) > 1) {
+            // Castling, check rook!
+            for(auto &r : this->castlingRooks) {
+                if(abs(m.first-r->getPosition().first) == 1 && (m.second-r->getPosition().second) == 0) {
+                    // This is the rook!
+                    r->move(Field(m.first+(m.first-r->getPosition().first), m.second));
+                }
+            }
+            this->moveType = CASTLING;
+        } else {
+            this->moveType = NORMAL;
+        }
+        this->position = m;
+        this->hasMoved = true;
+        return true;
+    } else {
+        // Move is not allowed!
+        return false;
+    }
 }
 
 void King::findMoves(const std::vector<Piece*> & pieces)
@@ -53,6 +79,7 @@ void King::findMoves(const std::vector<Piece*> & pieces)
     }
 
     // Check castling
+    this->castlingRooks = vector<Piece*>();
     if(!this->hasMoved) {
         for(auto &p : pieces) {
             if(p->getType() == ROOK && p->getColor() == this->getColor() && !p->hasMoved) {
@@ -98,6 +125,7 @@ void King::findMoves(const std::vector<Piece*> & pieces)
                             this->moves.push_back(Field(p->getPosition().first-1, 7));
                         }
                     }
+                    this->castlingRooks.push_back(p);
                 }
             }
         }

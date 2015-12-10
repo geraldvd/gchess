@@ -15,6 +15,9 @@ enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
 // Color type
 enum PieceColor {WHITE, BLACK};
 
+// Move type
+enum MoveType {NORMAL, CASTLING, CHECK, ENPASSANT};
+
 class Piece
 {
 public:
@@ -29,6 +32,7 @@ public:
 
     // Getter for moves
     std::vector<Field> getMoves() const;
+    enum MoveType getMoveType() const;
 
     // Getters for position
     Field getPosition() const;
@@ -42,10 +46,11 @@ public:
     std::vector<Field> movesOnboard(const std::vector<Field> &moves);
 
     // Perform move
-    bool move(const Field & m);
+    virtual bool move(const Field & m);
 
     // Has to be false for Rook and King when castling
     bool hasMoved;
+    enum MoveType moveType;
 
 protected:
     // Type of piece

@@ -19,7 +19,7 @@ ChessGame::ChessGame(QWidget *parent) :
     // Setup window parameters
     this->setWindowTitle("Chess");
     this->setFixedWidth(this->chessboard->width());
-    this->setFixedHeight(this->chessboard->height() + this->statusBar()->height());
+    this->setFixedHeight(this->chessboard->height() + this->statusBar()->height() + this->menuBar()->height());
 
     // Setup layout
     this->setCentralWidget(this->chessboard);
@@ -67,7 +67,7 @@ void ChessGame::newGame()
     this->chessboard->clearHighlights();
 
     // Start new game
-    this->game.init();
+    this->game.initTest();
     this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
     // Place pieces TODO: other interface? (more generic)
@@ -109,8 +109,31 @@ void ChessGame::slotMovePiece()
         if(this->game.move(this->pieces[this->activeField->getField()], to->getField())) {
             // Debug information
             qDebug() << "Move " << QString::fromStdString(this->pieces[this->activeField->getField()]->getColorString()) << ": ";
-            qDebug() << "; From: (" << from.first << ", " << from.second << "), To: (" << to->getField().first << ", " << to->getField().second << ")";
+            qDebug() << "From: (" << from.first << ", " << from.second << "), To: (" << to->getField().first << ", " << to->getField().second << ")";
             qDebug() << endl;
+
+            // Check castling - TODO after castling, rook cannot be used for moves anymore!
+            if(this->pieces[from]->getMoveType() == CASTLING) {
+                Piece* r;
+                int xStep;
+                if(this->pieces.find(Field(to->getField().first+1, to->getField().second)) != this->pieces.end()) {
+                    r = this->pieces[Field(to->getField().first+1, to->getField().second)];
+                    xStep = -2;
+                } else if(this->pieces.find(Field(to->getField().first-1, to->getField().second)) != this->pieces.end()) {
+                    r = this->pieces[Field(to->getField().first-1, to->getField().second)];
+                    xStep = 2;
+                } else {
+                    // This should never happen!
+                    qDebug() << "This message should never be seen!!" << endl;
+                }
+
+                Field from = Field(r->getPosition().first-xStep, r->getPosition().second);
+                this->chessboard->movePiece(from, r->getPosition());
+
+                // Update piece position (in this class)
+                this->pieces[r->getPosition()] = this->pieces[from];
+                this->pieces.erase(from);
+            }
 
             // Move piece on board
             this->chessboard->movePiece(this->activeField->getField(), to->getField());

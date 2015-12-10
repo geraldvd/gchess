@@ -71,12 +71,17 @@ void Chessboard::removePiece(const Field &position)
 void Chessboard::movePiece(const Field &from, const Field &to)
 {
     if(this->pieces.find(from) != this->pieces.end()) {
+        // Move piece
         ChessLabel *l = this->pieces[from];
         this->pieces.erase(from);
         l->setField(to);
 
+        // Replace piece if already in destination
+        if(this->pieces.find(to) != this->pieces.end()) {
+            this->removePiece(to);
+        }
 
-
+        // Store pointer to moved piece
         this->pieces[to] = l;
     }
 }

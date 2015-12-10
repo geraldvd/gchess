@@ -55,6 +55,40 @@ void Game::init()
     this->updateAllMoves();
 }
 
+void Game::initTest()
+{
+    // Clean board
+    this->resetBoard();
+
+    // Pawns
+    for(int i=0; i<8; i++) {
+        //this->addPawn(i, 1, WHITE);
+        //this->addPawn(i, 6, BLACK);
+    }
+
+    // White pieces
+    this->addKing(4, 0, WHITE);
+    this->addQueen(3, 0, WHITE);
+    this->addRook(0, 0, WHITE);
+    this->addRook(7, 0, WHITE);
+    this->addKnight(1, 0, WHITE);
+    this->addKnight(6, 0, WHITE);
+    this->addBishop(2, 0, WHITE);
+    this->addBishop(5, 0, WHITE);
+
+    // Black pieces
+    this->addKing(4, 7, BLACK);
+    this->addQueen(3, 7, BLACK);
+    this->addRook(0, 7, BLACK);
+    this->addRook(7, 7, BLACK);
+
+    // Set active player
+    this->activePlayer = BLACK;
+
+    // Initialize all possible moves
+    this->updateAllMoves();
+}
+
 void Game::updateAllMoves()
 {
     for(auto &p : this->pieces) {

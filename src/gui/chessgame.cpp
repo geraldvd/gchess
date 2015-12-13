@@ -111,7 +111,7 @@ void ChessGame::slotMovePiece()
             // Check castling
             if(this->pieces[from]->getMoveType() == CASTLING) {
                 Piece* r;
-                int xStep;
+                int xStep = 0;
                 if(this->pieces.find(Field(to->getField().first+1, to->getField().second)) != this->pieces.end()) {
                     r = this->pieces[Field(to->getField().first+1, to->getField().second)];
                     xStep = -2;
@@ -121,6 +121,7 @@ void ChessGame::slotMovePiece()
                 } else {
                     // This should never happen!
                     qDebug() << "This message should never be seen!!" << endl;
+                    r = NULL;
                 }
 
                 Field from = Field(r->getPosition().first-xStep, r->getPosition().second);

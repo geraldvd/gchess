@@ -1,5 +1,6 @@
 #include "king.h"
 #include <algorithm>
+#include <cstdlib>
 
 using namespace std;
 

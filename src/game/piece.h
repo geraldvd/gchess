@@ -1,63 +1,38 @@
 #ifndef PIECE_H
 #define PIECE_H
 
+// Include standard libraries
 #include <utility>
 #include <vector>
 #include <string>
+#include <map>
 
+// Include project files
+#include "field.h"
+#include "types.h"
 
-// Piece type
-enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
-
-// Color type
-enum PieceColor {WHITE=1, BLACK=-1};
-
-// Move type
-enum MoveType {NORMAL, CASTLING, ENPASSANT, PROMOTION_QUEEN, PROMOTION_ROOK, PROMOTION_KNIGHT, PROMOTION_BISHOP};
-
-// Typedef for chess field
-typedef std::pair<int,int> Field;
-typedef std::pair<Field,enum MoveType> Move;
-Field operator+(const Field & f1, const Field & f2);
-Move operator+(const Move & m, const Field & f);
-bool operator==(const Field & f1, const Field & f2);
-bool operator==(const Move & m1, const Move & m2);
-bool operator==(const Field & f, const Move & m);
 
 
 class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved);
+    Piece(const Field &f, const enum PieceColor &c, const bool &has_moved);
     virtual ~Piece();
 
-    // Getters for type and color
+    // Getters
     enum PieceType getType() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
-
-    // Getter for moves
-    std::vector<Move> getMoves() const;
-    enum MoveType getMoveType() const;
-    bool isOtherKingCheck() const;
-
-    // Getters for position
+    std::vector<Field> getMoves() const;
+//    bool isOtherKingCheck() const;
     Field getPosition() const;
     std::string getPositionString() const;
 
-    // Obtain all possible moves
-    virtual void findMoves(const std::vector<Piece*> & pieces) = 0;
-
-    // Helper functions
-    bool moveOnboard(const Field & m);
-    std::vector<Field> movesOnboard(const std::vector<Field> &moves);
-
-    // Perform move
-    virtual bool move(const Move &m);
-
-    // Has to be false for Rook and King when castling
-    bool hasMoved;
+    // Move methods
+    virtual void findMoves(const std::map<Field,Piece*> &pieces) = 0;
+//    bool moveOnboard(const Field &m);
+    virtual bool move(const Field &m);
 
 protected:
     // Type of piece
@@ -70,11 +45,15 @@ protected:
     enum PieceColor color;
 
     // Possible moves; populated by findMoves()
-    std::vector<Move> moves;
-    enum MoveType moveType;
+    std::vector<Field> moves;
 
-    // Is the king of the other team in check position?
-    bool otherKingCheck;
+    // Has to be false for Rook and King when castling
+    bool has_moved;
+
+
+
+//    // Is the king of the other team in check position?
+//    bool otherKingCheck;
 };
 
 #endif // PIECE_H

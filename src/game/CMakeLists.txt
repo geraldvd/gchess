@@ -11,4 +11,10 @@ add_library(${PROJECT_NAME}_game
     bishop.cpp
     knight.cpp
     pawn.cpp
+
+    # Helpers
+    field.cpp
 )
+
+add_subdirectory(tests)
+include_directories(tests)

@@ -4,17 +4,17 @@
 
 using namespace std;
 
-King::King(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
-    Piece(x, y, c, hasMoved)
+King::King(const Field &f, const PieceColor & c, const bool & has_moved) :
+    Piece(f, c, has_moved)
 {
     this->type = KING;
 }
 
-bool King::move(const Move &m)
+bool King::move(const Field &m)
 {
-    if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
+    if(this->moves.find(m) != this->moves.end()) {
         // Move is in list of possible moves, check castling
-        if(abs(m.first.first-this->position.first) > 1) {
+        if(abs(m.getX()-this->position.getX()) > 1) {
             // Castling, check rook!
             for(auto &r : this->castlingRooks) {
                 if(abs(m.first.first-r->getPosition().first) == 1 && (m.first.second-r->getPosition().second) == 0) {
@@ -35,7 +35,7 @@ bool King::move(const Move &m)
     }
 }
 
-void King::findMoves(const std::vector<Piece*> & pieces)
+void King::findMoves(const std::map<Field, Piece *> &pieces)
 {
     // Initialize moves
     vector<Field> moves;

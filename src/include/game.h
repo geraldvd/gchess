@@ -1,6 +1,7 @@
 #ifndef INC_GAME_H
 #define INC_GAME_H
 
+#include "../game/types.h"
 #include "../game/game.h"
 #include "../game/piece.h"
 #include "../game/king.h"

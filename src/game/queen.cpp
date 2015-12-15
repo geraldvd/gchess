@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Queen::Queen(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
-    LinePiece(x, y, c, hasMoved)
+Queen::Queen(const Field &f, const PieceColor & c, const bool & hasMoved) :
+    LinePiece(f, c, hasMoved)
 {
     this->type = QUEEN;
 }

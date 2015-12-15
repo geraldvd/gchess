@@ -25,7 +25,6 @@ public:
     enum PieceColor getColor() const;
     std::string getColorString() const;
     std::vector<Field> getMoves() const;
-//    bool isOtherKingCheck() const;
     Field getPosition() const;
     std::string getPositionString() const;
 
@@ -49,11 +48,6 @@ protected:
 
     // Has to be false for Rook and King when castling
     bool has_moved;
-
-
-
-//    // Is the king of the other team in check position?
-//    bool otherKingCheck;
 };
 
 #endif // PIECE_H

@@ -15,6 +15,9 @@ public:
     // Perform move - castling is special case!
     virtual bool move(const Field &m);
 
+    // Obtain whether king is in check position
+    bool checkStatus();
+
 private:
     virtual void findMoves(const std::map<Field,Piece*> &pieces);
 

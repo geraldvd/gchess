@@ -8,8 +8,10 @@
 using namespace std;
 
 Game::Game(const bool &normal_game, const PieceColor & active_player) :
+    whiteKing(NULL),
+    blackKing(NULL),
     activePlayer(active_player),
-    playerCheck(0)
+    currentPlayerCheck(false)
 {
     if(normal_game) {
         this->init();
@@ -93,21 +95,15 @@ void Game::initTest()
 
 void Game::updateAllMoves()
 {
-    // Reset playerCheck
-    this->playerCheck = 0;
+    // Check whether king is check
+    if(this->activePlayer == WHITE)
+        this->currentPlayerCheck = this->whiteKing->checkStatus();
+    else
+        this->currentPlayerCheck = this->blackKing->checkStatus();
 
     // Loop through each piece
     for(auto &p : this->pieces) {
-        p->findMoves(this->pieces);
-
-        // Find check positions
-        if(p->isOtherKingCheck()) {
-            if(p->getColor() == WHITE) {
-                this->playerCheck = BLACK;
-            } else {
-                this->playerCheck = WHITE;
-            }
-        }
+        p.second->findMoves(this->pieces);
     }
 }
 
@@ -136,29 +132,35 @@ void Game::resetBoard()
     }
 
     // Reinitialize pieces vector
-    this->pieces = map<Field, Piece*>();
+    this->pieces.clear();
 }
 
 void Game::addPiece(const PieceType &t, const Field &f, const PieceColor &c, const bool &has_moved, const bool &just_moved_double)
 {
     switch(t) {
     case KING:
-        this->pieces.insert(f, new King(f, c, has_moved));
+        if(c == WHITE) {
+            this->whiteKing = new King(f, c, has_moved);
+            this->pieces[f] = this->whiteKing;
+        } else {
+            this->blackKing = new King(f, c, has_moved);
+            this->pieces[f] = this->blackKing;
+        }
         break;
     case QUEEN:
-        this->pieces.insert(f, new Queen(f, c, has_moved));
+        this->pieces[f] = new Queen(f, c, has_moved);
         break;
     case ROOK:
-        this->pieces.insert(f, new Rook(f, c, has_moved));
+        this->pieces[f] = new Rook(f, c, has_moved);
         break;
     case BISHOP:
-        this->pieces.insert(f, new Bishop(f, c, has_moved));
+        this->pieces[f] = new Bishop(f, c, has_moved);
         break;
     case KNIGHT:
-        this->pieces.insert(f, new Knight(f, c, has_moved));
+        this->pieces[f] = new Knight(f, c, has_moved);
         break;
     case PAWN:
-        this->pieces.insert(f, new Pawn(f, c, has_moved, just_moved_double));
+        this->pieces[f] = new Pawn(f, c, has_moved, just_moved_double);
         break;
     default:
         throw invalid_argument("Piecetype not known");
@@ -169,6 +171,11 @@ void Game::addPiece(const PieceType &t, const Field &f, const PieceColor &c, con
 PieceColor Game::getActivePlayer() const
 {
     return this->activePlayer;
+}
+
+bool Game::isCurrentPlayerCheck() const
+{
+    return this->currentPlayerCheck;
 }
 
 string Game::getActivePlayerString() const

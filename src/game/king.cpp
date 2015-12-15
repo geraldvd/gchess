@@ -35,6 +35,11 @@ bool King::move(const Field &m)
     }
 }
 
+bool King::checkStatus()
+{
+    return false;
+}
+
 void King::findMoves(const std::map<Field, Piece *> &pieces)
 {
     // Initialize moves

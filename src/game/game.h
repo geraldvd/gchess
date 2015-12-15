@@ -37,18 +37,18 @@ public:
     std::string getActivePlayerString() const;
     enum PieceColor getActivePlayer() const;
 
-//    // Check whether player is in check position
-//    int getPlayerCheck() const;
+    // Check whether player is in check position
+    bool isCurrentPlayerCheck() const;
 
 private:
     // Vectors containing all chesspieces
     std::map<Field, Piece*> pieces;
+    King* whiteKing;
+    King* blackKing;
 
     // Color to play
     enum PieceColor activePlayer;
-
-//    // Player check?
-//    int playerCheck;
+    bool currentPlayerCheck;
 
 };
 

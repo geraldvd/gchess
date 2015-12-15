@@ -2,12 +2,12 @@
 
 using namespace std;
 
-LinePiece::LinePiece(const int & x, const int & y, const PieceColor & c, const bool & hasMoved) :
-    Piece(x, y, c, hasMoved)
+LinePiece::LinePiece(const Field &f, const PieceColor & c, const bool & hasMoved) :
+    Piece(f, c, hasMoved)
 {
 }
 
-void LinePiece::findMoves(const std::vector<Piece *> & pieces)
+void LinePiece::findMoves(const std::map<Field, Piece *> &pieces)
 {
     // Initialize moves
     vector<Move> moves;

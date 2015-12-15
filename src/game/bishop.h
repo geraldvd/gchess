@@ -6,7 +6,7 @@
 class Bishop : public LinePiece
 {
 public:
-    Bishop(const int & x, const int & y, const enum PieceColor & c, const bool & hasMoved=false);
+    Bishop(const Field &f, const enum PieceColor & c, const bool & hasMoved=false);
 };
 
 #endif // BISHOP_H

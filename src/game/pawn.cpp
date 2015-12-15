@@ -2,14 +2,14 @@
 
 using namespace std;
 
-Pawn::Pawn(const int & x, const int & y, const PieceColor & c, const bool & hasMoved, const bool & justMovedDouble) :
-    Piece(x, y, c, hasMoved),
+Pawn::Pawn(const Field &f, const PieceColor & c, const bool & hasMoved, const bool & justMovedDouble) :
+    Piece(f, c, hasMoved),
     justMovedDouble(justMovedDouble)
 {
     this->type = PAWN;
 }
 
-void Pawn::findMoves(const std::vector<Piece*> & pieces)
+void Pawn::findMoves(const std::map<Field, Piece *> &pieces)
 {
     // TODO en passant capturing + reaching other side of board
 

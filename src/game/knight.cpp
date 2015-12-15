@@ -2,13 +2,13 @@
 
 using namespace std;
 
-Knight::Knight(const int & x, const int & y, const PieceColor & c, const bool &hasMoved) :
-    Piece(x, y, c, hasMoved)
+Knight::Knight(const Field &f, const PieceColor & c, const bool &hasMoved) :
+    Piece(f, c, hasMoved)
 {
     this->type = KNIGHT;
 }
 
-void Knight::findMoves(const std::vector<Piece*> & pieces)
+void Knight::findMoves(const std::map<Field, Piece *> &pieces)
 {
     // Initialize moves
     vector<Field> moves;

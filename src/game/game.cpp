@@ -8,8 +8,9 @@
 using namespace std;
 
 Game::Game(const bool &normal_game, const PieceColor & active_player) :
-    activePlayer(active_player),
-    playerCheck(0)
+    kingWhite(NULL),
+    kingBlack(NULL),
+    activePlayer(active_player)
 {
     if(normal_game) {
         this->init();

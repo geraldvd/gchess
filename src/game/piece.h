@@ -30,7 +30,8 @@ public:
 
     // Move methods
     virtual void findMoves(const std::map<Field,Piece*> &pieces) = 0;
-//    bool moveOnboard(const Field &m);
+//    virtual bool fieldUnderAttack(const Field &f, const std::map<Field,Piece*> &pieces) = 0;
+    bool moveOnboard(const Field &m);
     virtual bool move(const Field &m);
 
 protected:

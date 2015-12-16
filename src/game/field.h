@@ -28,8 +28,10 @@ public:
     void setMoveType(const enum MoveType &mt);
 
     // Operators
-    friend Field operator+(const Field & f1, const Field & f2);
-    friend bool operator==(const Field & f1, const Field & f2);
+    Field operator+(const Field &f);
+    bool operator==(const Field &f);
+    bool operator<(const Field &f);
+
 
 private:
     // Field coordinates

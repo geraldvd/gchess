@@ -50,6 +50,7 @@ private:
     enum PieceColor activePlayer;
     bool currentPlayerCheck;
 
+
 };
 
 #endif // GAME_H

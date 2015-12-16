@@ -51,13 +51,18 @@ string Piece::getPositionString() const
     return this->position.get();
 }
 
+bool Piece::moveOnboard(const Field &m)
+{
+    return (m.getX()>=0 && m.getX()<8 && m.getY()>=0 && m.getY()<8) ? true : false;
+}
+
 
 bool Piece::move(const Field &m)
 {
-    if(this->moves.find(m) != this->moves.end()) {
+    if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
         // Move is in list of possible moves
         this->position = m;
-        this->hasMoved = true;
+        this->has_moved = true;
         return true;
     } else {
         // Move is not allowed!

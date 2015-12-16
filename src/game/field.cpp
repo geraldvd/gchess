@@ -115,13 +115,21 @@ void Field::setMoveType(const MoveType &mt)
     this->move_type = mt;
 }
 
-Field Field::operator+(const Field &f1, const Field &f2)
+Field Field::operator+(const Field &f)
 {
-    return Field(f1.getX()+f2.getX(), f1,getY()+f2.getY());
+    return Field(this->x+f.getX(), this->y+f.getY());
 }
 
-bool Field::operator==(const Field &f1, const Field &f2)
+bool Field::operator==(const Field &f)
 {
-    return f1.get() == f2.get();
+    return this->get()==f.get();
+}
+
+bool Field::operator<(const Field &f)
+{
+    unsigned int s1 = this->x + 8*this->y;
+    unsigned int s2 = f.getX() + 8*f.getY();
+
+    return s1<s2;
 }
 

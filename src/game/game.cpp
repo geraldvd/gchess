@@ -97,19 +97,19 @@ void Game::updateAllMoves()
 {
     // Check whether king is check
     if(this->activePlayer == WHITE)
-        this->currentPlayerCheck = this->whiteKing->checkStatus();
+        this->currentPlayerCheck = this->whiteKing->checkStatus(this->pieces);
     else
-        this->currentPlayerCheck = this->blackKing->checkStatus();
+        this->currentPlayerCheck = this->blackKing->checkStatus(this->pieces);
 
     // Loop through each piece
     for(auto &p : this->pieces) {
-        p.second->findMoves(this->pieces);
+        p.second->getMoves(this->pieces, this->currentPlayerCheck);
     }
 }
 
 bool Game::move(Piece *p, const Field &m)
 {
-    if(p->move(m)) {
+    if(p->move(m, this->pieces, this->isCurrentPlayerCheck())) {
         // Calculate all new moves
         this->updateAllMoves();
         // Switch player
@@ -171,6 +171,15 @@ void Game::addPiece(const PieceType &t, const Field &f, const PieceColor &c, con
 PieceColor Game::getActivePlayer() const
 {
     return this->activePlayer;
+}
+
+Piece* Game::getPiece(const Field &f) const
+{
+    if(this->pieces.find(f) != this->pieces.end()) {
+        return this->pieces.at(f);
+    } else {
+        return NULL;
+    }
 }
 
 bool Game::isCurrentPlayerCheck() const

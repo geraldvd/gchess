@@ -36,11 +36,6 @@ string Piece::getColorString() const
     }
 }
 
-std::vector<Field> Piece::getMoves() const
-{
-    return this->moves;
-}
-
 Field Piece::getPosition() const
 {
     return this->position;
@@ -51,15 +46,28 @@ string Piece::getPositionString() const
     return this->position.get();
 }
 
+bool Piece::fieldUnderAttack(const Field &f, const map<Field,Piece*> &pieces)
+{
+    vector<Field> moves = this->getMoves(pieces, false);
+
+    if(find(moves.begin(), moves.end(), f) != moves.end()) {
+        return true;
+    }
+
+    return false;
+}
+
 bool Piece::moveOnboard(const Field &m)
 {
     return (m.getX()>=0 && m.getX()<8 && m.getY()>=0 && m.getY()<8) ? true : false;
 }
 
 
-bool Piece::move(const Field &m)
+bool Piece::move(const Field &m, const map<Field,Piece*> &pieces, const bool &king_check)
 {
-    if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
+    vector<Field> moves = this->getMoves(pieces, king_check);
+
+    if(find(moves.begin(), moves.end(), m) != moves.end()) {
         // Move is in list of possible moves
         this->position = m;
         this->has_moved = true;

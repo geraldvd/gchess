@@ -2,13 +2,13 @@
 #define GAME_H
 
 #include "field.h"
-#include "piece.h"
-#include "king.h"
-#include "queen.h"
-#include "rook.h"
-#include "knight.h"
-#include "bishop.h"
-#include "pawn.h"
+#include "piece/piece.h"
+#include "piece/king.h"
+#include "piece/queen.h"
+#include "piece/rook.h"
+#include "piece/knight.h"
+#include "piece/bishop.h"
+#include "piece/pawn.h"
 
 #include <vector>
 #include <utility>
@@ -36,6 +36,7 @@ public:
 
     std::string getActivePlayerString() const;
     enum PieceColor getActivePlayer() const;
+    Piece* getPiece(const Field &f) const;
 
     // Check whether player is in check position
     bool isCurrentPlayerCheck() const;

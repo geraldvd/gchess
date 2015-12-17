@@ -13,13 +13,14 @@ public:
     King(const Field &f, const enum PieceColor &c, const bool &has_moved=false);
 
     // Perform move - castling is special case!
-    virtual bool move(const Field &m);
+    virtual bool move(const Field &m, const std::map<Field, Piece *> &pieces, const bool &king_check);
 
     // Obtain whether king is in check position
-    bool checkStatus();
+    bool checkStatus(const std::map<Field,Piece*> &pieces);
 
 private:
-    virtual void findMoves(const std::map<Field,Piece*> &pieces);
+    virtual std::vector<Field> getMoves(const std::map<Field,Piece*> &pieces, const bool &king_check);
+    virtual std::vector<Field> getPotentialMoves();
 
     // Castling variables
     std::vector<Piece*> castlingRooks;

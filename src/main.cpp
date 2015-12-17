@@ -8,6 +8,8 @@
 #ifdef WITH_GRAPHICS
     #include <QApplication>
     #include <gui.h>
+#else
+    #include <game.h>
 #endif
 
 #include <QDebug>
@@ -32,6 +34,11 @@ int main(int argc, char **argv) {
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;
+
+    // Start engine
+    Game g;
+
+
     return 0;
 #endif
 }

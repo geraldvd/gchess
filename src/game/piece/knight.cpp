@@ -8,7 +8,7 @@ Knight::Knight(const Field &f, const PieceColor & c, const bool &hasMoved) :
     this->type = KNIGHT;
 }
 
-void Knight::findMoves(const std::map<Field, Piece *> &pieces)
+std::vector<Field> Knight::getMoves(const std::map<Field, Piece *> &pieces, const bool &king_check)
 {
 //    // Initialize moves
 //    vector<Field> moves;
@@ -59,6 +59,32 @@ void Knight::findMoves(const std::map<Field, Piece *> &pieces)
 //                this->moves.push_back(Move(m, NORMAL));
 //            }
 //        }
-//    }
+    //    }
 }
+
+std::vector<Field> Knight::getPotentialMoves()
+{
+    // Initialize moves
+    vector<Field> moves;
+
+    // List all potentially possible moves
+    moves.push_back(this->getPosition() + Field(2,1));
+    moves.push_back(this->getPosition() + Field(2,-1));
+    moves.push_back(this->getPosition() + Field(-2,1));
+    moves.push_back(this->getPosition() + Field(-2,-1));
+    moves.push_back(this->getPosition() + Field(1,2));
+    moves.push_back(this->getPosition() + Field(1,-2));
+    moves.push_back(this->getPosition() + Field(-1,2));
+    moves.push_back(this->getPosition() + Field(-1,-2));
+
+    // Check whether moves are on board
+    for(vector<Field>::iterator it = moves.begin(); it != moves.end(); it++) {
+        if(!this->moveOnboard(*it)) {
+            moves.erase(it);
+        }
+    }
+
+    return moves;
+}
+
 

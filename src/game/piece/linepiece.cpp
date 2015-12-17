@@ -1,5 +1,7 @@
 #include "linepiece.h"
 
+#include <utility>
+
 using namespace std;
 
 LinePiece::LinePiece(const Field &f, const PieceColor & c, const bool & hasMoved) :
@@ -7,7 +9,7 @@ LinePiece::LinePiece(const Field &f, const PieceColor & c, const bool & hasMoved
 {
 }
 
-void LinePiece::findMoves(const std::map<Field, Piece *> &pieces)
+vector<Field> LinePiece::getMoves(const std::map<Field, Piece *> &pieces, const bool &king_check)
 {
 //    // TODO
 
@@ -75,6 +77,44 @@ void LinePiece::findMoves(const std::map<Field, Piece *> &pieces)
 //    }
 
 //    // Check whether moves are still on board
-//    this->moves = moves;
+    //    this->moves = moves;
 }
 
+std::vector<Field> LinePiece::getPotentialMoves()
+{
+    vector<Field> moves;
+
+    // Store whether line is blocked, and whether move is still valid
+    vector<Field> directions;
+    if(this->getType() == QUEEN || this->getType() == BISHOP) {
+        // Diagonal lines
+        directions.push_back(Field(1,1));
+        directions.push_back(Field(-1,-1));
+        directions.push_back(Field(-1,1));
+        directions.push_back(Field(1,-1));
+    }
+    if(this->getType() == QUEEN || this->getType() == ROOK) {
+        // Straigt lines
+        directions.push_back(Field(1,0));
+        directions.push_back(Field(-1,0));
+        directions.push_back(Field(0,1));
+        directions.push_back(Field(0,-1));
+    }
+
+    // Initialize possible moves
+    for(auto &d : directions) {
+        for(unsigned int i=1; i<8; i++) {
+            // Obtain move position
+            Field m = this->getPosition() + Field(d.getX()*i, d.getY()*i);
+
+            if(this->moveOnboard(m)) {
+                moves.push_back(m);
+            } else {
+                // Next positions should not be tried
+                break;
+            }
+        }
+    }
+
+    return moves;
+}

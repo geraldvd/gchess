@@ -10,9 +10,11 @@ King::King(const Field &f, const PieceColor & c, const bool & has_moved) :
     this->type = KING;
 }
 
-bool King::move(const Field &m)
+bool King::move(const Field &m, const map<Field,Piece*> &pieces, const bool &king_check)
 {
-    if(find(this->moves.begin(), this->moves.end(), m) != this->moves.end()) {
+    vector<Field> moves = this->getMoves(pieces, king_check);
+
+    if(find(moves.begin(), moves.end(), m) != moves.end()) {
 //        // Move is in list of possible moves, check castling
 //        if(abs(m.getX()-this->position.getX()) > 1) {
 //            // Castling, check rook!
@@ -35,27 +37,21 @@ bool King::move(const Field &m)
     }
 }
 
-bool King::checkStatus()
+bool King::checkStatus(const std::map<Field, Piece *> &pieces)
 {
+    for(auto &p : pieces) {
+        if(p.second->fieldUnderAttack(this->getPosition(), pieces)) {
+            return true;
+        }
+    }
     return false;
 }
 
-void King::findMoves(const std::map<Field, Piece *> &pieces)
+vector<Field> King::getMoves(const std::map<Field, Piece *> &pieces, const bool &king_check)
 {
-    // TODO
     // Initialize moves
-    vector<Field> moves;
-    this->moves = vector<Field>();
+    vector<Field> moves = this->getPotentialMoves();
 
-    // List all potentially possible moves
-    moves.push_back(this->getPosition() + Field(1,0));
-    moves.push_back(this->getPosition() + Field(-1,0));
-    moves.push_back(this->getPosition() + Field(0,1));
-    moves.push_back(this->getPosition() + Field(0,-1));
-    moves.push_back(this->getPosition() + Field(1,1));
-    moves.push_back(this->getPosition() + Field(-1,-1));
-    moves.push_back(this->getPosition() + Field(-1,1));
-    moves.push_back(this->getPosition() + Field(1,-1));
 
 //    // Check whether moves are allowed
 //    for(auto &m : moves) {
@@ -166,6 +162,30 @@ void King::findMoves(const std::map<Field, Piece *> &pieces)
 //                }
 //            }
 //        }
-//    }
+//        }
 }
 
+vector<Field> King::getPotentialMoves()
+{
+    // Initialize moves
+    vector<Field> moves;
+
+    // List all potentially possible moves
+    moves.push_back(this->getPosition() + Field(1,0));
+    moves.push_back(this->getPosition() + Field(-1,0));
+    moves.push_back(this->getPosition() + Field(0,1));
+    moves.push_back(this->getPosition() + Field(0,-1));
+    moves.push_back(this->getPosition() + Field(1,1));
+    moves.push_back(this->getPosition() + Field(-1,-1));
+    moves.push_back(this->getPosition() + Field(-1,1));
+    moves.push_back(this->getPosition() + Field(1,-1));
+
+    // Check whether moves are on board
+    for(vector<Field>::iterator it = moves.begin(); it != moves.end(); it++) {
+        if(!this->moveOnboard(*it)) {
+            moves.erase(it);
+        }
+    }
+
+    return moves;
+}

@@ -9,7 +9,7 @@ Pawn::Pawn(const Field &f, const PieceColor & c, const bool & hasMoved, const bo
     this->type = PAWN;
 }
 
-void Pawn::findMoves(const std::map<Field, Piece *> &pieces)
+vector<Field> Pawn::getMoves(const std::map<Field, Piece *> &pieces, const bool &king_check)
 {
 //    // TODO en passant capturing + reaching other side of board
 
@@ -83,6 +83,31 @@ void Pawn::findMoves(const std::map<Field, Piece *> &pieces)
 //                }
 //            }
 //        }
-//    }
+    //    }
+}
+
+std::vector<Field> Pawn::getPotentialMoves()
+{
+    // Initialize moves
+    vector<Field> moves;
+
+    // List all potiontially possible moves
+    if(this->getColor() == WHITE) {
+        // WHITE
+        moves.push_back(this->getPosition() + Field(0,1));
+        if(this->getPosition().getY() == 1) {
+            // Pawn did not move yet
+            moves.push_back(this->getPosition() + Field(0,2));
+        }
+    } else {
+        // BLACK
+        moves.push_back(this->getPosition() + Field(0,-1));
+        if(this->getPosition().getY() == 6) {
+            // Pawn did not move yet
+            moves.push_back(this->getPosition() + Field(0,-2));
+        }
+    }
+
+    return moves;
 }
 

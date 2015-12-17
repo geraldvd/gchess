@@ -8,8 +8,8 @@
 #include <map>
 
 // Include project files
-#include "field.h"
-#include "types.h"
+#include "../field.h"
+#include "../types.h"
 
 
 
@@ -24,15 +24,15 @@ public:
     enum PieceType getType() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
-    std::vector<Field> getMoves() const;
     Field getPosition() const;
     std::string getPositionString() const;
 
     // Move methods
-    virtual void findMoves(const std::map<Field,Piece*> &pieces) = 0;
-//    virtual bool fieldUnderAttack(const Field &f, const std::map<Field,Piece*> &pieces) = 0;
+    virtual std::vector<Field> getMoves(const std::map<Field,Piece*> &pieces, const bool &king_check) = 0;
+    virtual std::vector<Field> getPotentialMoves() = 0;
+    bool fieldUnderAttack(const Field &f, const std::map<Field, Piece *> &pieces);
     bool moveOnboard(const Field &m);
-    virtual bool move(const Field &m);
+    virtual bool move(const Field &m, const std::map<Field, Piece *> &pieces, const bool &king_check);
 
 protected:
     // Type of piece
@@ -43,9 +43,6 @@ protected:
 
     // White or black?
     enum PieceColor color;
-
-    // Possible moves; populated by findMoves()
-    std::vector<Field> moves;
 
     // Has to be false for Rook and King when castling
     bool has_moved;

@@ -9,7 +9,8 @@ public:
     Pawn(const Field &f, const enum PieceColor & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
 
 protected:
-    virtual void findMoves(const std::map<Field,Piece*> &pieces);
+    virtual std::vector<Field> getMoves(const std::map<Field,Piece*> &pieces, const bool &king_check);
+    virtual std::vector<Field> getPotentialMoves();
 
     // TODO needed for en passant capturing - https://en.wikipedia.org/wiki/En_passant
     bool justMovedDouble;

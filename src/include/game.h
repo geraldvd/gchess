@@ -2,14 +2,16 @@
 #define INC_GAME_H
 
 #include "../game/types.h"
+#include "../game/field.h"
 #include "../game/game.h"
-#include "../game/piece.h"
-#include "../game/king.h"
-#include "../game/queen.h"
-#include "../game/rook.h"
-#include "../game/knight.h"
-#include "../game/bishop.h"
-#include "../game/pawn.h"
+#include "../game/piece/piece.h"
+#include "../game/piece/linepiece.h"
+#include "../game/piece/king.h"
+#include "../game/piece/queen.h"
+#include "../game/piece/rook.h"
+#include "../game/piece/knight.h"
+#include "../game/piece/bishop.h"
+#include "../game/piece/pawn.h"
 
 #endif // INC_GAME_H
 

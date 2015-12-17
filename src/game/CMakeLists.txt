@@ -1,20 +1,14 @@
+# Create library
 add_library(${PROJECT_NAME}_game
-    # Game classes
     game.cpp
-
-    # Pieces
-    piece.cpp
-    king.cpp
-    linepiece.cpp
-    queen.cpp
-    rook.cpp
-    bishop.cpp
-    knight.cpp
-    pawn.cpp
-
-    # Helpers
     field.cpp
 )
 
+# Add pieces
+add_subdirectory(piece)
+include_directories(piece)
+target_link_libraries(${PROJECT_NAME}_game ${PROJECT_NAME}_game_piece)
+
+# Add tests
 add_subdirectory(tests)
 include_directories(tests)

@@ -29,8 +29,8 @@ public:
 
     // Operators
     Field operator+(const Field &f);
-    bool operator==(const Field &f);
-    bool operator<(const Field &f);
+    bool operator==(const Field &f) const;
+    bool operator<(const Field &f) const;
 
 
 private:

@@ -5,7 +5,7 @@
 
 // Include project files
 #include "king.h"
-#include "../move.h"
+#include "board/move.h"
 
 using namespace std;
 

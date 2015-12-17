@@ -1,5 +1,5 @@
 if(WITH_GAME)
-    include(game.h)
+    include(./game.h)
 endif()
 
 if(WITH_GRAPHICS)

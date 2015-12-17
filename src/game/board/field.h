@@ -25,12 +25,6 @@ public:
     void setY(const unsigned int &y);
     void set(const std::string &f);
 
-    // Operators
-    Field operator+(const Field &f);
-    bool operator==(const Field &f) const;
-    bool operator<(const Field &f) const;
-
-
 private:
     // Field coordinates
     unsigned int x;

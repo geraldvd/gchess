@@ -1,8 +1,13 @@
 # Create library
 add_library(${PROJECT_NAME}_game
-    game.cpp
-    move.cpp
-    field.cpp
+    types.h
+    utils.cpp
+    operators.cpp
+
+    # Board
+    board/field.cpp
+    board/move.cpp
+    board/board.cpp
 
     # Pieces
     piece/piece.cpp
@@ -19,6 +24,6 @@ add_library(${PROJECT_NAME}_game
 add_subdirectory(piece)
 include_directories(piece)
 
-# Add tests
-add_subdirectory(tests)
-include_directories(tests)
+# Add board
+add_subdirectory(board)
+include_directories(board)

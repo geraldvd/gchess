@@ -44,6 +44,8 @@ option(WITH_GRAPHICS "Should the executable have a graphical interface?" ON)
 option(WITH_GAME "Should the chess game (rules) be compiled?" ON)
 option(WITH_ENGINE "Should the chess engine be compiled?" OFF)
 
+option(WITH_TESTS "Should unittests be compiled?" ON)
+
 
 #########################################################################
 ### Qt 5 settings
@@ -67,3 +69,8 @@ endif()
 # Add sources
 set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 add_subdirectory(src)
+
+# Add tests
+if(WITH_TESTS)
+    add_subdirectory(tests)
+endif()

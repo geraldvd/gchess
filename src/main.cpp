@@ -35,10 +35,6 @@ int main(int argc, char **argv) {
 #else
     qDebug() << "Running from terminal!" << endl;
 
-    // Start engine
-    Game g;
-
-
     return 0;
 #endif
 }

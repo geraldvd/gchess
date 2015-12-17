@@ -1,9 +1,6 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-// Include standard libraries
-#include <utility>
-
 // Piece type
 enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
 

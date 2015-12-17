@@ -103,21 +103,3 @@ void Field::set(const string &f)
     this->setY(y);
 }
 
-Field Field::operator+(const Field &f)
-{
-    return Field(this->x+f.getX(), this->y+f.getY());
-}
-
-bool Field::operator==(const Field &f) const
-{
-    return this->get()==f.get();
-}
-
-bool Field::operator<(const Field &f) const
-{
-    unsigned int s1 = this->x + 8*this->y;
-    unsigned int s2 = f.getX() + 8*f.getY();
-
-    return s1<s2;
-}
-

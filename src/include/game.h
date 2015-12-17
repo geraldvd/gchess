@@ -2,9 +2,13 @@
 #define INC_GAME_H
 
 #include "../game/types.h"
-#include "../game/field.h"
-#include "../game/move.h"
-#include "../game/game.h"
+#include "../game/utils.h"
+#include "../game/operators.h"
+
+#include "../game/board/board.h"
+#include "../game/board/field.h"
+#include "../game/board/move.h"
+
 #include "../game/piece/piece.h"
 #include "../game/piece/linepiece.h"
 #include "../game/piece/king.h"

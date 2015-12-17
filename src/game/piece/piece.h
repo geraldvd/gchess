@@ -8,8 +8,8 @@
 #include <map>
 
 // Include project files
-#include "../field.h"
-#include "../types.h"
+#include "board/field.h"
+#include "operators.h"
 
 
 

@@ -60,6 +60,7 @@ std::vector<Field> Knight::getMoves(const std::map<Field, Piece *> &pieces, cons
 //            }
 //        }
     //    }
+    return vector<Field>();
 }
 
 std::vector<Field> Knight::getPotentialMoves()

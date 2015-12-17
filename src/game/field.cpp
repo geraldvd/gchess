@@ -7,14 +7,12 @@
 // Specify namespaces
 using namespace std;
 
-Field::Field(const string &f) :
-    move_type(NONE)
+Field::Field(const string &f)
 {
     this->set(f);
 }
 
-Field::Field(const unsigned int &x, const unsigned int &y) :
-    move_type(NONE)
+Field::Field(const unsigned int &x, const unsigned int &y)
 {
     this->setX(x);
     this->setY(y);
@@ -39,11 +37,6 @@ string Field::get() const
     stringstream ss;
     ss << xPos << yPos;
     return ss.str();
-}
-
-MoveType Field::getMoveType() const
-{
-    return this->move_type;
 }
 
 void Field::setX(const unsigned int &x)
@@ -108,11 +101,6 @@ void Field::set(const string &f)
     // Set second character
     int y = static_cast<int>(f.at(1)) - 49;
     this->setY(y);
-}
-
-void Field::setMoveType(const MoveType &mt)
-{
-    this->move_type = mt;
 }
 
 Field Field::operator+(const Field &f)

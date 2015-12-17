@@ -84,6 +84,7 @@ vector<Field> Pawn::getMoves(const std::map<Field, Piece *> &pieces, const bool 
 //            }
 //        }
     //    }
+    return vector<Field>();
 }
 
 std::vector<Field> Pawn::getPotentialMoves()

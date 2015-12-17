@@ -78,6 +78,7 @@ vector<Field> LinePiece::getMoves(const std::map<Field, Piece *> &pieces, const 
 
 //    // Check whether moves are still on board
     //    this->moves = moves;
+    return vector<Field>();
 }
 
 std::vector<Field> LinePiece::getPotentialMoves()

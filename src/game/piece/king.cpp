@@ -1,6 +1,11 @@
-#include "king.h"
+// Include standard library
 #include <algorithm>
 #include <cstdlib>
+#include <iostream>
+
+// Include project files
+#include "king.h"
+#include "../move.h"
 
 using namespace std;
 
@@ -128,7 +133,7 @@ vector<Field> King::getMoves(const std::map<Field, Piece *> &pieces, const bool 
 //                    a = p->getPosition().first;
 //                    b = this->getPosition().first;
 //                }
-//                for(int i=a+1; i<b; i++) {
+//                for(int i=a+1; i<b; i++) of{
 //                    for(auto &p2 : pieces) {
 //                        if(this->getColor() == WHITE) {
 //                            if(p2->getPosition() == Field(i,0)) {
@@ -163,29 +168,34 @@ vector<Field> King::getMoves(const std::map<Field, Piece *> &pieces, const bool 
 //            }
 //        }
 //        }
+    return vector<Field>();
 }
 
 vector<Field> King::getPotentialMoves()
 {
     // Initialize moves
-    vector<Field> moves;
+    vector<Move> moves;
 
     // List all potentially possible moves
-    moves.push_back(this->getPosition() + Field(1,0));
-    moves.push_back(this->getPosition() + Field(-1,0));
-    moves.push_back(this->getPosition() + Field(0,1));
-    moves.push_back(this->getPosition() + Field(0,-1));
-    moves.push_back(this->getPosition() + Field(1,1));
-    moves.push_back(this->getPosition() + Field(-1,-1));
-    moves.push_back(this->getPosition() + Field(-1,1));
-    moves.push_back(this->getPosition() + Field(1,-1));
+    moves.push_back(Move(1,0));
+    moves.push_back(Move(-1,0));
+    moves.push_back(Move(0,1));
+    moves.push_back(Move(0,-1));
+    moves.push_back(Move(1,1));
+    moves.push_back(Move(-1,-1));
+    moves.push_back(Move(-1,1));
+    moves.push_back(Move(1,-1));
 
     // Check whether moves are on board
-    for(vector<Field>::iterator it = moves.begin(); it != moves.end(); it++) {
-        if(!this->moveOnboard(*it)) {
-            moves.erase(it);
+    vector<Field> dest;
+
+    for(auto &m : moves) {
+        try {
+            dest.push_back(this->getPosition() + m);
+        } catch (exception &e) {
+            // don't add!
         }
     }
 
-    return moves;
+    return dest;
 }

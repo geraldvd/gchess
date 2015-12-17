@@ -3,6 +3,7 @@
 
 #include "../game/types.h"
 #include "../game/field.h"
+#include "../game/move.h"
 #include "../game/game.h"
 #include "../game/piece/piece.h"
 #include "../game/piece/linepiece.h"

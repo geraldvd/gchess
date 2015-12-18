@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../field.h"
+#include "../src/game/board/field.h"
 
 int main(int argc, char* argv[]) {
     // Test constructors

@@ -35,6 +35,9 @@ int main(int argc, char **argv) {
 #else
     qDebug() << "Running from terminal!" << endl;
 
+    Board b;
+    cout << b.getTile(64).getField().get() << endl;
+
     return 0;
 #endif
 }

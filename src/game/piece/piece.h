@@ -10,36 +10,29 @@
 // Include project files
 #include "board/field.h"
 #include "operators.h"
+#include "board/move.h"
 
-
+// Forward declarations
+class Board;
 
 class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const Field &f, const enum PieceColor &c, const bool &has_moved);
+    Piece(const enum PieceColor &c, const bool &has_moved);
     virtual ~Piece();
 
     // Getters
     enum PieceType getType() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
-    Field getPosition() const;
-    std::string getPositionString() const;
 
     // Move methods
-    virtual std::vector<Field> getMoves(const std::map<Field,Piece*> &pieces, const bool &king_check) = 0;
-    virtual std::vector<Field> getPotentialMoves() = 0;
-    bool fieldUnderAttack(const Field &f, const std::map<Field, Piece *> &pieces);
-    bool moveOnboard(const Field &m);
-    virtual bool move(const Field &m, const std::map<Field, Piece *> &pieces, const bool &king_check);
+    virtual std::vector<Move> calculateMoves(const Board * const b) = 0;
 
 protected:
     // Type of piece
     enum PieceType type;
-
-    // Position on the board (dependent on color)
-    Field position;
 
     // White or black?
     enum PieceColor color;

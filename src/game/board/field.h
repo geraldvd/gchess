@@ -6,13 +6,13 @@
 #include <string>
 
 // Include project files
-#include "types.h"
+#include "../types.h"
 
 
 class Field
 {
 public:
-    Field(const std::string & f);
+    Field(const std::string &f);
     Field(const unsigned int &x, const unsigned int &y);
 
     // Getters
@@ -29,6 +29,8 @@ private:
     // Field coordinates
     unsigned int x;
     unsigned int y;
+
+
 };
 
 #endif // FIELD_H

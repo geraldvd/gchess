@@ -8,7 +8,7 @@
 class Move
 {
 public:
-    Move(const int &x, const int &y, const enum MoveType &mt=NONE);
+    Move(const int &x, const int &y, const enum MoveType &mt=MT_NONE);
 
     // Getters
     int getX() const;

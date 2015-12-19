@@ -6,28 +6,40 @@
 #include <string>
 
 // Include project files
-#include "../types.h"
-#include "../piece/piece.h"
+#include "types.h"
+#include "piece/piece.h"
+
+// Forward declarations
+class Piece;
 
 
 class Tile
 {
 public:
     Tile(const unsigned int &k);
+    Tile(const unsigned int &x, const unsigned int &y);
+    Tile(const std::string &s);
     ~Tile();
 
     // Getters
-    Field getField() const;
+    unsigned int getPosition() const;
+    std::string getPositionString() const;
+    unsigned int getX() const;
+    unsigned int getY() const;
+    Piece* getPiece() const;
     bool isOccupied() const;
 
     // Setters
-    void setField(const unsigned int &k);
+    void setPosition(const unsigned int &k);
+    void setPositionString(const std::string &s);
+    void setX(const unsigned int &x);
+    void setY(const unsigned int &y);
     void setPiece(Piece* p);
     void clearPiece();
 
 private:
     // Field coordinates
-    int position;
+    unsigned int position;
 
     // Piece
     Piece* piece;

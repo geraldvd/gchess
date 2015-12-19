@@ -8,9 +8,8 @@
 #include <map>
 
 // Include project files
-#include "board/field.h"
 #include "operators.h"
-#include "board/move.h"
+//#include "board/board.h"
 
 // Forward declarations
 class Board;
@@ -19,18 +18,22 @@ class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const enum PieceColor &c, const bool &has_moved);
+    Piece(const unsigned int &position, const enum PieceColor &c, const bool &has_moved);
     virtual ~Piece();
 
     // Getters
+    unsigned int getPosition() const;
     enum PieceType getType() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
 
     // Move methods
-    virtual std::vector<Move> calculateMoves(const Board * const b) = 0;
+    virtual std::vector<unsigned int> calculateMoves(Board *b) = 0;
 
 protected:
+    // Position of piece
+    unsigned int position;
+
     // Type of piece
     enum PieceType type;
 

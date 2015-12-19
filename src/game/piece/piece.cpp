@@ -5,7 +5,8 @@
 
 using namespace std;
 
-Piece::Piece(const PieceColor & c, const bool &has_moved) :
+Piece::Piece(const unsigned int &position, const PieceColor & c, const bool &has_moved) :
+    position(position),
     color(c),
     has_moved(has_moved)
 {
@@ -14,6 +15,11 @@ Piece::Piece(const PieceColor & c, const bool &has_moved) :
 Piece::~Piece()
 {
 
+}
+
+unsigned int Piece::getPosition() const
+{
+    return this->position;
 }
 
 PieceType Piece::getType() const

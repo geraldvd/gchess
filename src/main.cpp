@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     qDebug() << "Running from terminal!" << endl;
 
     Board b;
-    cout << b.getTile(64).getField().get() << endl;
+    cout << b.getTile(1).getPositionString() << endl;
 
     return 0;
 #endif

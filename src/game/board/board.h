@@ -15,6 +15,11 @@ public:
 
     // Getters
     Tile getTile(const unsigned int &i) const;
+    bool isOnBoard(const unsigned int &i) const;
+
+    // Piece methods
+    void addPiece(const unsigned int &position, const enum PieceType &type, const enum PieceColor &color);
+    void removePiece(const unsigned int &position);
 
 private:
     std::vector<Tile> tiles;

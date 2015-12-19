@@ -14,6 +14,12 @@ Move::Move(const int &x, const int &y, const MoveType &mt) :
     this->setY(y);
 }
 
+Move::Move(const unsigned int &old_position, const std::pair<unsigned int, unsigned int> &move, const MoveType &mt) :
+
+{
+
+}
+
 int Move::getX() const
 {
     return this->x;
@@ -36,25 +42,10 @@ void Move::setMoveType(const MoveType &mt)
 
 void Move::setX(const int &x)
 {
-    if(x>=-7 && x<8) {
-        this->x = x;
-    } else {
-        // Invalid
-        throw invalid_argument("x must be between -7 and 8");
-    }
+    this->x = x;
 }
 
 void Move::setY(const int &y)
 {
-    if(y>=-7 && y<8) {
-        this->y = y;
-    } else {
-        // Invalid
-        throw invalid_argument("y must be between -7 and 8");
-    }
-}
-
-Field operator+(const Field &f, const Move &m)
-{
-    return Field(f.getX()+m.getX(), f.getY()+m.getY());
+    this->y = y;
 }

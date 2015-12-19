@@ -5,57 +5,52 @@
 
 // Include project files
 #include "king.h"
-#include "board/move.h"
 
 using namespace std;
 
-King::King(const Field &f, const PieceColor & c, const bool & has_moved) :
-    Piece(f, c, has_moved)
+King::King(const unsigned int &position, const PieceColor &c, const bool &has_moved) :
+    Piece(position, c, has_moved)
 {
     this->type = KING;
 }
 
-bool King::move(const Field &m, const map<Field,Piece*> &pieces, const bool &king_check)
+bool King::checkStatus(Board *b)
 {
-    vector<Field> moves = this->getMoves(pieces, king_check);
-
-    if(find(moves.begin(), moves.end(), m) != moves.end()) {
-//        // Move is in list of possible moves, check castling
-//        if(abs(m.getX()-this->position.getX()) > 1) {
-//            // Castling, check rook!
-//            for(auto &r : this->castlingRooks) {
-//                if(abs(m.first.first-r->getPosition().first) == 1 && (m.first.second-r->getPosition().second) == 0) {
-//                    // This is the rook!
-//                    r->move(m + Field((m.first.first-r->getPosition().first),0));
-//                }
-//            }
-//            this->moveType = CASTLING;
-//        } else {
-//            this->moveType = NORMAL;
+//    for(auto &p : b) {
+//        if(p.second->fieldUnderAttack(this->getPosition(), b)) {
+//            return true;
 //        }
-        this->position = m;
-        this->has_moved = true;
-        return true;
-    } else {
-        // Move is not allowed!
-        return false;
-    }
-}
-
-bool King::checkStatus(const std::map<Field, Piece *> &pieces)
-{
-    for(auto &p : pieces) {
-        if(p.second->fieldUnderAttack(this->getPosition(), pieces)) {
-            return true;
-        }
-    }
+//    }
     return false;
 }
 
-vector<Field> King::getMoves(const std::map<Field, Piece *> &pieces, const bool &king_check)
+std::vector<unsigned int> King::calculateMoves(Board *b)
 {
     // Initialize moves
-    vector<Field> moves = this->getPotentialMoves();
+    vector<unsigned int> moves;
+
+//    // List all potentially possible moves
+//    moves.push_back(Move(1,0));
+//    moves.push_back(Move(-1,0));
+//    moves.push_back(Move(0,1));
+//    moves.push_back(Move(0,-1));
+//    moves.push_back(Move(1,1));
+//    moves.push_back(Move(-1,-1));
+//    moves.push_back(Move(-1,1));
+//    moves.push_back(Move(1,-1));
+
+//    // Check whether moves are on board
+//    vector<Field> dest;
+
+//    for(auto &m : moves) {
+//        try {
+//            dest.push_back(this->getPosition() + m);
+//        } catch (exception &e) {
+//            // don't add!
+//        }
+//    }
+
+//    return dest;
 
 
 //    // Check whether moves are allowed
@@ -168,34 +163,5 @@ vector<Field> King::getMoves(const std::map<Field, Piece *> &pieces, const bool 
 //            }
 //        }
 //        }
-    return vector<Field>();
-}
-
-vector<Field> King::getPotentialMoves()
-{
-    // Initialize moves
-    vector<Move> moves;
-
-    // List all potentially possible moves
-    moves.push_back(Move(1,0));
-    moves.push_back(Move(-1,0));
-    moves.push_back(Move(0,1));
-    moves.push_back(Move(0,-1));
-    moves.push_back(Move(1,1));
-    moves.push_back(Move(-1,-1));
-    moves.push_back(Move(-1,1));
-    moves.push_back(Move(1,-1));
-
-    // Check whether moves are on board
-    vector<Field> dest;
-
-    for(auto &m : moves) {
-        try {
-            dest.push_back(this->getPosition() + m);
-        } catch (exception &e) {
-            // don't add!
-        }
-    }
-
-    return dest;
+    return moves;
 }

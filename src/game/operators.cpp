@@ -1,21 +1,31 @@
 #include "operators.h"
 
-Field operator+(const Field &f1, const Field &f2)
+Tile operator+(const Tile &t1, const Tile &t2)
 {
-    return Field(f1.getX()+f2.getX(), f1.getY()+f2.getY());
+    return Tile(t1.getPosition() + t2.getPosition());
 }
 
-bool operator==(const Field &f1, const Field &f2)
+bool operator==(const Tile &t1, const Tile &t2)
 {
-    return f1.get()==f2.get();
+    return t1.getPosition()==t2.getPosition();
 }
 
-bool operator<(const Field &f1, const Field &f2)
+bool operator<(const Tile &t1, const Tile &t2)
 {
-    return (f1.getX() + 8*f1.getY()) < (f2.getX() + 8*f2.getY());
+    return t1.getPosition() < t2.getPosition();
 }
 
-bool operator>(const Field &f1, const Field &f2)
+bool operator>(const Tile &t1, const Tile &t2)
 {
-    return (f1.getX() + 8*f1.getY()) > (f2.getX() + 8*f2.getY());
+    return t1.getPosition() > t2.getPosition();
+}
+
+Move operator+(const Move &m, const unsigned int &i)
+{
+    return Move(m.getX() + i%8, m.getY() + (i-i%8)/8);
+}
+
+Move operator+(const unsigned int &i, const Move &m)
+{
+    return m+i;
 }

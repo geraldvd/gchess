@@ -1,16 +1,16 @@
 #ifndef KNIGHT_H
 #define KNIGHT_H
 
+// Include project files
 #include "piece.h"
 
 class Knight : public Piece
 {
 public:
-    Knight(const Field &f, const enum PieceColor & c, const bool & hasMoved=false);
+    Knight(const unsigned int &position, const enum PieceColor &c, const bool &hasMoved=false);
 
 protected:
-    virtual std::vector<Field> getMoves(const std::map<Field,Piece*> &pieces, const bool &king_check);
-    virtual std::vector<Field> getPotentialMoves();
+    virtual std::vector<unsigned int> calculateMoves(Board *b);
 };
 
 #endif // KNIGHT_H

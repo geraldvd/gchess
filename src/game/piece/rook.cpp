@@ -2,9 +2,8 @@
 
 using namespace std;
 
-Rook::Rook(const Field &f, const PieceColor & c, const bool & hasMoved) :
-    LinePiece(f, c, hasMoved)
+Rook::Rook(const unsigned int &position, const PieceColor & c, const bool & hasMoved) :
+    LinePiece(position, c, hasMoved)
 {
     this->type = ROOK;
 }
-

@@ -3,12 +3,12 @@
 
 // Include project files
 #include "types.h"
-#include "field.h"
 
 class Move
 {
 public:
     Move(const int &x, const int &y, const enum MoveType &mt=MT_NONE);
+    Move(const unsigned int &old_position, const std::pair<unsigned int, unsigned int> &move, const enum MoveType &mt=MT_NONE);
 
     // Getters
     int getX() const;
@@ -26,10 +26,7 @@ private:
     enum MoveType move_type;
 
     // Move coordinates
-    int x;
-    int y;
+    unsigned int position;
 };
-
-Field operator+(const Field &f, const Move &m);
 
 #endif // MOVE_H

@@ -1,87 +1,51 @@
-#include "knight.h"
+// Include standard libraries
+#include <utility>
 
+// Include project files
+#include "knight.h"
+#include "operators.h"
+#include "board/board.h"
+
+// Specify namespaces
 using namespace std;
 
-Knight::Knight(const Field &f, const PieceColor & c, const bool &hasMoved) :
-    Piece(f, c, hasMoved)
+Knight::Knight(const unsigned int &position, const PieceColor & c, const bool &hasMoved) :
+    Piece(position, c, hasMoved)
 {
     this->type = KNIGHT;
 }
 
-std::vector<Field> Knight::getMoves(const std::map<Field, Piece *> &pieces, const bool &king_check)
-{
-//    // Initialize moves
-//    vector<Field> moves;
-//    this->moves = vector<Move>();
-
-//    // Reset check status
-//    this->otherKingCheck = false;
-
-//    // List all potentially possible moves
-//    moves.push_back(this->getPosition() + Field(2,1));
-//    moves.push_back(this->getPosition() + Field(2,-1));
-//    moves.push_back(this->getPosition() + Field(-2,1));
-//    moves.push_back(this->getPosition() + Field(-2,-1));
-//    moves.push_back(this->getPosition() + Field(1,2));
-//    moves.push_back(this->getPosition() + Field(1,-2));
-//    moves.push_back(this->getPosition() + Field(-1,2));
-//    moves.push_back(this->getPosition() + Field(-1,-2));
-
-//    // Check whether moves are allowed
-//    for(auto &m : moves) {
-//        if(this->moveOnboard(m)) {
-//            bool toAdd{true};
-//            for(auto &p : pieces) {
-//                if(m == p->getPosition()) {
-//                    if(p->getColor() == this->getColor()) {
-//                        // Same color: don't add
-//                        toAdd = false;
-//                        break; // Stop looping through pieces
-//                    } else {
-//                        // Opponent check move
-//                        if(p->getType() != KING) {
-//                            // Piece can be taken!
-//                            this->moves.push_back(Move(m, NORMAL));
-//                            toAdd = false;
-//                            break; // Stop looping through pieces
-//                        } else {
-//                            // King check!
-//                            toAdd = false;
-//                            //this->moves.push_back(Move(m, CHECK));
-//                            this->otherKingCheck = true;
-//                            break; // Stop looping through pieces
-//                        }
-//                    }
-//                }
-//            }
-//            // Place is free, move!
-//            if(toAdd) {
-//                this->moves.push_back(Move(m, NORMAL));
-//            }
-//        }
-    //    }
-    return vector<Field>();
-}
-
-std::vector<Field> Knight::getPotentialMoves()
+std::vector<unsigned int> Knight::calculateMoves(Board *b)
 {
     // Initialize moves
-    vector<Field> moves;
+    vector<unsigned int> moves;
+
 
     // List all potentially possible moves
-    moves.push_back(this->getPosition() + Field(2,1));
-    moves.push_back(this->getPosition() + Field(2,-1));
-    moves.push_back(this->getPosition() + Field(-2,1));
-    moves.push_back(this->getPosition() + Field(-2,-1));
-    moves.push_back(this->getPosition() + Field(1,2));
-    moves.push_back(this->getPosition() + Field(1,-2));
-    moves.push_back(this->getPosition() + Field(-1,2));
-    moves.push_back(this->getPosition() + Field(-1,-2));
+    vector<pair<unsigned int, unsigned int> > displacements = {
+        pair<unsigned int, unsigned int>(2,1),
+        pair<unsigned int, unsigned int>(2,-1),
+        pair<unsigned int, unsigned int>(-2,1),
+        pair<unsigned int, unsigned int>(-2,-1),
+        pair<unsigned int, unsigned int>(1,2),
+        pair<unsigned int, unsigned int>(1,-2),
+        pair<unsigned int, unsigned int>(-1,2),
+        pair<unsigned int, unsigned int>(-1,-2)
+    };
 
-    // Check whether moves are on board
-    for(vector<Field>::iterator it = moves.begin(); it != moves.end(); it++) {
-        if(!this->moveOnboard(*it)) {
-            moves.erase(it);
+    // Check whether moves are allowed
+    for(auto &d : displacements) {
+        unsigned int m = this->getPosition() + d.first + 8*d.second;
+        if(b->isOnBoard(m)) {
+            if(b->getTile(m).isOccupied()) {
+                if(this->getColor() != b->getTile(m).getPiece()->getColor() /* TODO && isKing() */) {
+                    // Opponent piece; can be taken!
+                    moves.push_back(m);
+                }
+            } else {
+                // Free place, move allowed
+                moves.push_back(m);
+            }
         }
     }
 

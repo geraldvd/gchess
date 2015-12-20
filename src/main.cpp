@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    for(Piece *p : g.getBoard()->getPieces()) {
+    for(auto &p : g.getBoard()->getPieces()) {
         cout << p->getColorString() << ": " << p->getTypeString() << endl;
     }
 

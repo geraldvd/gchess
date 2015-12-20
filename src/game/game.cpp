@@ -85,13 +85,12 @@ enum MoveType Game::move(const unsigned int &from, const unsigned int &to)
     if(find(this->getPositionsPossibleMoves(from).begin(), this->getPositionsPossibleMoves(from).end(), to)
             != this->getPositionsPossibleMoves(from).end()) {
         // Move possible! TODO work with moves, for status (castling etc.)
-        Piece* p = this->getBoard()->getTile(from)->getPiece();
+        this->getBoard()->getTile(to)->setPiece(this->getBoard()->getTile(from)->getPiece());
         this->getBoard()->getTile(from)->clearPiece();
-        this->getBoard()->getTile(to)->setPiece(p);
 
         // Update game
         this->activePlayer = this->activePlayer==WHITE ? BLACK : WHITE;
-        //this->updateAllMoves();
+        this->updateAllMoves();
         return MT_NORMAL;
     }
 

@@ -23,20 +23,20 @@ std::vector<Move> Knight::calculateMoves(Board *b)
 
 
     // List all potentially possible moves
-    vector<pair<unsigned int, unsigned int> > displacements = {
-        pair<unsigned int, unsigned int>(2,1),
-        pair<unsigned int, unsigned int>(2,-1),
-        pair<unsigned int, unsigned int>(-2,1),
-        pair<unsigned int, unsigned int>(-2,-1),
-        pair<unsigned int, unsigned int>(1,2),
-        pair<unsigned int, unsigned int>(1,-2),
-        pair<unsigned int, unsigned int>(-1,2),
-        pair<unsigned int, unsigned int>(-1,-2)
+    vector<pair<int, int> > displacements = {
+        pair<int, int>(2,1),
+        pair<int, int>(2,-1),
+        pair<int, int>(-2,1),
+        pair<int, int>(-2,-1),
+        pair<int, int>(1,2),
+        pair<int, int>(1,-2),
+        pair<int, int>(-1,2),
+        pair<int, int>(-1,-2)
     };
 
     // Check whether moves are allowed
     for(auto &d : displacements) {
-        unsigned int m = this->getPosition() + d.first + 8*d.second;
+        int m = this->getPosition() + d.first + 8*d.second;
         if(b->isOnBoard(m)) {
             if(b->getTile(m)->isOccupied()) {
                 if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {

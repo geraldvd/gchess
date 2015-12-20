@@ -63,7 +63,7 @@ void ChessGame::newGame()
     this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
     // Add pieces
-    for(Piece* p : this->game.getBoard()->getPieces()) {
+    for(auto p : this->game.getBoard()->getPieces()) {
         this->chessboard->addPiece(p->getPosition(), p->getColor(), p->getType());
     }
 }

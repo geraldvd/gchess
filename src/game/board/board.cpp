@@ -1,5 +1,6 @@
 // Include standard libraries
 #include <stdexcept>
+#include <memory>
 
 // Include project files
 #include "board.h"
@@ -36,9 +37,9 @@ std::vector<Tile*> Board::getTiles()
     return tiles;
 }
 
-std::vector<Piece *> Board::getPieces()
+std::vector<Piece_ptr> Board::getPieces()
 {
-    vector<Piece*> pieces;
+    vector<Piece_ptr> pieces;
     for(Tile* t : this->getTiles()) {
         if(t->isOccupied()) {
             pieces.push_back(t->getPiece());
@@ -47,9 +48,9 @@ std::vector<Piece *> Board::getPieces()
     return pieces;
 }
 
-bool Board::isOnBoard(const unsigned int &i) const
+bool Board::isOnBoard(const int &i) const
 {
-    if(i>=0 && i<Board::NUM_TILES) {
+    if(i>=0 && i<int(Board::NUM_TILES)) {
         return true;
     }
     return false;
@@ -58,30 +59,29 @@ bool Board::isOnBoard(const unsigned int &i) const
 void Board::addPiece(const unsigned int &position, const PieceType &type, const PieceColor &color)
 {
     // Create piece
-    Piece* p{NULL};
+    Piece_ptr p;
     switch(type) {
     case KING:
-        p = new King(position, color);
+        p.reset(new King(position, color));
         break;
     case QUEEN:
-        p = new Queen(position, color);
+        p.reset(new Queen(position, color));
         break;
     case ROOK:
-        p = new Rook(position, color);
+        p.reset(new Rook(position, color));
         break;
     case BISHOP:
-        p = new Bishop(position, color);
+        p.reset(new Bishop(position, color));
         break;
     case KNIGHT:
-        p = new Knight(position, color);
+        p.reset(new Knight(position, color));
         break;
     case PAWN:
-        p = new Pawn(position, color);
+        p.reset(new Pawn(position, color));
         break;
     default:
         throw invalid_argument("Type not recognized.");
     }
-
 
     this->getTile(position)->setPiece(p);
 }

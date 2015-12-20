@@ -4,6 +4,7 @@
 // Include standard libraries
 #include <utility>
 #include <string>
+#include <memory>
 
 // Include project files
 #include "types.h"
@@ -26,7 +27,7 @@ public:
     std::string getPositionString() const;
     unsigned int getX() const;
     unsigned int getY() const;
-    Piece* getPiece() const;
+    Piece_ptr getPiece() const;
     bool isOccupied() const;
 
     // Setters
@@ -34,7 +35,7 @@ public:
     void setPositionString(const std::string &s);
     void setX(const unsigned int &x);
     void setY(const unsigned int &y);
-    void setPiece(Piece* p);
+    void setPiece(Piece_ptr p);
     void clearPiece();
 
 private:
@@ -42,7 +43,7 @@ private:
     unsigned int position;
 
     // Piece
-    Piece* piece;
+    Piece_ptr piece;
 };
 
 #endif // TILE_H

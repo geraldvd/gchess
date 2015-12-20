@@ -83,14 +83,14 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
     // Check En Passant
     if(b->isOnBoard(this->getPosition() + 1) && b->getTile(this->getPosition() + 1)->isOccupied() &&
             this->getColor() != b->getTile(this->getPosition() + 1)->getPiece()->getColor() && b->getTile(this->getPosition() + 1)->getPiece()->getType() == PAWN) {
-        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() + 1)->getPiece());
+        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() + 1)->getPiece().get());
         if(p->getJustMovedDouble()) {
             moves.push_back(Move(this->getPosition() + 1, MT_ENPASSANT));
         }
     }
     if(b->isOnBoard(this->getPosition() - 1) && b->getTile(this->getPosition() - 1)->isOccupied() &&
             this->getColor() != b->getTile(this->getPosition() - 1)->getPiece()->getColor() && b->getTile(this->getPosition() - 1)->getPiece()->getType() == PAWN) {
-        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() - 1)->getPiece());
+        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() - 1)->getPiece().get());
         if(p->getJustMovedDouble()) {
             moves.push_back(Move(this->getPosition() - 1, MT_ENPASSANT));
         }

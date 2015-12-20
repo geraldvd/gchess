@@ -17,8 +17,8 @@ public:
     // Getters
     Tile* getTile(const unsigned int &i);
     std::vector<Tile *> getTiles();
-    std::vector<Piece*> getPieces();
-    bool isOnBoard(const unsigned int &i) const;
+    std::vector<Piece_ptr> getPieces();
+    bool isOnBoard(const int &i) const;
 
     // Piece methods
     void addPiece(const unsigned int &position, const enum PieceType &type, const enum PieceColor &color);

@@ -8,8 +8,7 @@
 using namespace std;
 
 
-Tile::Tile(const unsigned int &k) :
-    piece(NULL)
+Tile::Tile(const unsigned int &k)
 {
     this->setPosition(k);
 }
@@ -19,15 +18,13 @@ Tile::Tile(const unsigned int &x, const unsigned int &y) :
 {
 }
 
-Tile::Tile(const string &s) :
-    piece(NULL)
+Tile::Tile(const string &s)
 {
     this->setPositionString(s);
 }
 
 Tile::~Tile()
 {
-        this->clearPiece();
 }
 
 unsigned int Tile::getPosition() const
@@ -56,7 +53,7 @@ unsigned int Tile::getY() const
     return (this->position - this->getX()) / 8;
 }
 
-Piece *Tile::getPiece() const
+Piece_ptr Tile::getPiece() const
 {
     return this->piece;
 }
@@ -139,17 +136,14 @@ void Tile::setY(const unsigned int &y)
     this->setPosition(x + 8*y);
 }
 
-void Tile::setPiece(Piece *p)
+void Tile::setPiece(Piece_ptr p)
 {
-    this->clearPiece();
     this->piece = p;
 }
 
 void Tile::clearPiece()
 {
     if(this->piece != NULL) {
-        // TODO shared ptr (now: this will clear memory, when a copy is made to other pointer)
-        delete this->piece;
         this->piece = NULL;
     }
 }

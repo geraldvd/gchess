@@ -16,13 +16,19 @@ public:
     explicit PromotionDialog(const enum PieceColor & c, QWidget *parent = 0);
     ~PromotionDialog();
 
-    enum MoveType getPromotionType() const;
+    enum PromotionType getPromotionType() const;
+    enum PieceColor getPieceColor() const;
+    enum PieceType getPieceType() const;
 
 private:
     Ui::PromotionDialog *ui;
 
     // Promotion type
-    enum MoveType promotionType;
+    enum PromotionType promotionType;
+
+    // Extra information
+    enum PieceColor pieceColor;
+    enum PieceType pieceType;
 
 
 public slots:

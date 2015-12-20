@@ -105,6 +105,11 @@ void Board::addPiece(const unsigned int &position, const PieceType &type, const 
     this->getTile(position)->setPiece(p);
 }
 
+void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color)
+{
+    this->addPiece(x + 8*y, type, color);
+}
+
 void Board::removePiece(const unsigned int &position)
 {
     this->getTile(position)->clearPiece();

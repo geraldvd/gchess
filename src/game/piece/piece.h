@@ -27,9 +27,11 @@ public:
     std::string getTypeString() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
+    bool hasMoved() const;
 
     // Setters
     void setTile(Tile* tile);
+    void setMoved();
 
     // Move methods
     virtual std::vector<Move> calculateMoves(Board *b) = 0;

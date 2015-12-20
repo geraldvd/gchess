@@ -62,6 +62,33 @@ std::vector<Move> King::calculateMoves(Board *b)
         }
     }
 
+    // Check castling
+    if(!this->has_moved && this->getTile()->getX() == 4) {
+        if((this->getColor() == WHITE && this->getTile()->getY() == 0) ||
+                (this->getColor() == BLACK && this->getTile()->getY() == 7)) {
+            // Check rooks to the right
+            if(!b->getTile(this->getTile()->getX()+1, this->getTile()->getY())->isOccupied() &&     // Field next to king must be empty
+                    !b->getTile(this->getTile()->getX()+2, this->getTile()->getY())->isOccupied() && // Field next to rook must be empty
+                    b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->isOccupied() && // Is there a piece in the corner?
+                    b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->getType() == ROOK && // Is the piece a rook?
+                    b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
+                    !b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
+                moves.push_back(Move(this->getTile()->getX()+2, this->getTile()->getY(), MT_CASTLING));
+            }
+
+            // Check rooks to the left
+            if(!b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->isOccupied() &&     // Field next to king must be empty
+                    !b->getTile(this->getTile()->getX()-2, this->getTile()->getY())->isOccupied() && // Middle field must be empty
+                    !b->getTile(this->getTile()->getX()-3, this->getTile()->getY())->isOccupied() && // Field next to rook must be empty
+                    b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->isOccupied() && // Is there a piece in the corner?
+                    b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getType() == ROOK && // Is the piece a rook?
+                    b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
+                    !b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
+                moves.push_back(Move(this->getTile()->getX()-3, this->getTile()->getY(), MT_CASTLING));
+            }
+        }
+    }
+
     return moves;
 
 // TODO castling

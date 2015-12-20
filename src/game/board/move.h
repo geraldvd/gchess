@@ -7,8 +7,8 @@
 class Move
 {
 public:
-    Move(const int &x, const int &y, const enum MoveType &mt=MT_NONE);
-    Move(const unsigned int &m, const enum MoveType &mt=MT_NONE);
+    Move(const int &x, const int &y, const enum MoveType &mt=MT_NORMAL);
+    Move(const unsigned int &m, const enum MoveType &mt=MT_NORMAL);
 
     // Getters
     unsigned int get() const;

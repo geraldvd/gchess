@@ -1,8 +1,10 @@
-#include "tile.h"
-
 // Include standard libraries
 #include <stdexcept>
 #include <sstream>
+
+// Include project files
+#include "tile.h"
+#include "board/board.h"
 
 // Specify namespaces
 using namespace std;
@@ -153,4 +155,19 @@ void Tile::clearPiece()
     if(this->piece != NULL) {
         this->piece = NULL;
     }
+}
+
+bool Tile::tileUnderAttack(Board *b)
+{
+    for(auto &p : b->getPieces()) {
+        // Check whether field is empty OR has opposing color
+        if((this->isOccupied() && this->getPiece()->getColor() != p->getColor()) || !this->isOccupied()) {
+            for(auto &m : p->calculateMoves(b)) {
+                if(m.get() == this->getPosition()) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

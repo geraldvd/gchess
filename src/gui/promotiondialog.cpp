@@ -17,7 +17,9 @@ using namespace std;
 PromotionDialog::PromotionDialog(const enum PieceColor &c, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PromotionDialog),
-    promotionType(MT_PROMOTION_QUEEN)
+    promotionType(PT_QUEEN),
+    pieceColor(c),
+    pieceType(QUEEN)
 {
     this->ui->setupUi(this);
 
@@ -74,6 +76,9 @@ PromotionDialog::PromotionDialog(const enum PieceColor &c, QWidget *parent) :
 
     // Signals and slots
     connect(this->ui->buttonQueen, SIGNAL(clicked()), this, SLOT(slotQueen()));
+    connect(this->ui->buttonRook, SIGNAL(clicked()), this, SLOT(slotRook()));
+    connect(this->ui->buttonBishop, SIGNAL(clicked()), this, SLOT(slotBishop()));
+    connect(this->ui->buttonKnight, SIGNAL(clicked()), this, SLOT(slotKnight()));
 
 }
 
@@ -82,31 +87,45 @@ PromotionDialog::~PromotionDialog()
     delete this->ui;
 }
 
-MoveType PromotionDialog::getPromotionType() const
+PromotionType PromotionDialog::getPromotionType() const
 {
     return this->promotionType;
 }
 
+PieceColor PromotionDialog::getPieceColor() const
+{
+    return this->pieceColor;
+}
+
+PieceType PromotionDialog::getPieceType() const
+{
+    return this->pieceType;
+}
+
 void PromotionDialog::slotQueen()
 {
-    this->promotionType = MT_PROMOTION_QUEEN;
+    this->promotionType = PT_QUEEN;
+    this->pieceType = QUEEN;
     this->accept();
 }
 
 void PromotionDialog::slotRook()
 {
-    this->promotionType = MT_PROMOTION_ROOK;
+    this->promotionType = PT_ROOK;
+    this->pieceType = ROOK;
     this->accept();
 }
 
 void PromotionDialog::slotKnight()
 {
-    this->promotionType = MT_PROMOTION_KNIGHT;
+    this->promotionType = PT_KNIGHT;
+    this->pieceType = KNIGHT;
     this->accept();
 }
 
 void PromotionDialog::slotBishop()
 {
-    this->promotionType = MT_PROMOTION_BISHOP;
+    this->promotionType = PT_BISHOP;
+    this->pieceType = BISHOP;
     this->accept();
 }

@@ -1,4 +1,5 @@
 #include "chessgame.h"
+#include "promotiondialog.h"
 
 #include <QDebug>
 
@@ -107,6 +108,32 @@ void ChessGame::slotMovePiece()
         enum MoveType m = this->game.getMoveType(from, to->getPosition());
 
         switch(m) {
+        case MT_PROMOTION:
+            {
+                PromotionDialog pd(this->game.getBoard()->getTile(from)->getPiece()->getColor());
+                if(pd.exec()) {
+                    this->game.move(from, to->getPosition(), pd.getPromotionType());
+                    this->chessboard->removePiece(from);
+                    this->chessboard->addPiece(to->getPosition(), pd.getPieceColor(), pd.getPieceType());
+                } else {
+                    // Assume queen
+                    this->game.move(from, to->getPosition(), PT_QUEEN);
+                    this->chessboard->removePiece(from);
+                    this->chessboard->addPiece(to->getPosition(), pd.getPieceColor(), QUEEN);
+                }
+            }
+            break;
+        case MT_CASTLING:
+            // Move king
+            this->game.move(from, to->getPosition());
+            this->chessboard->movePiece(from, to->getPosition());
+            // Move rook
+            if(this->game.getBoard()->getTile(to->getPosition())->getX() == 1) {
+                this->chessboard->movePiece(to->getPosition()-1, to->getPosition()+1);
+            } else {
+                this->chessboard->movePiece(to->getPosition()+1, to->getPosition()-1);
+            }
+            break;
         case MT_ENPASSANT:
             this->game.move(from, to->getPosition());
             if(this->game.getBoard()->getTile(to->getPosition())->getPiece()->getColor() == WHITE) {
@@ -119,6 +146,9 @@ void ChessGame::slotMovePiece()
             this->game.move(from, to->getPosition());
             this->chessboard->movePiece(from, to->getPosition());
             break;
+        case MT_INVALID:
+            // Do nothing
+            return;
         }
 
         // Unhighlight all fields
@@ -131,91 +161,14 @@ void ChessGame::slotMovePiece()
         // Set new active player
         this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
-//        // TODO: Normal discards possible promotions!
-//        if(this->game.move(this->pieces[this->activeField->getPosition()], Move(to->getPosition(), NORMAL))) {
-//            // Check castling
-//            if(this->pieces[from]->getMoveType() == CASTLING) {
-//                Piece* r;
-//                int xStep = 0;
-//                if(this->pieces.find(Field(to->getPosition().first+1, to->getPosition().second)) != this->pieces.end()) {
-//                    r = this->pieces[Field(to->getPosition().first+1, to->getPosition().second)];
-//                    xStep = -2;
-//                } else if(this->pieces.find(Field(to->getPosition().first-1, to->getPosition().second)) != this->pieces.end()) {
-//                    r = this->pieces[Field(to->getPosition().first-1, to->getPosition().second)];
-//                    xStep = 2;
-//                } else {
-//                    // This should never happen!
-//                    qDebug() << "This message should never be seen!!" << endl;
-//                    r = NULL;
-//                }
 
-//                Field from = Field(r->getPosition().first-xStep, r->getPosition().second);
-//                this->chessboard->movePiece(from, r->getPosition());
-
-//                // Update piece position (in this class)
-//                this->pieces[r->getPosition()] = this->pieces[from];
-//                this->pieces.erase(from);
-//            }
-
-//            // Check promotion - TODO should be handled by game class!
-//            if(this->pieces[from]->getMoveType() == PROMOTION_QUEEN || this->pieces[from]->getMoveType() == PROMOTION_ROOK ||
-//                    this->pieces[from]->getMoveType() == PROMOTION_KNIGHT || this->pieces[from]->getMoveType() == PROMOTION_BISHOP) {
-//                PromotionDialog pd(this->pieces[from]->getColor());
-//                if(pd.exec()) {
-//                    Piece* p = this->pieces[from];
-//                    Piece* p2;
-//                    switch(pd.getPromotionType()) {
-//                    case PROMOTION_ROOK:
-//                        p2 = new Rook(p->getPosition().first, p->getPosition().second, p->getColor(), true);
-//                        break;
-//                    case PROMOTION_KNIGHT:
-//                        p2 = new Knight(p->getPosition().first, p->getPosition().second, p->getColor(), true);
-//                        break;
-//                    case PROMOTION_BISHOP:
-//                        p2 = new Bishop(p->getPosition().first, p->getPosition().second, p->getColor(), true);
-//                        break;
-//                    default:
-//                        p2 = new Queen(p->getPosition().first, p->getPosition().second, p->getColor(), true);
-//                        break;
-//                    }
-//                    this->pieces[from] = p2;
-//                    delete p;
-//                }
-//            }
-
-//            // Move piece on board
-//            this->chessboard->movePiece(this->activeField->getPosition(), to->getPosition());
-
-//            // Update piece positions (in this class)
-//            this->pieces[to->getPosition()] = this->pieces[from];
-//            this->pieces.erase(from);
-
-//            // Unhighlight all fields
-//            this->activeField = NULL;
-//            this->chessboard->clearHighlights();
-
-//            // Unhighlight check position
-//            this->chessboard->unCheckField();
-
-//            // Highlight if king is in check position
-//            if(this->game.getPlayerCheck()) {
-//                if(this->game.getPlayerCheck() == WHITE) {
-//                    // White king in check position
-//                    for(auto &p : this->pieces) {
-//                        if(p.second->getType() == KING && p.second->getColor() == WHITE) {
-//                            this->chessboard->checkField(p.second->getPosition());
-//                        }
-//                    }
-//                } else {
-//                    // Black king in check position
-//                    for(auto &p : this->pieces) {
-//                        if(p.second->getType() == KING && p.second->getColor() == BLACK) {
-//                            this->chessboard->checkField(p.second->getPosition());
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
+        for(auto &p : this->game.getBoard()->getPieces()) {
+            if(p->getType() == KING && p->getTile()->tileUnderAttack(this->game.getBoard())) {
+                this->chessboard->checkField(p->getTile()->getPosition());
+                break;
+            }
+        }
     }
 }
 

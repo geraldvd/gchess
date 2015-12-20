@@ -68,7 +68,17 @@ string Piece::getColorString() const
     }
 }
 
+bool Piece::hasMoved() const
+{
+    return this->has_moved;
+}
+
 void Piece::setTile(Tile *tile)
 {
     this->tile = tile;
+}
+
+void Piece::setMoved()
+{
+    this->has_moved = true;
 }

@@ -12,6 +12,7 @@
 
 // Forward declarations
 class Piece;
+class Board;
 
 
 class Tile
@@ -38,6 +39,8 @@ public:
     void setY(const unsigned int &y);
     void setPiece(Piece_ptr p);
     void clearPiece();
+
+    bool tileUnderAttack(Board* b);
 
 private:
     // Field coordinates

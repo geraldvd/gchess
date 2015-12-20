@@ -15,7 +15,11 @@ class Game
 public:
     Game(const enum PieceColor &active_player=WHITE);
 
-    void newGame();
+    // Initializers
+    void newGame(const int &game_type=2);
+    void promotionTest();
+    void castlingTest();
+    void normalGame();
 
     // Getters
     Board* getBoard();
@@ -26,7 +30,7 @@ public:
 
     // Move functions
     void updateAllMoves();
-    enum MoveType move(const unsigned int &from, const unsigned int &to);
+    enum MoveType move(const unsigned int &from, const unsigned int &to, const enum PromotionType &pt=PT_NONE);
     enum MoveType getMoveType(const unsigned int &from, const unsigned int &to);
 
 private:

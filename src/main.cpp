@@ -36,25 +36,6 @@ int main(int argc, char **argv) {
 #else
     qDebug() << "Running from terminal!" << endl;
 
-    // Test
-    Game g;
-
-    cout << g.getActivePlayerString() << endl;
-    g.newGame();
-
-    for(Tile *t : g.getBoard()->getTiles()) {
-        cout << t->getPositionString() << " is ";
-        if(t->isOccupied()) {
-            cout << "occupied!\n";
-        } else {
-            cout << "NOT occupied!\n";
-        }
-    }
-
-    for(auto &p : g.getBoard()->getPieces()) {
-        cout << p->getColorString() << ": " << p->getTypeString() << endl;
-    }
-
     return 0;
 #endif
 }

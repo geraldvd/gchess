@@ -39,11 +39,8 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
     }
     if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
         // Check promotion
-        if((this->getColor()==WHITE && m<8) || (this->getColor()==BLACK && m>55)) {
-            moves.push_back(Move(m, MT_PROMOTION_QUEEN));
-            moves.push_back(Move(m, MT_PROMOTION_ROOK));
-            moves.push_back(Move(m, MT_PROMOTION_BISHOP));
-            moves.push_back(Move(m, MT_PROMOTION_KNIGHT));
+        if((this->getColor()==WHITE && m>55) || (this->getColor()==BLACK && m<8)) {
+            moves.push_back(Move(m, MT_PROMOTION));
         } else {
             moves.push_back(Move(m, MT_NORMAL));
         }

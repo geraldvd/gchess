@@ -24,6 +24,7 @@ public:
 
     // Piece methods
     void addPiece(const unsigned int &position, const enum PieceType &type, const enum PieceColor &color);
+    void addPiece(const unsigned int &x, const unsigned int &y, const enum PieceType &type, const enum PieceColor &color);
     void removePiece(const unsigned int &position);
 
 private:

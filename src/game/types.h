@@ -8,9 +8,6 @@
 // Forward declarations
 class Piece;
 
-// Field position type
-typedef std::pair<unsigned int, unsigned int> Field;
-
 // Piece type
 enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
 
@@ -21,7 +18,7 @@ enum PieceColor {WHITE=1, BLACK=-1};
 enum BoardStatus {BS_NORMAL, BS_CHECKWHITE, BS_CHECKBLACK, BS_CHECKMATEWHITE, BS_CHECKMATEBLACK};
 
 // Move type
-enum MoveType {MT_NONE=0, MT_INVALID, MT_NORMAL, MT_CASTLING, MT_ENPASSANT, MT_PROMOTION_QUEEN, MT_PROMOTION_ROOK, MT_PROMOTION_KNIGHT, MT_PROMOTION_BISHOP};
+enum MoveType {MT_NONE=0, MT_INVALID, MT_NORMAL, MT_PAWNJUMP, MT_CASTLING, MT_ENPASSANT, MT_PROMOTION_QUEEN, MT_PROMOTION_ROOK, MT_PROMOTION_KNIGHT, MT_PROMOTION_BISHOP};
 
 // Shared pointer to piece
 typedef std::shared_ptr<Piece> Piece_ptr;

@@ -8,8 +8,8 @@
 // Specify namespaces
 using namespace std;
 
-LinePiece::LinePiece(const unsigned int &position, const PieceColor & c, const bool & hasMoved) :
-    Piece(position, c, hasMoved)
+LinePiece::LinePiece(const PieceColor & c, const bool & hasMoved, Tile *parent) :
+    Piece(c, hasMoved, parent)
 {
 }
 
@@ -40,22 +40,24 @@ std::vector<Move> LinePiece::calculateMoves(Board *b)
     // Check whether moves are allowed
     for(auto &d : directions) {
         unsigned int factor = 1;
-        unsigned int m = this->getPosition() + factor*(d.first + 8*d.second);
-        while(b->isOnBoard(m)) {
-            if(b->getTile(m)->isOccupied()) {
-                if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
+        int mx = this->getTile()->getX() + factor*d.first;
+        int my = this->getTile()->getY() + factor*d.second;
+        while(b->isOnBoard(mx, my)) {
+            if(b->getTile(mx, my)->isOccupied()) {
+                if(this->getColor() != b->getTile(mx, my)->getPiece()->getColor() /* TODO && isKing() */) {
                     // Opponent piece; can be taken!
-                    moves.push_back(Move(m, MT_NORMAL));
+                    moves.push_back(Move(mx, my, MT_NORMAL));
                 }
                 // Rest of direction vector is blocked
                 break;
             } else {
                 // Free place, move allowed
-                moves.push_back(Move(m, MT_NORMAL));
+                moves.push_back(Move(mx, my, MT_NORMAL));
             }
 
             // Next location on direction vector
-            m = this->getPosition() + (++factor)*(d.first + 8*d.second);
+            mx = this->getTile()->getX() + (++factor)*d.first;
+            my = this->getTile()->getY() + factor*d.second;
         }
     }
 

@@ -3,6 +3,7 @@
 
 // Include project files
 #include "game.h"
+#include "piece/pawn.h"
 
 // Specify namespaces
 using namespace std;
@@ -82,18 +83,55 @@ void Game::updateAllMoves()
 
 enum MoveType Game::move(const unsigned int &from, const unsigned int &to)
 {
-    if(find(this->getPositionsPossibleMoves(from).begin(), this->getPositionsPossibleMoves(from).end(), to)
-            != this->getPositionsPossibleMoves(from).end()) {
-        // Move possible! TODO work with moves, for status (castling etc.)
-        this->getBoard()->getTile(to)->setPiece(this->getBoard()->getTile(from)->getPiece());
-        this->getBoard()->getTile(from)->clearPiece();
+    for(auto &m : this->getMoves(from)) {
+        if(m.get() == to) {
+            // Move possible
 
-        // Update game
-        this->activePlayer = this->activePlayer==WHITE ? BLACK : WHITE;
-        this->updateAllMoves();
-        return MT_NORMAL;
+            // Check pawn double moves
+            if(this->getBoard()->getTile(from)->getPiece()->getType() == PAWN) {
+                Pawn* p = static_cast<Pawn*>(this->getBoard()->getTile(from)->getPiece().get());
+                if(m.getMoveType() == MT_PAWNJUMP) {
+                    p->setJustMovedDouble(true);
+                } else {
+                    p->setJustMovedDouble(false);
+                }
+            }
+
+
+            // Perform move
+            switch(m.getMoveType()) {
+            case MT_ENPASSANT:
+                // Capture opponent pawn
+                if(this->getBoard()->getTile(from)->getPiece()->getColor() == WHITE) {
+                    this->getBoard()->getTile(to-8)->clearPiece();
+                } else {
+                    this->getBoard()->getTile(to+8)->clearPiece();
+                }
+            default:
+                this->getBoard()->getTile(to)->setPiece(this->getBoard()->getTile(from)->getPiece());
+                this->getBoard()->getTile(from)->clearPiece();
+                break;
+            }
+
+
+
+            // Update game
+            this->activePlayer = this->activePlayer==WHITE ? BLACK : WHITE;
+            this->updateAllMoves();
+            return m.getMoveType();
+        }
     }
 
+    return MT_NONE;
+}
+
+MoveType Game::getMoveType(const unsigned int &from, const unsigned int &to)
+{
+    for(auto &m : this->getMoves(from)) {
+        if(m.get() == to) {
+            return m.getMoveType();
+        }
+    }
     return MT_NONE;
 }
 

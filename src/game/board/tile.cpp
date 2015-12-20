@@ -13,9 +13,9 @@ Tile::Tile(const unsigned int &k)
     this->setPosition(k);
 }
 
-Tile::Tile(const unsigned int &x, const unsigned int &y) :
-    Tile(x+8*y)
+Tile::Tile(const unsigned int &x, const unsigned int &y)
 {
+    this->setPosition(x, y);
 }
 
 Tile::Tile(const string &s)
@@ -29,7 +29,8 @@ Tile::~Tile()
 
 unsigned int Tile::getPosition() const
 {
-    return this->position;
+    //return this->x + 8*(7 - this->y);
+    return this->x + 8*this->y;
 }
 
 string Tile::getPositionString() const
@@ -45,12 +46,12 @@ string Tile::getPositionString() const
 
 unsigned int Tile::getX() const
 {
-    return this->position % 8;
+    return this->x;
 }
 
 unsigned int Tile::getY() const
 {
-    return (this->position - this->getX()) / 8;
+    return this->y;
 }
 
 Piece_ptr Tile::getPiece() const
@@ -70,10 +71,17 @@ bool Tile::isOccupied() const
 void Tile::setPosition(const unsigned int &k)
 {
     if(k>=0 || k<64) {
-        this->position = k;
+        this->setX(k%8);
+        this->setY((k-k%8)/8);
     } else {
         throw invalid_argument("k must be between 0 and 63.");
     }
+}
+
+void Tile::setPosition(const unsigned int &x, const unsigned int &y)
+{
+    this->setX(x);
+    this->setY(y);
 }
 
 void Tile::setPositionString(const string &s)
@@ -122,23 +130,22 @@ void Tile::setPositionString(const string &s)
 
 void Tile::setX(const unsigned int &x)
 {
-    // Substitute old x value
-    unsigned int old_x = this->getX();
-    this->position += (x - old_x);
-
-    // Check new position (set position contains exception handling)
-    this->setPosition(this->getPosition());
+    if(x>=0 && x<8) {
+        this->x = x;
+    }
 }
 
 void Tile::setY(const unsigned int &y)
 {
-    unsigned int x = this->getX();
-    this->setPosition(x + 8*y);
+    if(y>=0 && y<8) {
+        this->y = y;
+    }
 }
 
 void Tile::setPiece(Piece_ptr p)
 {
     this->piece = p;
+    p->setTile(this);
 }
 
 void Tile::clearPiece()

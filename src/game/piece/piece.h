@@ -9,31 +9,34 @@
 
 // Include project files
 #include "operators.h"
-//#include "board/board.h"
 
 // Forward declarations
 class Board;
+class Tile;
 
 class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const unsigned int &position, const enum PieceColor &c, const bool &has_moved);
+    Piece(const enum PieceColor &c, const bool &has_moved, Tile *parent=NULL);
     virtual ~Piece();
 
     // Getters
-    unsigned int getPosition() const;
+    Tile* getTile();
     enum PieceType getType() const;
     std::string getTypeString() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
+
+    // Setters
+    void setTile(Tile* tile);
 
     // Move methods
     virtual std::vector<Move> calculateMoves(Board *b) = 0;
 
 protected:
     // Position of piece
-    unsigned int position;
+    Tile* tile;
 
     // Type of piece
     enum PieceType type;

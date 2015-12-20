@@ -8,21 +8,12 @@
 
 using namespace std;
 
-King::King(const unsigned int &position, const PieceColor &c, const bool &has_moved) :
-    Piece(position, c, has_moved)
+King::King(const PieceColor &c, const bool &has_moved, Tile *parent) :
+    Piece(c, has_moved, parent)
 {
     this->type = KING;
 }
 
-bool King::checkStatus(Board *b)
-{
-//    for(auto &p : b) {
-//        if(p.second->fieldUnderAttack(this->getPosition(), b)) {
-//            return true;
-//        }
-//    }
-    return false;
-}
 
 std::vector<Move> King::calculateMoves(Board *b)
 {
@@ -44,7 +35,7 @@ std::vector<Move> King::calculateMoves(Board *b)
 
     // Check whether moves are allowed
     for(auto &d : displacements) {
-        unsigned int m = this->getPosition() + d.first + 8*d.second;
+        unsigned int m = this->getTile()->getPosition() + d.first + 8*d.second;
         if(b->isOnBoard(m)) {
             // Check whether opponent king is too close (note: displacements vector can be used)
             bool kingTooClose{false};

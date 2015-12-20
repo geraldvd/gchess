@@ -64,7 +64,7 @@ void ChessGame::newGame()
 
     // Add pieces
     for(auto p : this->game.getBoard()->getPieces()) {
-        this->chessboard->addPiece(p->getPosition(), p->getColor(), p->getType());
+        this->chessboard->addPiece(p->getTile()->getPosition(), p->getColor(), p->getType());
     }
 }
 
@@ -104,11 +104,21 @@ void ChessGame::slotMovePiece()
     // Move piece if allowed
     if(this->activeField != NULL) {
         unsigned int from = this->activeField->getPosition();
-        enum MoveType m = this->game.move(from ,to->getPosition());
+        enum MoveType m = this->game.getMoveType(from, to->getPosition());
 
         switch(m) {
+        case MT_ENPASSANT:
+            this->game.move(from, to->getPosition());
+            if(this->game.getBoard()->getTile(to->getPosition())->getPiece()->getColor() == WHITE) {
+                this->chessboard->removePiece(to->getPosition()-8);
+            } else {
+                this->chessboard->removePiece(to->getPosition()+8);
+            }
+        case MT_PAWNJUMP:
         case MT_NORMAL:
+            this->game.move(from, to->getPosition());
             this->chessboard->movePiece(from, to->getPosition());
+            break;
         }
 
         // Unhighlight all fields

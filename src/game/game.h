@@ -27,6 +27,7 @@ public:
     // Move functions
     void updateAllMoves();
     enum MoveType move(const unsigned int &from, const unsigned int &to);
+    enum MoveType getMoveType(const unsigned int &from, const unsigned int &to);
 
 private:
     Board board;

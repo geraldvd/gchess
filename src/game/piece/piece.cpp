@@ -5,8 +5,8 @@
 
 using namespace std;
 
-Piece::Piece(const unsigned int &position, const PieceColor & c, const bool &has_moved) :
-    position(position),
+Piece::Piece(const PieceColor & c, const bool &has_moved, Tile* parent) :
+    tile(parent),
     color(c),
     has_moved(has_moved)
 {
@@ -17,9 +17,9 @@ Piece::~Piece()
 
 }
 
-unsigned int Piece::getPosition() const
+Tile *Piece::getTile()
 {
-    return this->position;
+    return this->tile;
 }
 
 PieceType Piece::getType() const
@@ -66,4 +66,9 @@ string Piece::getColorString() const
     } else {
         return string("black");
     }
+}
+
+void Piece::setTile(Tile *tile)
+{
+    this->tile = tile;
 }

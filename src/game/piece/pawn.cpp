@@ -8,8 +8,8 @@
 // Specify namespaces
 using namespace std;
 
-Pawn::Pawn(const unsigned int &position, const PieceColor &c, const bool &hasMoved, const bool &justMovedDouble) :
-    Piece(position, c, hasMoved),
+Pawn::Pawn(const PieceColor &c, const bool &hasMoved, const bool &justMovedDouble, Tile *parent) :
+    Piece(c, hasMoved, parent),
     justMovedDouble(justMovedDouble)
 {
     this->type = PAWN;
@@ -20,13 +20,18 @@ bool Pawn::getJustMovedDouble() const
     return this->justMovedDouble;
 }
 
+void Pawn::setJustMovedDouble(const bool &d)
+{
+    this->justMovedDouble = d;
+}
+
 std::vector<Move> Pawn::calculateMoves(Board *b)
 {
     // Initialize moves
     vector<Move> moves;
 
     // Check normal move and promotion
-    unsigned int m = this->getPosition();
+    unsigned int m = this->getTile()->getPosition();
     if(this->getColor() == WHITE) {
         m += 8;
     } else {
@@ -42,21 +47,17 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
         } else {
             moves.push_back(Move(m, MT_NORMAL));
         }
-    }
 
-    // Check jumps
-    if(!this->has_moved) {
-        m = this->getPosition();
-        if(this->getColor() == WHITE && m>7 && m<16) {
-            m += 16;
+        // Check jumps
+        if(this->getColor() == WHITE && m>=16 && m<24) {
+            m += 8;
         }
-        if(this->getColor() == BLACK && m>48 && m<56)
+        if(this->getColor() == BLACK && m>=40 && m<48)
         {
-            m -= 16;
+            m -= 8;
         }
-
         if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
-            moves.push_back(Move(m, MT_NORMAL));
+            moves.push_back(Move(m, MT_PAWNJUMP));
         }
     }
 
@@ -68,9 +69,9 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
 
     for(auto &c : captures) {
         if(this->getColor() == WHITE) {
-            m = this->getPosition() + c.first + 8*c.second;
+            m = this->getTile()->getPosition() + c.first + 8*c.second;
         } else {
-            m = this->getPosition() - c.first - 8*c.second;
+            m = this->getTile()->getPosition() - c.first - 8*c.second;
         }
 
         // Check whether caputring is allowed
@@ -81,20 +82,37 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
     }
 
     // Check En Passant
-    if(b->isOnBoard(this->getPosition() + 1) && b->getTile(this->getPosition() + 1)->isOccupied() &&
-            this->getColor() != b->getTile(this->getPosition() + 1)->getPiece()->getColor() && b->getTile(this->getPosition() + 1)->getPiece()->getType() == PAWN) {
-        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() + 1)->getPiece().get());
+    if(b->isOnBoard(this->getTile()->getX()+1, this->getTile()->getY()) &&
+            b->getTile(this->getTile()->getX()+1, this->getTile()->getY())->isOccupied() &&
+            this->getColor() != b->getTile(this->getTile()->getX()+1, this->getTile()->getY())->getPiece()->getColor() &&
+            b->getTile(this->getTile()->getX()+1, this->getTile()->getY())->getPiece()->getType() == PAWN) {
+        Pawn* p = static_cast<Pawn*>(b->getTile(this->getTile()->getX()+1, this->getTile()->getY())->getPiece().get());
         if(p->getJustMovedDouble()) {
-            moves.push_back(Move(this->getPosition() + 1, MT_ENPASSANT));
+            if(p->getColor() == WHITE) {
+                moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()-1, MT_ENPASSANT));
+            } else {
+                moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()+1, MT_ENPASSANT));
+            }
         }
+        // Reset justMovedDouble
+        p->setJustMovedDouble(false);
     }
-    if(b->isOnBoard(this->getPosition() - 1) && b->getTile(this->getPosition() - 1)->isOccupied() &&
-            this->getColor() != b->getTile(this->getPosition() - 1)->getPiece()->getColor() && b->getTile(this->getPosition() - 1)->getPiece()->getType() == PAWN) {
-        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() - 1)->getPiece().get());
+    if(b->isOnBoard(this->getTile()->getX()-1, this->getTile()->getY()) &&
+            b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->isOccupied() &&
+            this->getColor() != b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->getPiece()->getColor() &&
+            b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->getPiece()->getType() == PAWN) {
+        Pawn* p = static_cast<Pawn*>(b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->getPiece().get());
         if(p->getJustMovedDouble()) {
-            moves.push_back(Move(this->getPosition() - 1, MT_ENPASSANT));
+            if(p->getColor() == WHITE) {
+                moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()-1, MT_ENPASSANT));
+            } else {
+                moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()+1, MT_ENPASSANT));
+            }
         }
+        // Reset justMovedDouble
+        p->setJustMovedDouble(false);
     }
+
     return moves;
 }
 

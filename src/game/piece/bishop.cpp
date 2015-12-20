@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Bishop::Bishop(const unsigned int &position, const PieceColor & c, const bool & hasMoved) :
-    LinePiece(position, c, hasMoved)
+Bishop::Bishop(const PieceColor & c, const bool & hasMoved, Tile* parent) :
+    LinePiece(c, hasMoved, parent)
 {
     this->type = BISHOP;
 }

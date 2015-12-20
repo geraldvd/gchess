@@ -7,7 +7,7 @@
 class Bishop : public LinePiece
 {
 public:
-    Bishop(const unsigned int &position, const enum PieceColor & c, const bool & hasMoved=false);
+    Bishop(const enum PieceColor & c, const bool & hasMoved=false, Tile* parent=NULL);
 };
 
 #endif // BISHOP_H

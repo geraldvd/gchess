@@ -7,7 +7,7 @@
 class Queen : public LinePiece
 {
 public:
-    Queen(const unsigned int &position, const enum PieceColor & c, const bool & hasMoved=false);
+    Queen(const enum PieceColor & c, const bool & hasMoved=false, Tile *parent=NULL);
 };
 
 #endif // QUEEN_H

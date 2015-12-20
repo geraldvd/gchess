@@ -7,17 +7,14 @@
 class King : public Piece
 {
 public:
-    King(const unsigned int &position, const enum PieceColor &c, const bool &has_moved=false);
-
-    // Obtain whether king is in check position
-    bool checkStatus(Board *b);
+    King(const enum PieceColor &c, const bool &has_moved=false, Tile* parent=NULL);
 
 protected:
     virtual std::vector<Move> calculateMoves(Board * b);
 
 private:
 
-    // Castling variables
+    // Castling variables - TODO smart pointers
     std::vector<Piece*> castlingRooks;
 };
 

@@ -7,7 +7,7 @@
 class Rook : public LinePiece
 {
 public:
-    Rook(const unsigned int &position, const enum PieceColor & c, const bool & hasMoved=false);
+    Rook(const enum PieceColor & c, const bool & hasMoved=false, Tile* parent=NULL);
 };
 
 #endif // ROOK_H

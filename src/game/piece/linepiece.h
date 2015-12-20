@@ -7,7 +7,7 @@
 class LinePiece : public Piece
 {
 public:
-    LinePiece(const unsigned int &position, const enum PieceColor & c, const bool & hasMoved);
+    LinePiece(const enum PieceColor & c, const bool & hasMoved, Tile* parent=NULL);
 
 protected:
     virtual std::vector<Move> calculateMoves(Board *b);

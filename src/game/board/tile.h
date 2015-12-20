@@ -32,6 +32,7 @@ public:
 
     // Setters
     void setPosition(const unsigned int &k);
+    void setPosition(const unsigned int &x, const unsigned int &y);
     void setPositionString(const std::string &s);
     void setX(const unsigned int &x);
     void setY(const unsigned int &y);
@@ -40,7 +41,8 @@ public:
 
 private:
     // Field coordinates
-    unsigned int position;
+    unsigned int x;
+    unsigned int y;
 
     // Piece
     Piece_ptr piece;

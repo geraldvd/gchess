@@ -1,5 +1,6 @@
 // Include standard libraries
 #include <utility>
+#include <iostream>
 
 // Include project files
 #include "knight.h"
@@ -10,8 +11,8 @@
 // Specify namespaces
 using namespace std;
 
-Knight::Knight(const unsigned int &position, const PieceColor & c, const bool &hasMoved) :
-    Piece(position, c, hasMoved)
+Knight::Knight(const PieceColor & c, const bool &hasMoved, Tile *parent) :
+    Piece(c, hasMoved, parent)
 {
     this->type = KNIGHT;
 }
@@ -36,16 +37,17 @@ std::vector<Move> Knight::calculateMoves(Board *b)
 
     // Check whether moves are allowed
     for(auto &d : displacements) {
-        int m = this->getPosition() + d.first + 8*d.second;
-        if(b->isOnBoard(m)) {
-            if(b->getTile(m)->isOccupied()) {
-                if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
+        int mx = this->getTile()->getX() + d.first;
+        int my = this->getTile()->getY() + d.second;
+        if(b->isOnBoard(mx, my)) {
+            if(b->getTile(mx, my)->isOccupied()) {
+                if(this->getColor() != b->getTile(mx, my)->getPiece()->getColor() /* TODO && isKing() */) {
                     // Opponent piece; can be taken!
-                    moves.push_back(Move(m, MT_NORMAL));
+                    moves.push_back(Move(mx, my, MT_NORMAL));
                 }
             } else {
                 // Free place, move allowed
-                moves.push_back(Move(m, MT_NORMAL));
+                moves.push_back(Move(mx, my, MT_NORMAL));
             }
         }
     }

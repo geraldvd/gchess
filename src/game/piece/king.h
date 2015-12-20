@@ -13,7 +13,7 @@ public:
     bool checkStatus(Board *b);
 
 protected:
-    virtual std::vector<unsigned int> calculateMoves(Board * b);
+    virtual std::vector<Move> calculateMoves(Board * b);
 
 private:
 

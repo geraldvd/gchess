@@ -1,12 +1,13 @@
 # Create library
 add_library(${PROJECT_NAME}_game
+    game.cpp
     types.h
     utils.cpp
     operators.cpp
 
     # Board
     board/tile.cpp
-#    board/move.cpp
+    board/move.cpp
     board/board.cpp
 
     # Pieces

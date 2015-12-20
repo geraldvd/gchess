@@ -1,4 +1,11 @@
+// Include standard libraries
+#include <utility>
+
+// Include project files
 #include "pawn.h"
+#include "board/board.h"
+
+// Specify namespaces
 using namespace std;
 
 Pawn::Pawn(const unsigned int &position, const PieceColor &c, const bool &hasMoved, const bool &justMovedDouble) :
@@ -8,81 +15,86 @@ Pawn::Pawn(const unsigned int &position, const PieceColor &c, const bool &hasMov
     this->type = PAWN;
 }
 
-std::vector<unsigned int> Pawn::calculateMoves(Board *b)
+bool Pawn::getJustMovedDouble() const
 {
-//    // TODO en passant capturing + reaching other side of board
+    return this->justMovedDouble;
+}
 
+std::vector<Move> Pawn::calculateMoves(Board *b)
+{
+    // Initialize moves
+    vector<Move> moves;
 
-//    // Initialize moves
-//    vector<Field> moves;
-//    this->moves = vector<Move>();
+    // Check normal move and promotion
+    unsigned int m = this->getPosition();
+    if(this->getColor() == WHITE) {
+        m += 8;
+    } else {
+        m -= 8;
+    }
+    if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
+        // Check promotion
+        if((this->getColor()==WHITE && m<8) || (this->getColor()==BLACK && m>55)) {
+            moves.push_back(Move(m, MT_PROMOTION_QUEEN));
+            moves.push_back(Move(m, MT_PROMOTION_ROOK));
+            moves.push_back(Move(m, MT_PROMOTION_BISHOP));
+            moves.push_back(Move(m, MT_PROMOTION_KNIGHT));
+        } else {
+            moves.push_back(Move(m, MT_NORMAL));
+        }
+    }
 
-//    // Reset check status
-//    this->otherKingCheck = false;
+    // Check jumps
+    if(!this->has_moved) {
+        m = this->getPosition();
+        if(this->getColor() == WHITE && m>7 && m<16) {
+            m += 16;
+        }
+        if(this->getColor() == BLACK && m>48 && m<56)
+        {
+            m -= 16;
+        }
 
-//    // List all potiontially possible moves
-//    if(this->getColor() == WHITE) {
-//        // WHITE
-//        moves.push_back(this->getPosition() + Field(0,1));
-//        if(this->getPosition().second == 1) {
-//            // Pawn did not move yet
-//            moves.push_back(this->getPosition() + Field(0,2));
-//        }
-//    } else {
-//        // BLACK
-//        moves.push_back(this->getPosition() + Field(0,-1));
-//        if(this->getPosition().second == 6) {
-//            // Pawn did not move yet
-//            moves.push_back(this->getPosition() + Field(0,-2));
-//        }
-//    }
+        if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
+            moves.push_back(Move(m, MT_NORMAL));
+        }
+    }
 
-//    // Check whether moves can be made
-//    bool valid{true};
-//    for(auto &m : moves) {
-//        for(auto &p: pieces) {
-//            if(m == p->getPosition()) {
-//                valid = false;
-//            }
-//        }
-//        if(valid && this->moveOnboard(m)) {
-//            // Check promotion
-//            if((this->getColor() == WHITE && m.second==7) || ((this->getColor() == BLACK && m.second==0))) {
-//                // Pawn promotion!
-//                this->moves.push_back(Move(m, PROMOTION_QUEEN));
-//                this->moves.push_back(Move(m, PROMOTION_ROOK));
-//                this->moves.push_back(Move(m, PROMOTION_KNIGHT));
-//                this->moves.push_back(Move(m, PROMOTION_BISHOP));
-//            } else {
-//                this->moves.push_back(Move(m, NORMAL));
-//            }
-//        }
-//    }
+    // Check capturing
+    vector<pair<unsigned int, unsigned int> > captures = {
+        pair<unsigned int, unsigned int>(1,1),
+        pair<unsigned int, unsigned int>(-1,1)
+    };
 
-//    // Check diagonal capture
-//    moves = vector<Field>();
-//    if(this->getColor() == WHITE) {
-//        // WHITE
-//        moves.push_back(Field(this->getPosition() + Field(1,1)));
-//        moves.push_back(Field(this->getPosition() + Field(-1,1)));
-//    } else {
-//        // BLACK
-//        moves.push_back(Field(this->getPosition() + Field(1,-1)));
-//        moves.push_back(Field(this->getPosition() + Field(-1,-1)));
-//    }
-//    for(auto &m : moves) {
-//        for(auto &p : pieces) {
-//            if(p->getPosition() == m && p->getColor() != this->getColor()) {
-//                if(p->getType() != KING) {
-//                    // Piece can be captured
-//                    this->moves.push_back(Move(m, NORMAL));
-//                } else {
-//                    // King check!
-//                    this->otherKingCheck = true;
-//                }
-//            }
-//        }
-    //    }
-    return vector<unsigned int>();
+    for(auto &c : captures) {
+        if(this->getColor() == WHITE) {
+            m = this->getPosition() + c.first + 8*c.second;
+        } else {
+            m = this->getPosition() - c.first - 8*c.second;
+        }
+
+        // Check whether caputring is allowed
+        if(b->isOnBoard(m) && b->getTile(m)->isOccupied() && this->getColor() != b->getTile(m)->getPiece()->getColor()) {
+            // TODO check king
+            moves.push_back(Move(m, MT_NORMAL));
+        }
+    }
+
+    // Check En Passant
+    if(b->isOnBoard(this->getPosition() + 1) && b->getTile(this->getPosition() + 1)->isOccupied() &&
+            this->getColor() != b->getTile(this->getPosition() + 1)->getPiece()->getColor() && b->getTile(this->getPosition() + 1)->getPiece()->getType() == PAWN) {
+        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() + 1)->getPiece());
+        if(p->getJustMovedDouble()) {
+            moves.push_back(Move(this->getPosition() + 1, MT_ENPASSANT));
+        }
+    }
+    if(b->isOnBoard(this->getPosition() - 1) && b->getTile(this->getPosition() - 1)->isOccupied() &&
+            this->getColor() != b->getTile(this->getPosition() - 1)->getPiece()->getColor() && b->getTile(this->getPosition() - 1)->getPiece()->getType() == PAWN) {
+        Pawn* p = static_cast<Pawn*>(b->getTile(this->getPosition() - 1)->getPiece());
+        if(p->getJustMovedDouble()) {
+            moves.push_back(Move(this->getPosition() - 1, MT_ENPASSANT));
+        }
+    }
+    return moves;
 }
 

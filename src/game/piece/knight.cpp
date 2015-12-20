@@ -5,6 +5,7 @@
 #include "knight.h"
 #include "operators.h"
 #include "board/board.h"
+#include "board/move.h"
 
 // Specify namespaces
 using namespace std;
@@ -15,10 +16,10 @@ Knight::Knight(const unsigned int &position, const PieceColor & c, const bool &h
     this->type = KNIGHT;
 }
 
-std::vector<unsigned int> Knight::calculateMoves(Board *b)
+std::vector<Move> Knight::calculateMoves(Board *b)
 {
     // Initialize moves
-    vector<unsigned int> moves;
+    vector<Move> moves;
 
 
     // List all potentially possible moves
@@ -37,14 +38,14 @@ std::vector<unsigned int> Knight::calculateMoves(Board *b)
     for(auto &d : displacements) {
         unsigned int m = this->getPosition() + d.first + 8*d.second;
         if(b->isOnBoard(m)) {
-            if(b->getTile(m).isOccupied()) {
-                if(this->getColor() != b->getTile(m).getPiece()->getColor() /* TODO && isKing() */) {
+            if(b->getTile(m)->isOccupied()) {
+                if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
                     // Opponent piece; can be taken!
-                    moves.push_back(m);
+                    moves.push_back(Move(m, MT_NORMAL));
                 }
             } else {
                 // Free place, move allowed
-                moves.push_back(m);
+                moves.push_back(Move(m, MT_NORMAL));
             }
         }
     }

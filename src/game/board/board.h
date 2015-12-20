@@ -7,6 +7,7 @@
 // Include project files
 #include "types.h"
 #include "tile.h"
+#include "piece/piece.h"
 
 class Board
 {
@@ -14,7 +15,9 @@ public:
     Board();
 
     // Getters
-    Tile getTile(const unsigned int &i) const;
+    Tile* getTile(const unsigned int &i);
+    std::vector<Tile *> getTiles();
+    std::vector<Piece*> getPieces();
     bool isOnBoard(const unsigned int &i) const;
 
     // Piece methods

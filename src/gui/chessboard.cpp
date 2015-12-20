@@ -1,5 +1,3 @@
-#include "chessboard.h"
-
 // Include standard libraries
 #include <string>
 #include <sstream>
@@ -13,6 +11,9 @@
 #include <QPen>
 #include <QBrush>
 #include <QFont>
+
+// Include project files
+#include "chessboard.h"
 
 // Namespaces
 using namespace std;
@@ -33,7 +34,7 @@ Chessboard::~Chessboard()
 {
 }
 
-void Chessboard::addPiece(const Field &position, const PieceColor &c, const PieceType &p)
+void Chessboard::addPiece(const unsigned int &position, const PieceColor &c, const PieceType &p)
 {
     // Obtain image filename
     QString image_file = this->getImageFilename(c, p);
@@ -70,7 +71,7 @@ void Chessboard::addPiece(const Field &position, const PieceColor &c, const Piec
     this->pieces[position] = l;
 }
 
-void Chessboard::removePiece(const Field &position)
+void Chessboard::removePiece(const unsigned int &position)
 {
     if(this->pieces.find(position) != this->pieces.end()) {
         ChessLabel* l = this->pieces[position];
@@ -79,13 +80,13 @@ void Chessboard::removePiece(const Field &position)
     }
 }
 
-void Chessboard::movePiece(const Field &from, const Field &to)
+void Chessboard::movePiece(const unsigned int &from, const unsigned int &to)
 {
     if(this->pieces.find(from) != this->pieces.end()) {
         // Move piece
         ChessLabel *l = this->pieces[from];
         this->pieces.erase(from);
-        l->setField(to);
+        l->setPosition(to);
 
         // Replace piece if already in destination
         if(this->pieces.find(to) != this->pieces.end()) {
@@ -107,7 +108,7 @@ void Chessboard::clearPieces()
     this->pieces.clear();
 }
 
-void Chessboard::highlightField(const Field &position)
+void Chessboard::highlightField(const unsigned int &position)
 {
     if(this->highlights.find(position) == this->highlights.end()) {
         // Determine location of highlight
@@ -138,7 +139,7 @@ void Chessboard::highlightField(const Field &position)
     }
 }
 
-void Chessboard::unhighlightField(const Field &position)
+void Chessboard::unhighlightField(const unsigned int &position)
 {
     if(this->highlights.find(position) != this->highlights.end()) {
         ChessLabel *l = this->highlights[position];
@@ -157,7 +158,7 @@ void Chessboard::clearHighlights()
     this->highlights.clear();
 }
 
-void Chessboard::checkField(const Field &position)
+void Chessboard::checkField(const unsigned int &position)
 {
     // Determine location of highlight
     this->check_field = new ChessLabel(position, this);

@@ -1,18 +1,23 @@
-#include "promotiondialog.h"
-#include "ui_promotiondialog.h"
-
+// Include standard libraries
 #include <sstream>
+
+// Include Qt libraries
 #include <QPixmap>
 #include <QBitmap>
 #include <QIcon>
 #include <QDebug>
 
+// Include project files
+#include "promotiondialog.h"
+#include "ui_promotiondialog.h"
+
+// Specify namespaces
 using namespace std;
 
 PromotionDialog::PromotionDialog(const enum PieceColor &c, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PromotionDialog),
-    promotionType(PROMOTION_QUEEN)
+    promotionType(MT_PROMOTION_QUEEN)
 {
     this->ui->setupUi(this);
 
@@ -84,24 +89,24 @@ MoveType PromotionDialog::getPromotionType() const
 
 void PromotionDialog::slotQueen()
 {
-    this->promotionType = PROMOTION_QUEEN;
+    this->promotionType = MT_PROMOTION_QUEEN;
     this->accept();
 }
 
 void PromotionDialog::slotRook()
 {
-    this->promotionType = PROMOTION_ROOK;
+    this->promotionType = MT_PROMOTION_ROOK;
     this->accept();
 }
 
 void PromotionDialog::slotKnight()
 {
-    this->promotionType = PROMOTION_KNIGHT;
+    this->promotionType = MT_PROMOTION_KNIGHT;
     this->accept();
 }
 
 void PromotionDialog::slotBishop()
 {
-    this->promotionType = PROMOTION_BISHOP;
+    this->promotionType = MT_PROMOTION_BISHOP;
     this->accept();
 }

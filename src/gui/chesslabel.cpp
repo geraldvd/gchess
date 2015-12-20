@@ -1,28 +1,29 @@
 #include "chesslabel.h"
+#include "board/board.h"
 
 const unsigned int ChessLabel::field_size = 50;
 
 ChessLabel::ChessLabel(QWidget *parent) :
-    ChessLabel(Field(0,0), parent)
+    ChessLabel(0, parent)
 {
 }
 
-ChessLabel::ChessLabel(const Field &f, QWidget *parent) :
+ChessLabel::ChessLabel(const unsigned int &f, QWidget *parent) :
     QLabel(parent)
 {
-    this->setField(f);
+    this->setPosition(f);
     this->setFixedWidth(ChessLabel::field_size);
     this->setFixedHeight(ChessLabel::field_size);
 }
 
-Field ChessLabel::getField() const
+unsigned int ChessLabel::getPosition() const
 {
-    return Field(this->x() / ChessLabel::field_size, 7 - this->y() / ChessLabel::field_size);
+    return this->x() / ChessLabel::field_size + 8 * (7 - this->y() / ChessLabel::field_size);
 }
 
-void ChessLabel::setField(const Field &f)
+void ChessLabel::setPosition(const unsigned int &f)
 {
-    this->move(f.first * ChessLabel::field_size, (7-f.second) * ChessLabel::field_size);
+    this->move(f%8 * ChessLabel::field_size, (7-((f-f%8)/8)) * ChessLabel::field_size);
 }
 
 void ChessLabel::mousePressEvent(QMouseEvent *event)

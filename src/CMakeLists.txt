@@ -24,9 +24,9 @@ endif()
 #########################################################################
 ### Subdirectories
 
-# Add include directory
-add_subdirectory(include) # For Qt Creator
-include_directories(include)
+## Add include directory
+#add_subdirectory(include) # For Qt Creator
+#include_directories(include)
 
 # 3rd party libraries
 add_subdirectory(3rdparty)

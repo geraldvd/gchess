@@ -7,7 +7,8 @@
 // Include Qt
 #ifdef WITH_GRAPHICS
     #include <QApplication>
-    #include <gui.h>
+    #include "chessgame.h"
+    #include "piece/queen.h"
 #else
     #include <game.h>
 #endif
@@ -30,6 +31,15 @@ int main(int argc, char **argv) {
     // Initialize board
     ChessGame chess;
     chess.show();
+
+//    // Test
+//    Board b;
+//    //Tile t("A8");
+//    auto p = new Queen(b.getTile(62)->getPosition(), BLACK);
+//    b.getTile(62)->setPiece(p);
+//    qDebug() << b.getTile(62)->getPosition() << endl;
+//    qDebug() << b.getTile(62)->isOccupied() << endl;
+//    qDebug() << b.getTile(62)->getPiece()->getType() << endl;
 
     return a.exec();
 #else

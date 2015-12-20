@@ -13,10 +13,10 @@ LinePiece::LinePiece(const unsigned int &position, const PieceColor & c, const b
 {
 }
 
-std::vector<unsigned int> LinePiece::calculateMoves(Board *b)
+std::vector<Move> LinePiece::calculateMoves(Board *b)
 {
     // Initialize moves
-    vector<unsigned int> moves;
+    vector<Move> moves;
 
 
     // List all potentially possible moves
@@ -42,16 +42,16 @@ std::vector<unsigned int> LinePiece::calculateMoves(Board *b)
         unsigned int factor = 1;
         unsigned int m = this->getPosition() + factor*(d.first + 8*d.second);
         while(b->isOnBoard(m)) {
-            if(b->getTile(m).isOccupied()) {
-                if(this->getColor() != b->getTile(m).getPiece()->getColor() /* TODO && isKing() */) {
+            if(b->getTile(m)->isOccupied()) {
+                if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
                     // Opponent piece; can be taken!
-                    moves.push_back(m);
+                    moves.push_back(Move(m, MT_NORMAL));
                 }
                 // Rest of direction vector is blocked
                 break;
             } else {
                 // Free place, move allowed
-                moves.push_back(m);
+                moves.push_back(Move(m, MT_NORMAL));
             }
 
             // Next location on direction vector

@@ -1,10 +1,10 @@
 // Include standard library
 #include <algorithm>
-#include <cstdlib>
-#include <iostream>
+#include <utility>
 
 // Include project files
 #include "king.h"
+#include "board.h"
 
 using namespace std;
 
@@ -24,92 +24,55 @@ bool King::checkStatus(Board *b)
     return false;
 }
 
-std::vector<unsigned int> King::calculateMoves(Board *b)
+std::vector<Move> King::calculateMoves(Board *b)
 {
     // Initialize moves
-    vector<unsigned int> moves;
-
-//    // List all potentially possible moves
-//    moves.push_back(Move(1,0));
-//    moves.push_back(Move(-1,0));
-//    moves.push_back(Move(0,1));
-//    moves.push_back(Move(0,-1));
-//    moves.push_back(Move(1,1));
-//    moves.push_back(Move(-1,-1));
-//    moves.push_back(Move(-1,1));
-//    moves.push_back(Move(1,-1));
-
-//    // Check whether moves are on board
-//    vector<Field> dest;
-
-//    for(auto &m : moves) {
-//        try {
-//            dest.push_back(this->getPosition() + m);
-//        } catch (exception &e) {
-//            // don't add!
-//        }
-//    }
-
-//    return dest;
+    vector<Move> moves;
 
 
-//    // Check whether moves are allowed
-//    for(auto &m : moves) {
-//        if(this->moveOnboard(m)) {
-//            bool toAdd{true};
-//            for(auto &p : pieces) {
-//                if(m == p->getPosition()) {
-//                    if(p->getColor() == this->getColor()) {
-//                        // Same color: don't add
-//                        toAdd = false;
-//                        break; // Stop looping through pieces
-//                    } else {
-//                        // Opponent check move
-//                        if(p->getType() != KING) {
-//                            // Piece can be taken!
-//                            this->moves.push_back(Move(m, NORMAL));
-//                            toAdd = false;
-//                            break; // Stop looping through pieces
-//                        }
-//                    }
-//                }
-//            }
-//            // Place is free, check whether king is next to that place!
-//            if(toAdd) {
-//                this->moves.push_back(Move(m, NORMAL));
-//            }
-//        }
-//    }
+    // List all potentially possible moves
+    vector<pair<unsigned int, unsigned int> > displacements = {
+        pair<unsigned int, unsigned int>(1,0),
+        pair<unsigned int, unsigned int>(-1,0),
+        pair<unsigned int, unsigned int>(0,1),
+        pair<unsigned int, unsigned int>(0,-1),
+        pair<unsigned int, unsigned int>(1,1),
+        pair<unsigned int, unsigned int>(1,-1),
+        pair<unsigned int, unsigned int>(-1,1),
+        pair<unsigned int, unsigned int>(-1,-1)
+    };
 
-//    // Check whether other king is approached
-//    vector<Move> moves2 = this->moves;
-//    this->moves = vector<Move>();
-//    // Calculate permutes
-//    vector<Field> permutes;
-//    permutes.push_back(Field(1,0));
-//    permutes.push_back(Field(-1,0));
-//    permutes.push_back(Field(0,1));
-//    permutes.push_back(Field(0,-1));
-//    permutes.push_back(Field(1,1));
-//    permutes.push_back(Field(-1,-1));
-//    permutes.push_back(Field(-1,1));
-//    permutes.push_back(Field(1,-1));
-//    // Loop through moves
-//    for(auto &m : moves2) {
-//        bool toAdd{true};
-//        for(auto &per : permutes) {
-//            Field m2 = m.first + per;
-//            for(auto &p : pieces) {
-//                if(p->getColor() != this->getColor() && p->getType() == KING && m2 == p->getPosition()) {
-//                    // Move not allowed, king to close!
-//                    toAdd = false;
-//                }
-//            }
-//        }
-//        if(toAdd) {
-//            this->moves.push_back(m);
-//        }
-//    }
+    // Check whether moves are allowed
+    for(auto &d : displacements) {
+        unsigned int m = this->getPosition() + d.first + 8*d.second;
+        if(b->isOnBoard(m)) {
+            // Check whether opponent king is too close (note: displacements vector can be used)
+            bool kingTooClose{false};
+            for(auto &k : displacements) {
+                unsigned int kingPosition = m + k.first + 8*k.second;
+                if(b->isOnBoard(kingPosition) && b->getTile(kingPosition)->getPiece()->getColor() != this->getColor()
+                        && b->getTile(kingPosition)->getPiece()->getType() == KING) {
+                    kingTooClose = true;
+                }
+            }
+
+            if(!kingTooClose) {
+                if(b->getTile(m)->isOccupied()) {
+                    if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
+                        // Opponent piece; can be taken!
+                        moves.push_back(Move(m, MT_NORMAL));
+                    }
+                } else {
+                    // Free place, move allowed
+                    moves.push_back(Move(m, MT_NORMAL));
+                }
+            }
+        }
+    }
+
+    return moves;
+
+// TODO castling
 
 //    // Check castling
 //    this->castlingRooks = vector<Piece*>();

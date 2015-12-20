@@ -15,6 +15,7 @@
 #include <QLabel>
 
 // Include project libraries
+#include "types.h"
 #include "chesslabel.h"
 
 class Chessboard : public QLabel
@@ -27,16 +28,16 @@ public:
     ~Chessboard();
 
     // Piece functions
-    void addPiece(const Field & position, const enum PieceColor & c, const enum PieceType & p);
-    void removePiece(const Field & position);
-    void movePiece(const Field & from, const Field & to);
+    void addPiece(const unsigned int & position, const enum PieceColor & c, const enum PieceType & p);
+    void removePiece(const unsigned int & position);
+    void movePiece(const unsigned int & from, const unsigned int & to);
     void clearPieces();
 
     // Hightlight functions
-    void highlightField(const Field & position);
-    void unhighlightField(const Field & position);
+    void highlightField(const unsigned int & position);
+    void unhighlightField(const unsigned int & position);
     void clearHighlights();
-    void checkField(const Field & position);
+    void checkField(const unsigned int & position);
     void unCheckField();
 
 
@@ -49,8 +50,8 @@ private:
     QString getPieceHTML(const enum PieceColor & c, const enum PieceType & p);
 
     // Pieces and highlighted fields
-    std::map<Field,ChessLabel*> pieces;
-    std::map<Field,ChessLabel*> highlights;
+    std::map<unsigned int,ChessLabel*> pieces;
+    std::map<unsigned int,ChessLabel*> highlights;
     ChessLabel* check_field;
 
 public:

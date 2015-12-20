@@ -22,9 +22,29 @@ Board::Board() :
     }
 }
 
-Tile Board::getTile(const unsigned int &i) const
+Tile *Board::getTile(const unsigned int &i)
 {
-    return this->tiles.at(i);
+    return &this->tiles.at(i);
+}
+
+std::vector<Tile*> Board::getTiles()
+{
+    vector<Tile*> tiles;
+    for(unsigned int i=0; i<Board::NUM_TILES; i++) {
+        tiles.push_back(this->getTile(i));
+    }
+    return tiles;
+}
+
+std::vector<Piece *> Board::getPieces()
+{
+    vector<Piece*> pieces;
+    for(Tile* t : this->getTiles()) {
+        if(t->isOccupied()) {
+            pieces.push_back(t->getPiece());
+        }
+    }
+    return pieces;
 }
 
 bool Board::isOnBoard(const unsigned int &i) const
@@ -64,10 +84,10 @@ void Board::addPiece(const unsigned int &position, const PieceType &type, const 
     }
 
 
-    this->getTile(position).setPiece(p);
+    this->getTile(position)->setPiece(p);
 }
 
 void Board::removePiece(const unsigned int &position)
 {
-    this->getTile(position).clearPiece();
+    this->getTile(position)->clearPiece();
 }

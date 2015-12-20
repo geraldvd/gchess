@@ -28,7 +28,7 @@ public:
     std::string getColorString() const;
 
     // Move methods
-    virtual std::vector<unsigned int> calculateMoves(Board *b) = 0;
+    virtual std::vector<Move> calculateMoves(Board *b) = 0;
 
 protected:
     // Position of piece

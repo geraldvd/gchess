@@ -10,7 +10,7 @@ public:
     LinePiece(const unsigned int &position, const enum PieceColor & c, const bool & hasMoved);
 
 protected:
-    virtual std::vector<unsigned int> calculateMoves(Board *b);
+    virtual std::vector<Move> calculateMoves(Board *b);
 };
 
 #endif // LINEPIECE_H

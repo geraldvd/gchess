@@ -8,11 +8,12 @@ class Pawn : public Piece
 {
 public:
     Pawn(const unsigned int &position, const enum PieceColor & c, const bool & hasMoved=false, const bool & justMovedDouble=false);
+    bool getJustMovedDouble() const;
 
 protected:
-    virtual std::vector<unsigned int> calculateMoves(Board *b);
+    virtual std::vector<Move> calculateMoves(Board *b);
 
-    // TODO needed for en passant capturing - https://en.wikipedia.org/wiki/En_passant
+    // Needed for En Passant moves
     bool justMovedDouble;
 };
 

@@ -8,7 +8,7 @@ class Move
 {
 public:
     Move(const int &x, const int &y, const enum MoveType &mt=MT_NONE);
-    Move(const unsigned int &old_position, const std::pair<unsigned int, unsigned int> &move, const enum MoveType &mt=MT_NONE);
+    Move(const unsigned int &m, const enum MoveType &mt=MT_NONE);
 
     // Getters
     int getX() const;
@@ -16,8 +16,9 @@ public:
     enum MoveType getMoveType() const;
 
     // Setters
-    void setX(const int &x);
-    void setY(const int &y);
+    void set(const unsigned int &m);
+    void setX(const unsigned int &x);
+    void setY(const unsigned int &y);
     void setMoveType(const enum MoveType &mt);
 
 
@@ -26,7 +27,7 @@ private:
     enum MoveType move_type;
 
     // Move coordinates
-    unsigned int position;
+    unsigned int destination;
 };
 
 #endif // MOVE_H

@@ -16,11 +16,11 @@ class ChessLabel : public QLabel
 public:
     // Constructors
     explicit ChessLabel(QWidget* parent=0);
-    explicit ChessLabel(const Field &f, QWidget *parent=0);
+    explicit ChessLabel(const unsigned int &f, QWidget *parent=0);
 
     // Getters and setters
-    Field getField() const;
-    void setField(const Field &f);
+    unsigned int getPosition() const;
+    void setPosition(const unsigned int &f);
 
 signals:
     void clicked();

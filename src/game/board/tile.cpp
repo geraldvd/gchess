@@ -72,7 +72,7 @@ bool Tile::isOccupied() const
 
 void Tile::setPosition(const unsigned int &k)
 {
-    if(k>=0 && k<64) {
+    if(k>=0 || k<64) {
         this->position = k;
     } else {
         throw invalid_argument("k must be between 0 and 63.");

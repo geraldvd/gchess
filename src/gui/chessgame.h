@@ -4,9 +4,7 @@
 // Include standard libraries
 #include <map>
 
-#include <QtCore>
-#include <QtGui>
-// Include Qt files
+// Include Qt libraries
 #include <QMainWindow>
 #include <QStatusBar>
 #include <QMenuBar>
@@ -14,8 +12,10 @@
 #include <QVBoxLayout>
 
 // Include project files
-#include "gui.h"
-#include "game.h"
+#include "piece/piece.h"
+#include "chessboard.h"
+#include "../game/game.h"
+#include "chesslabel.h"
 
 
 class ChessGame : public QMainWindow
@@ -28,10 +28,10 @@ public:
     ~ChessGame();
 
     // Piece functions (calling chessboard methods)
-    void addPiece(Piece *p);
+//    void addPiece(Piece *p);
 
     // Highlight functions
-    void highlightMoves(Piece *p);
+//    void highlightMoves(Piece *p);
 
 signals:
 
@@ -40,8 +40,8 @@ public slots:
     void newGame();
 
     // Slot for highlighting
-    void toggleHighlighting();
-    void slotMovePiece();
+//    void toggleHighlighting();
+//    void slotMovePiece();
 
 private:
     // Widgets
@@ -52,8 +52,8 @@ private:
 
     // Game variables
     Game game;
-    std::map<Field,Piece*> pieces;
-    ChessLabel *activeField;
+//    std::map<unsigned int,Piece*> pieces;
+//    ChessLabel *activeField;
 };
 
 #endif // CHESSGAME_H

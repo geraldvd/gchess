@@ -11,8 +11,9 @@ public:
     Move(const unsigned int &m, const enum MoveType &mt=MT_NONE);
 
     // Getters
-    int getX() const;
-    int getY() const;
+    unsigned int get() const;
+    unsigned int getX() const;
+    unsigned int getY() const;
     enum MoveType getMoveType() const;
 
     // Setters

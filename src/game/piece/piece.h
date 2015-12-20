@@ -24,6 +24,7 @@ public:
     // Getters
     unsigned int getPosition() const;
     enum PieceType getType() const;
+    std::string getTypeString() const;
     enum PieceColor getColor() const;
     std::string getColorString() const;
 

@@ -148,7 +148,7 @@ void Tile::setPiece(Piece *p)
 void Tile::clearPiece()
 {
     if(this->piece != NULL) {
-        // TODO who clears memory?
+        // TODO shared ptr (now: this will clear memory, when a copy is made to other pointer)
         delete this->piece;
         this->piece = NULL;
     }

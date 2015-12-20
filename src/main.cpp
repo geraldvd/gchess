@@ -32,21 +32,28 @@ int main(int argc, char **argv) {
     ChessGame chess;
     chess.show();
 
-//    // Test
-//    Board b;
-//    //Tile t("A8");
-//    auto p = new Queen(b.getTile(62)->getPosition(), BLACK);
-//    b.getTile(62)->setPiece(p);
-//    qDebug() << b.getTile(62)->getPosition() << endl;
-//    qDebug() << b.getTile(62)->isOccupied() << endl;
-//    qDebug() << b.getTile(62)->getPiece()->getType() << endl;
-
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;
 
-    Board b;
-    cout << b.getTile(1).getPositionString() << endl;
+    // Test
+    Game g;
+
+    cout << g.getActivePlayerString() << endl;
+    g.newGame();
+
+    for(Tile *t : g.getBoard()->getTiles()) {
+        cout << t->getPositionString() << " is ";
+        if(t->isOccupied()) {
+            cout << "occupied!\n";
+        } else {
+            cout << "NOT occupied!\n";
+        }
+    }
+
+    for(Piece *p : g.getBoard()->getPieces()) {
+        cout << p->getColorString() << ": " << p->getTypeString() << endl;
+    }
 
     return 0;
 #endif

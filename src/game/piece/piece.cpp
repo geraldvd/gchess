@@ -27,6 +27,33 @@ PieceType Piece::getType() const
     return this->type;
 }
 
+string Piece::getTypeString() const
+{
+    switch(this->type) {
+    case KING:
+        return "King";
+        break;
+    case QUEEN:
+        return "Queen";
+        break;
+    case ROOK:
+        return "Rook";
+        break;
+    case BISHOP:
+        return "Bishop";
+        break;
+    case KNIGHT:
+        return "Knight";
+        break;
+    case PAWN:
+        return "Pawn";
+        break;
+    default:
+        throw domain_error("Piece type not recognized.");
+        break;
+    }
+}
+
 PieceColor Piece::getColor() const
 {
     return this->color;

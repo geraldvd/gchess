@@ -12,8 +12,8 @@ ChessGame::ChessGame(QWidget *parent) :
     file_menu(new QMenu("file")),
 
     // Initialize game
-    game(Game())
-//    activeField(NULL)
+    game(Game()),
+    activeField(NULL)
 {
 
     // Setup window parameters
@@ -52,14 +52,6 @@ ChessGame::~ChessGame()
 //    this->chessboard->addPiece(p->getPosition(), p->getColor(), p->getType());
 //}
 
-//void ChessGame::highlightMoves(Piece *p)
-//{
-//    this->chessboard->clearHighlights();
-//    for(auto &m : p->calculateMoves()) {
-//        this->chessboard->highlightField(m.first);
-//    }
-//}
-
 void ChessGame::newGame()
 {
     // Empty board
@@ -71,40 +63,63 @@ void ChessGame::newGame()
     this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
     // Add pieces
-    for(Piece* p : this->game.getBoard().getPieces()) {
+    for(Piece* p : this->game.getBoard()->getPieces()) {
         this->chessboard->addPiece(p->getPosition(), p->getColor(), p->getType());
     }
 }
 
-//void ChessGame::toggleHighlighting()
-//{
-//    // Obtain piece to be toggled
-//    ChessLabel* l = dynamic_cast<ChessLabel*>(sender());
+void ChessGame::toggleHighlighting()
+{
+    // Obtain piece to be toggled
+    ChessLabel* l = dynamic_cast<ChessLabel*>(sender());
 
-//    // Check whether already highlighted and toggle
-//    if(l == this->activeField) {
-//        this->chessboard->clearHighlights();
-//        this->activeField = NULL;
-//    } else {
-//        // Check whether piece is allowed to move
-//        if(this->game.getActivePlayer() == this->pieces[l->getPosition()]->getColor()) {
-//            this->activeField = l;
-//            this->highlightMoves(this->pieces[l->getPosition()]);
-//        } else {
-//            this->chessboard->clearHighlights();
-//            this->activeField = NULL;
-//        }
-//    }
-//}
+    // Check whether already highlighted and toggle
+    if(l == this->activeField) {
+        this->chessboard->clearHighlights();
+        this->activeField = NULL;
+    } else {
+        // Check whether piece is allowed to move
+        if(this->game.getActivePlayer() == this->game.getBoard()->getTile(l->getPosition())->getPiece()->getColor()) {
+            this->activeField = l;
 
-//void ChessGame::slotMovePiece()
-//{
-//    // Obtain destination for move
-//    ChessLabel* to = dynamic_cast<ChessLabel*>(sender());
+            // Clear old highlights
+            this->chessboard->clearHighlights();
 
-//    // Move piece if allowed
-//    if(this->activeField != NULL) {
-//        Field from = this->activeField->getPosition();
+            // Highlight moves
+            for(auto &i : this->game.getPositionsPossibleMoves(l->getPosition())) {
+                this->chessboard->highlightField(i);
+            }
+        } else {
+            this->chessboard->clearHighlights();
+            this->activeField = NULL;
+        }
+    }
+}
+
+void ChessGame::slotMovePiece()
+{
+    // Obtain destination for move
+    ChessLabel* to = dynamic_cast<ChessLabel*>(sender());
+
+    // Move piece if allowed
+    if(this->activeField != NULL) {
+        unsigned int from = this->activeField->getPosition();
+        enum MoveType m = this->game.move(from ,to->getPosition());
+
+        switch(m) {
+        case MT_NORMAL:
+            this->chessboard->movePiece(from, to->getPosition());
+        }
+
+        // Unhighlight all fields
+        this->activeField = NULL;
+        this->chessboard->clearHighlights();
+
+        // Unhighlight check position
+        this->chessboard->unCheckField();
+
+        // Set new active player
+        this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 
 //        // TODO: Normal discards possible promotions!
 //        if(this->game.move(this->pieces[this->activeField->getPosition()], Move(to->getPosition(), NORMAL))) {
@@ -190,10 +205,7 @@ void ChessGame::newGame()
 //                    }
 //                }
 //            }
-
-//            // Set new active player
-//            this->statusBar()->showMessage(QString::fromStdString(this->game.getActivePlayerString()));
 //        }
-//    }
-//}
+    }
+}
 

@@ -21,12 +21,17 @@ Move::Move(const unsigned int &m, const MoveType &mt) :
     this->set(m);
 }
 
-int Move::getX() const
+unsigned int Move::get() const
+{
+    return this->destination;
+}
+
+unsigned int Move::getX() const
 {
     return this->destination%8;
 }
 
-int Move::getY() const
+unsigned int Move::getY() const
 {
     return (this->destination - this->getX()) / 8;
 }

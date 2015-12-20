@@ -55,7 +55,6 @@ bool Board::isOnBoard(const unsigned int &i) const
     return false;
 }
 
-
 void Board::addPiece(const unsigned int &position, const PieceType &type, const PieceColor &color)
 {
     // Create piece

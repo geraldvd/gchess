@@ -50,7 +50,8 @@ std::vector<Move> King::calculateMoves(Board *b)
             bool kingTooClose{false};
             for(auto &k : displacements) {
                 unsigned int kingPosition = m + k.first + 8*k.second;
-                if(b->isOnBoard(kingPosition) && b->getTile(kingPosition)->getPiece()->getColor() != this->getColor()
+                if(b->isOnBoard(kingPosition) && b->getTile(kingPosition)->isOccupied()
+                        && b->getTile(kingPosition)->getPiece()->getColor() != this->getColor()
                         && b->getTile(kingPosition)->getPiece()->getType() == KING) {
                     kingTooClose = true;
                 }

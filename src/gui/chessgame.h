@@ -30,9 +30,6 @@ public:
     // Piece functions (calling chessboard methods)
 //    void addPiece(Piece *p);
 
-    // Highlight functions
-//    void highlightMoves(Piece *p);
-
 signals:
 
 public slots:
@@ -40,8 +37,8 @@ public slots:
     void newGame();
 
     // Slot for highlighting
-//    void toggleHighlighting();
-//    void slotMovePiece();
+    void toggleHighlighting();
+    void slotMovePiece();
 
 private:
     // Widgets
@@ -52,8 +49,7 @@ private:
 
     // Game variables
     Game game;
-//    std::map<unsigned int,Piece*> pieces;
-//    ChessLabel *activeField;
+    ChessLabel *activeField;
 };
 
 #endif // CHESSGAME_H

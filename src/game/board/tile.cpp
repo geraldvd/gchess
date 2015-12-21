@@ -157,11 +157,11 @@ void Tile::clearPiece()
     }
 }
 
-bool Tile::tileUnderAttack(Board *b)
+bool Tile::tileUnderAttack(Board *b, const enum PieceColor &myColor)
 {
     for(auto &p : b->getPieces()) {
         // Check whether field is empty OR has opposing color
-        if((this->isOccupied() && this->getPiece()->getColor() != p->getColor()) || !this->isOccupied()) {
+        if(/*(this->isOccupied() && this->getPiece()->getColor() != p->getColor()) || */p->getColor() != myColor) {
             for(auto &m : p->calculateMoves(b)) {
                 if(m.get() == this->getPosition()) {
                     return true;

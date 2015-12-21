@@ -15,12 +15,14 @@ public:
     unsigned int getX() const;
     unsigned int getY() const;
     enum MoveType getMoveType() const;
+    unsigned int getCastlingRookPosition() const;
 
     // Setters
     void set(const unsigned int &m);
     void setX(const unsigned int &x);
     void setY(const unsigned int &y);
     void setMoveType(const enum MoveType &mt);
+    void setCatlingRookPosition(const unsigned int &position);
 
 
 private:
@@ -29,6 +31,9 @@ private:
 
     // Move coordinates
     unsigned int destination;
+
+    // Extra information
+    unsigned int castlingRookPosition;
 };
 
 #endif // MOVE_H

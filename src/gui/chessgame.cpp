@@ -164,7 +164,7 @@ void ChessGame::slotMovePiece()
 
         // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
         for(auto &p : this->game.getBoard()->getPieces()) {
-            if(p->getType() == KING && p->getTile()->tileUnderAttack(this->game.getBoard())) {
+            if(p->getType() == KING && p->getTile()->tileUnderAttack(this->game.getBoard(), this->game.getActivePlayer())) {
                 this->chessboard->checkField(p->getTile()->getPosition());
                 break;
             }

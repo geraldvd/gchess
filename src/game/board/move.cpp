@@ -9,14 +9,16 @@
 using namespace std;
 
 Move::Move(const int &x, const int &y, const MoveType &mt) :
-    move_type(mt)
+    move_type(mt),
+    castlingRookPosition(0)
 {
     this->setX(x);
     this->setY(y);
 }
 
 Move::Move(const unsigned int &m, const MoveType &mt) :
-    move_type(mt)
+    move_type(mt),
+    castlingRookPosition(0)
 {
     this->set(m);
 }
@@ -41,6 +43,11 @@ MoveType Move::getMoveType() const
     return this->move_type;
 }
 
+unsigned int Move::getCastlingRookPosition() const
+{
+    return this->castlingRookPosition;
+}
+
 void Move::set(const unsigned int &m)
 {
     if(m>=0 && m<Board::NUM_TILES) {
@@ -53,6 +60,11 @@ void Move::set(const unsigned int &m)
 void Move::setMoveType(const MoveType &mt)
 {
     this->move_type = mt;
+}
+
+void Move::setCatlingRookPosition(const unsigned int &position)
+{
+    this->castlingRookPosition = position;
 }
 
 void Move::setX(const unsigned int &x)

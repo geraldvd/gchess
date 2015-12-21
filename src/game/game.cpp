@@ -143,6 +143,36 @@ void Game::updateAllMoves()
         }
     }
 
+    // Check castling moves - TODO not working yet
+    for(auto &movesOfPiece : moves) {
+        if(this->getBoard()->getTile(movesOfPiece.first)->isOccupied() &&
+                this->getBoard()->getTile(movesOfPiece.first)->getPiece()->getType() == KING) {
+            for(vector<Move>::iterator it=movesOfPiece.second.begin(); it!=movesOfPiece.second.end(); it++) {
+                if((*it).getMoveType() == MT_CASTLING) {
+                    if(movesOfPiece.first < (*it).getCastlingRookPosition()) {
+                        for(int i=movesOfPiece.first + 1; i<(*it).getCastlingRookPosition(); i++) {
+                            if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard(), this->activePlayer)) {
+                                // Castling not allowed; field in between under attack
+                                movesOfPiece.second.erase(it);
+                                break;
+                            }
+                        }
+                    } else {
+                        for(int i=movesOfPiece.first - 1; i>(*it).getCastlingRookPosition(); i--) {
+                            if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard(), this->activePlayer)) {
+                                // Castling not allowed; field in between under attack
+                                movesOfPiece.second.erase(it);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+
+        }
+    }
+
 //    // Check whether king is currently in check position
 //    for(auto &p : this->getBoard()->getPieces()) {
 //        if(p->getColor() == this->activePlayer && p->getType() == KING && p->getTile()->tileUnderAttack(this->getBoard())) {

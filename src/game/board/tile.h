@@ -40,7 +40,7 @@ public:
     void setPiece(Piece_ptr p);
     void clearPiece();
 
-    bool tileUnderAttack(Board* b);
+    bool tileUnderAttack(Board* b, const PieceColor &myColor);
 
 private:
     // Field coordinates

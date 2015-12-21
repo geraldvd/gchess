@@ -74,7 +74,13 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
         // Check whether caputring is allowed
         if(b->isOnBoard(m) && b->getTile(m)->isOccupied() && this->getColor() != b->getTile(m)->getPiece()->getColor()) {
             // TODO check king
-            moves.push_back(Move(m, MT_NORMAL));
+
+            // Check promotion
+            if((this->getColor()==WHITE && m>55) || (this->getColor()==BLACK && m<8)) {
+                moves.push_back(Move(m, MT_PROMOTION));
+            } else {
+                moves.push_back(Move(m, MT_NORMAL));
+            }
         }
     }
 

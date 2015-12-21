@@ -1,6 +1,7 @@
 // Include standard libraries
 #include <algorithm>
 #include <string>
+#include <iostream>
 
 // Include project files
 #include "game.h"
@@ -107,6 +108,9 @@ void Game::promotionTest()
     this->board.addPiece(2, 6, PAWN, WHITE);
     this->board.addPiece(6, 1, PAWN, BLACK);
 
+    // Extra piece (for promotion via capturing)
+    this->board.addPiece(1, 7, KNIGHT, BLACK);
+
     // Set active player and calculate possible moves
     this->activePlayer = WHITE;
     this->updateAllMoves();
@@ -166,12 +170,24 @@ void Game::updateAllMoves()
                             }
                         }
                     }
-                    break;
                 }
             }
-
         }
     }
+
+    // Testing
+    vector<string> attackedTiles;
+    vector<string> occupiedTiles;
+    for(Tile* t : this->board.getTiles()) {
+        if(t->isOccupied()) occupiedTiles.push_back(t->getPositionString());
+        if(t->tileUnderAttack(this->getBoard(), this->activePlayer)) attackedTiles.push_back(t->getPositionString());
+    }
+    cout << "Occupied tiles: ";
+    for(auto &s : occupiedTiles) cout << s << " ";
+    cout << endl;
+    cout << "Attacked tiles: ";
+    for(auto &s : attackedTiles) cout << s << " ";
+    cout << endl << endl;
 
 //    // Check whether king is currently in check position
 //    for(auto &p : this->getBoard()->getPieces()) {

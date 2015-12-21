@@ -16,7 +16,7 @@ public:
     Game(const enum PieceColor &active_player=WHITE);
 
     // Initializers
-    void newGame(const int &game_type=2);
+    void newGame(const int &game_type=1);
     void promotionTest();
     void castlingTest();
     void normalGame();

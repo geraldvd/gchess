@@ -7,7 +7,7 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(const enum PieceColor & c, const bool & hasMoved=false, const bool & justMovedDouble=false, Tile* parent=NULL);
+    Pawn(const PieceColor & c, const bool & hasMoved=false, const bool & justMovedDouble=false, Tile* parent=NULL);
     bool getJustMovedDouble() const;
     void setJustMovedDouble(const bool &d);
 

@@ -2,35 +2,31 @@
 #define MOVE_H
 
 // Include project files
-#include "types.h"
+#include "utils.h"
 
-class Move
+// Forward declarations
+class Board;
+
+class Move : public Field
 {
 public:
-    Move(const int &x, const int &y, const enum MoveType &mt=MT_NORMAL);
-    Move(const unsigned int &m, const enum MoveType &mt=MT_NORMAL);
+    Move(const int &x, const int &y, const MoveType &mt=MT_NORMAL);
+    Move(const int &m, const MoveType &mt=MT_NORMAL);
 
-    // Getters
-    unsigned int get() const;
-    unsigned int getX() const;
-    unsigned int getY() const;
-    enum MoveType getMoveType() const;
+    // Move type methods
+    MoveType getMoveType() const;
+    void setMoveType(const MoveType &mt);
+
+    // Castling methods
     unsigned int getCastlingRookPosition() const;
-
-    // Setters
-    void set(const unsigned int &m);
-    void setX(const unsigned int &x);
-    void setY(const unsigned int &y);
-    void setMoveType(const enum MoveType &mt);
     void setCatlingRookPosition(const unsigned int &position);
 
+    // Move execution
+    bool execute(Board *b);
 
 private:
     // Move type
-    enum MoveType move_type;
-
-    // Move coordinates
-    unsigned int destination;
+    MoveType move_type;
 
     // Extra information
     unsigned int castlingRookPosition;

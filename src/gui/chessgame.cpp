@@ -105,7 +105,7 @@ void ChessGame::slotMovePiece()
     // Move piece if allowed
     if(this->activeField != NULL) {
         unsigned int from = this->activeField->getPosition();
-        enum MoveType m = this->game.getMoveType(from, to->getPosition());
+        MoveType m = this->game.getMoveType(from, to->getPosition());
 
         switch(m) {
         case MT_PROMOTION:

@@ -15,7 +15,7 @@
 #include <QLabel>
 
 // Include project libraries
-#include "types.h"
+#include "utils.h"
 #include "chesslabel.h"
 
 class Chessboard : public QLabel
@@ -28,7 +28,7 @@ public:
     ~Chessboard();
 
     // Piece functions
-    void addPiece(const unsigned int & position, const enum PieceColor & c, const enum PieceType & p);
+    void addPiece(const unsigned int & position, const PieceColor & c, const PieceType & p);
     void removePiece(const unsigned int & position);
     void movePiece(const unsigned int & from, const unsigned int & to);
     void clearPieces();
@@ -46,8 +46,8 @@ private:
     QWidget *parent;
 
     // Get image filename of piece
-    QString getImageFilename(const enum PieceColor & c, const enum PieceType & p);
-    QString getPieceHTML(const enum PieceColor & c, const enum PieceType & p);
+    QString getImageFilename(const PieceColor & c, const PieceType & p);
+    QString getPieceHTML(const PieceColor & c, const PieceType & p);
 
     // Pieces and highlighted fields
     std::map<unsigned int,ChessLabel*> pieces;

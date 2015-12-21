@@ -12,9 +12,8 @@
 using namespace std;
 
 Knight::Knight(const PieceColor & c, const bool &hasMoved, Tile *parent) :
-    Piece(c, hasMoved, parent)
+    Piece(KNIGHT, c, hasMoved, parent)
 {
-    this->type = KNIGHT;
 }
 
 std::vector<Move> Knight::calculateMoves(Board *b)

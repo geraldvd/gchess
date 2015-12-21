@@ -14,7 +14,7 @@
 // Specify namespaces
 using namespace std;
 
-PromotionDialog::PromotionDialog(const enum PieceColor &c, QWidget *parent) :
+PromotionDialog::PromotionDialog(const PieceColor &c, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PromotionDialog),
     promotionType(PT_QUEEN),

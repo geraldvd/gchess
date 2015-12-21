@@ -8,8 +8,8 @@
 // Specify namespaces
 using namespace std;
 
-LinePiece::LinePiece(const PieceColor & c, const bool & hasMoved, Tile *parent) :
-    Piece(c, hasMoved, parent)
+LinePiece::LinePiece(const PieceType &type, const PieceColor & c, const bool & hasMoved, Tile *parent) :
+    Piece(type, c, hasMoved, parent)
 {
 }
 

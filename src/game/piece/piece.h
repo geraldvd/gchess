@@ -2,10 +2,8 @@
 #define PIECE_H
 
 // Include standard libraries
-#include <utility>
 #include <vector>
 #include <string>
-#include <map>
 
 // Include project files
 #include "operators.h"
@@ -18,33 +16,35 @@ class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const enum PieceColor &c, const bool &has_moved, Tile *parent=NULL);
+    Piece(const PieceType &type, const PieceColor &c, const bool &has_moved, Tile *parent=NULL);
     virtual ~Piece();
 
-    // Getters
-    Tile* getTile();
-    enum PieceType getType() const;
-    std::string getTypeString() const;
-    enum PieceColor getColor() const;
-    std::string getColorString() const;
-    bool hasMoved() const;
+    // Type methods
+    PieceType getType() const;
+    std::string getTypeString(const bool &short_notation=false) const;
 
-    // Setters
+    // Color methods
+    PieceColor getColor() const;
+    std::string getColorString() const;
+
+    // Tile methods
+    Tile* getTile();
     void setTile(Tile* tile);
-    void setMoved();
 
     // Move methods
     virtual std::vector<Move> calculateMoves(Board *b) = 0;
+    bool hasMoved() const;
+    void setMoved();
 
 protected:
     // Position of piece
     Tile* tile;
 
     // Type of piece
-    enum PieceType type;
+    PieceType type;
 
     // White or black?
-    enum PieceColor color;
+    PieceColor color;
 
     // Has to be false for Rook and King when castling
     bool has_moved;

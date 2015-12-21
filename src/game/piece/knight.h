@@ -7,7 +7,7 @@
 class Knight : public Piece
 {
 public:
-    Knight(const enum PieceColor &c, const bool &hasMoved=false, Tile* parent=NULL);
+    Knight(const PieceColor &c, const bool &hasMoved=false, Tile* parent=NULL);
 
 protected:
     virtual std::vector<Move> calculateMoves(Board *b);

@@ -9,9 +9,8 @@
 using namespace std;
 
 King::King(const PieceColor &c, const bool &has_moved, Tile *parent) :
-    Piece(c, has_moved, parent)
+    Piece(KING, c, has_moved, parent)
 {
-    this->type = KING;
 }
 
 

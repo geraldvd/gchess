@@ -1,12 +1,13 @@
+// Include project files
 #include "piece.h"
+#include "board/tile.h"
 
-#include <sstream>
-#include <algorithm>
-
+// Specify namespaces
 using namespace std;
 
-Piece::Piece(const PieceColor & c, const bool &has_moved, Tile* parent) :
+Piece::Piece(const PieceType &type, const PieceColor & c, const bool &has_moved, Tile* parent) :
     tile(parent),
+    type(type),
     color(c),
     has_moved(has_moved)
 {
@@ -27,26 +28,26 @@ PieceType Piece::getType() const
     return this->type;
 }
 
-string Piece::getTypeString() const
+string Piece::getTypeString(const bool &short_notation) const
 {
     switch(this->type) {
     case KING:
-        return "King";
+        return short_notation ? (this->color==WHITE ? "K" : "k") : "King";
         break;
     case QUEEN:
-        return "Queen";
+        return short_notation ? (this->color==WHITE ? "Q" : "q") : "Queen";
         break;
     case ROOK:
-        return "Rook";
+        return short_notation ? (this->color==WHITE ? "R" : "r") : "Rook";
         break;
     case BISHOP:
-        return "Bishop";
+        return short_notation ? (this->color==WHITE ? "B" : "b") : "Bishop";
         break;
     case KNIGHT:
-        return "Knight";
+        return short_notation ? (this->color==WHITE ? "N" : "n") : "Knight";
         break;
     case PAWN:
-        return "Pawn";
+        return short_notation ? (this->color==WHITE ? "P" : "p") : "Pawn";
         break;
     default:
         throw domain_error("Piece type not recognized.");

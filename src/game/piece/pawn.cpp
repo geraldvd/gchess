@@ -9,10 +9,9 @@
 using namespace std;
 
 Pawn::Pawn(const PieceColor &c, const bool &hasMoved, const bool &justMovedDouble, Tile *parent) :
-    Piece(c, hasMoved, parent),
+    Piece(PAWN, c, hasMoved, parent),
     justMovedDouble(justMovedDouble)
 {
-    this->type = PAWN;
 }
 
 bool Pawn::getJustMovedDouble() const

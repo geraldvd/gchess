@@ -8,7 +8,6 @@
 #ifdef WITH_GRAPHICS
     #include <QApplication>
     #include "chessgame.h"
-    #include "piece/queen.h"
 #else
     #include <game.h>
 #endif
@@ -35,6 +34,10 @@ int main(int argc, char **argv) {
     return a.exec();
 #else
     qDebug() << "Running from terminal!" << endl;
+
+    Game g;
+
+    cout << g.getBoard() << endl;
 
     return 0;
 #endif

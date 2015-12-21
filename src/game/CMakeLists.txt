@@ -1,9 +1,9 @@
 # Create library
 add_library(${PROJECT_NAME}_game
     game.cpp
-    types.h
     utils.cpp
     operators.cpp
+    player.cpp
 
     # Board
     board/tile.cpp

@@ -220,10 +220,10 @@ void Game::updateAllMoves()
     this->moves = moves;
 }
 
-enum MoveType Game::move(const unsigned int &from, const unsigned int &to, const PromotionType &pt)
+MoveType Game::move(const int &from, const int &to, const PromotionType &pt)
 {
     for(auto &m : this->getMoves(from)) {
-        if(m.get() == to) {
+        if(m.getPosition() == to) {
             // Move possible
 
             // Check pawn double moves (for En Passant capturing)
@@ -297,10 +297,10 @@ enum MoveType Game::move(const unsigned int &from, const unsigned int &to, const
     return MT_INVALID;
 }
 
-MoveType Game::getMoveType(const unsigned int &from, const unsigned int &to)
+MoveType Game::getMoveType(const int &from, const int &to)
 {
     for(auto &m : this->getMoves(from)) {
-        if(m.get() == to) {
+        if(m.getPosition() == to) {
             return m.getMoveType();
         }
     }
@@ -321,7 +321,7 @@ std::vector<unsigned int> Game::getPositionsPossibleMoves(const unsigned int &po
 
     vector<unsigned int> movePositions;
     for(auto &m : moves) {
-        movePositions.push_back(m.get());
+        movePositions.push_back(m.getPosition());
     }
 
     return movePositions;

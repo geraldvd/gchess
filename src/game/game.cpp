@@ -154,7 +154,7 @@ void Game::updateAllMoves()
             for(vector<Move>::iterator it=movesOfPiece.second.begin(); it!=movesOfPiece.second.end(); it++) {
                 if((*it).getMoveType() == MT_CASTLING) {
                     if(movesOfPiece.first < (*it).getCastlingRookPosition()) {
-                        for(int i=movesOfPiece.first + 1; i<(*it).getCastlingRookPosition(); i++) {
+                        for(unsigned int i=movesOfPiece.first + 1; i<(*it).getCastlingRookPosition(); i++) {
                             if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard(), this->activePlayer)) {
                                 // Castling not allowed; field in between under attack
                                 movesOfPiece.second.erase(it);
@@ -162,7 +162,7 @@ void Game::updateAllMoves()
                             }
                         }
                     } else {
-                        for(int i=movesOfPiece.first - 1; i>(*it).getCastlingRookPosition(); i--) {
+                        for(unsigned int i=movesOfPiece.first - 1; i>(*it).getCastlingRookPosition(); i--) {
                             if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard(), this->activePlayer)) {
                                 // Castling not allowed; field in between under attack
                                 movesOfPiece.second.erase(it);

@@ -35,9 +35,9 @@ int main(int argc, char **argv) {
 #else
     qDebug() << "Running from terminal!" << endl;
 
-    Game g;
+    Board b(1);
 
-    cout << g.getBoard() << endl;
+    cout << b << endl;
 
     return 0;
 #endif

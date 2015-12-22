@@ -10,31 +10,42 @@ using namespace std;
 
 Move::Move(const int &x, const int &y, const MoveType &mt) :
     Field(x, y),
-    move_type(mt),
+    moveType(mt),
+    moveValid(true),
     castlingRookPosition(0)
 {
 }
 
 Move::Move(const int &m, const MoveType &mt) :
     Field(m),
-    move_type(mt),
+    moveType(mt),
     castlingRookPosition(0)
 {
 }
 
 MoveType Move::getMoveType() const
 {
-    return this->move_type;
+    return this->moveType;
 }
 
-unsigned int Move::getCastlingRookPosition() const
+Field Move::getCastlingRookPosition() const
 {
     return this->castlingRookPosition;
 }
 
 void Move::setMoveType(const MoveType &mt)
 {
-    this->move_type = mt;
+    this->moveType = mt;
+}
+
+void Move::setValidity(const bool &valid)
+{
+    this->moveValid = valid;
+}
+
+bool Move::isValid() const
+{
+    return this->moveValid;
 }
 
 void Move::setCatlingRookPosition(const unsigned int &position)
@@ -46,4 +57,9 @@ bool Move::execute(Board* b)
 {
     // TODO
     return true;
+}
+
+Piece_ptr Move::getMovingPiece() const
+{
+    return this->movingPiece;
 }

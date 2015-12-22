@@ -23,7 +23,7 @@ Move operator+(const Move &m, const unsigned int &i);
 Move operator+(const unsigned int &i, const Move &m);
 
 // Board operators
-std::ostream& operator<<(std::ostream& os, Board *b);
+std::ostream& operator<<(std::ostream& os, Board &b);
 
 
 #endif // OPERATORS_H

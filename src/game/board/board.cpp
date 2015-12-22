@@ -11,12 +11,12 @@
 #include "bishop.h"
 #include "knight.h"
 #include "pawn.h"
-#include "player.h"
+#include "player/player.h"
 
 // Specify namespaces
 using namespace std;
 
-Board::Board() :
+Board::Board(const int &board_layout) :
     board_status(BS_NORMAL)
 {
     // Setup tiles
@@ -26,7 +26,7 @@ Board::Board() :
     }
 
     // Initialize board
-    this->initBoard(0);
+    this->initBoard(board_layout);
 
     // Setup players - NOTE: must be done after tile initialization
     this->whitePlayer = Player(WHITE, this);
@@ -205,4 +205,54 @@ void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceTy
 void Board::removePiece(const unsigned int &position)
 {
     this->getTile(position)->clearPiece();
+}
+
+Player *Board::getActivePlayer()
+{
+    if(this->activePlayer == WHITE) {
+        return &this->whitePlayer;
+    } else {
+        return &this->blackPlayer;
+    }
+}
+
+void Board::switchPlayer()
+{
+    if(this->activePlayer == WHITE) {
+        this->activePlayer = BLACK;
+    } else {
+        this->activePlayer = WHITE;
+    }
+}
+
+BoardStatus Board::getBoardStatus() const
+{
+    return this->board_status;
+}
+
+string Board::getBoardStatusString() const
+{
+    string status;
+    switch(this->board_status) {
+    case BS_NORMAL:
+        status = "Normal";
+        break;
+    case BS_CHECKBLACK:
+        status = "Check black";
+        break;
+    case BS_CHECKWHITE:
+        status = "Check white";
+        break;
+    case BS_CHECKMATEBLACK:
+        status = "Checkmate black";
+        break;
+    case BS_CHECKMATEWHITE:
+        status = "Checkmate white";
+        break;
+    case BS_STALEMATE:
+        status = "Stalemate";
+        break;
+    }
+
+    return status;
 }

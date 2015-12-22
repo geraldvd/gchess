@@ -16,20 +16,29 @@ public:
     // Move type methods
     MoveType getMoveType() const;
     void setMoveType(const MoveType &mt);
+    void setValidity(const bool &valid);
+    bool isValid() const;
 
     // Castling methods
-    unsigned int getCastlingRookPosition() const;
+    Field getCastlingRookPosition() const;
     void setCatlingRookPosition(const unsigned int &position);
 
     // Move execution
     bool execute(Board *b);
 
+    // Moving piece
+    Piece_ptr getMovingPiece() const;
+
 private:
     // Move type
-    MoveType move_type;
+    MoveType moveType;
+    bool moveValid;
+
+    // Moving piece
+    Piece_ptr movingPiece;
 
     // Extra information
-    unsigned int castlingRookPosition;
+    Field castlingRookPosition;
 };
 
 #endif // MOVE_H

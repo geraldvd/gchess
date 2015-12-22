@@ -3,7 +3,6 @@ add_library(${PROJECT_NAME}_game
     game.cpp
     utils.cpp
     operators.cpp
-    player.cpp
 
     # Board
     board/tile.cpp
@@ -19,6 +18,9 @@ add_library(${PROJECT_NAME}_game
     piece/bishop.cpp
     piece/knight.cpp
     piece/pawn.cpp
+
+    # Player
+    player/player.cpp
 )
 
 # Add pieces

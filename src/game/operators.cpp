@@ -1,6 +1,8 @@
 // Include standard libraries
 #include <string>
 #include <iomanip>
+#include <sstream>
+#include <vector>
 
 // Include project files
 #include "operators.h"
@@ -39,17 +41,40 @@ Move operator+(const unsigned int &i, const Move &m)
 }
 
 
-std::ostream &operator<<(std::ostream &os, Board *b)
+std::ostream &operator<<(std::ostream &os, Board &b)
 {
-    for(Tile *t : b->getTiles()) {
+    // Board information top
+    os << "Active player: " << b.getActivePlayer()->getColorString()
+       <<
+          ", Board status: " << b.getBoardStatusString() << endl;
+
+    // Fill board rows
+    vector<stringstream> rows(NUM_TILES_Y+1);
+    int currentRow = 0;
+    for(Tile *t : b.getTiles()) {
+        if(t->getX() == 0) {
+            rows.at(currentRow) << currentRow+1 << "   ";
+        }
         if(t->isOccupied()) {
-            os << setw(3) << t->getPiece()->getTypeString(true);
+            rows.at(currentRow)<< setw(3) << t->getPiece()->getTypeString(true);
         } else {
-            os << setw(3) << "-";
+            rows.at(currentRow) << setw(3) << "-";
         }
         if(t->getX() == NUM_TILES_X-1) {
-            os << endl;
+            rows.at(currentRow++) << endl;
         }
+    }
+
+    // Return rows inverted (i.e., white below)
+    for(vector<stringstream>::reverse_iterator it=rows.rbegin(); it !=rows.rend(); it++) {
+        os << (*it).str();
+    }
+
+    // Footer
+    os << endl << "    ";
+    char currentColumn = 'a';
+    for(int i=0; i<NUM_TILES_X; i++) {
+        os << setw(3) << currentColumn++;
     }
 
     return os;

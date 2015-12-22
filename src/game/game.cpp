@@ -14,124 +14,15 @@
 // Specify namespaces
 using namespace std;
 
-Game::Game(const PieceColor &active_player) :
-    board(Board()),
-    activePlayer(active_player)
+Game::Game() :
+    board(Board(2))
 {
 
-}
-
-void Game::newGame(const int &game_type)
-{
-    switch(game_type) {
-    case 1:
-        this->promotionTest();
-        break;
-    case 2:
-        this->castlingTest();
-        break;
-    default:
-        this->normalGame();
-        break;
-    }
-}
-
-void Game::castlingTest()
-{
-    // Clean board
-    this->board = Board();
-
-    // Kings
-    this->board.addPiece(4, KING, WHITE);
-    this->board.addPiece(60, KING, BLACK);
-
-    // Rooks
-    this->board.addPiece(0, ROOK, WHITE);
-    this->board.addPiece(7, ROOK, WHITE);
-    this->board.addPiece(56, ROOK, BLACK);
-    this->board.addPiece(63, ROOK, BLACK);
-
-    // Attack one of the fields
-    this->board.addPiece(6, 1, BISHOP, BLACK);
-
-    // Set active player and calculate possible moves
-    this->activePlayer = WHITE;
-    this->updateAllMoves();
-}
-
-void Game::normalGame()
-{
-    // Clean board
-    this->board = Board();
-
-    // Pawns
-    for(int i=8; i<16; i++) {
-        this->board.addPiece(i, PAWN, WHITE);
-        this->board.addPiece(40+i, PAWN, BLACK);
-    }
-
-    // White pieces
-    this->board.addPiece(4, KING, WHITE);
-    this->board.addPiece(3, QUEEN, WHITE);
-    this->board.addPiece(0, ROOK, WHITE);
-    this->board.addPiece(7, ROOK, WHITE);
-    this->board.addPiece(2, BISHOP, WHITE);
-    this->board.addPiece(5, BISHOP, WHITE);
-    this->board.addPiece(1, KNIGHT, WHITE);
-    this->board.addPiece(6, KNIGHT, WHITE);
-
-    // Black pieces
-    this->board.addPiece(60, KING, BLACK);
-    this->board.addPiece(59, QUEEN, BLACK);
-    this->board.addPiece(56, ROOK, BLACK);
-    this->board.addPiece(63, ROOK, BLACK);
-    this->board.addPiece(58, BISHOP, BLACK);
-    this->board.addPiece(61, BISHOP, BLACK);
-    this->board.addPiece(57, KNIGHT, BLACK);
-    this->board.addPiece(62, KNIGHT, BLACK);
-
-    // Set active player and calculate possible moves
-    this->activePlayer = WHITE;
-    this->updateAllMoves();
-}
-
-void Game::promotionTest()
-{
-    // Clean board
-    this->board = Board();
-
-    // Kings
-    this->board.addPiece(4, KING, WHITE);
-    this->board.addPiece(60, KING, BLACK);
-
-    // Promotion pawn
-    this->board.addPiece(2, 6, PAWN, WHITE);
-    this->board.addPiece(6, 1, PAWN, BLACK);
-
-    // Extra piece (for promotion via capturing)
-    this->board.addPiece(1, 7, KNIGHT, BLACK);
-
-    // Set active player and calculate possible moves
-    this->activePlayer = WHITE;
-    this->updateAllMoves();
 }
 
 Board *Game::getBoard()
 {
     return &this->board;
-}
-
-PieceColor Game::getActivePlayer() const
-{
-    return this->activePlayer;
-}
-
-std::string Game::getActivePlayerString() const
-{
-    if(this->activePlayer == WHITE)
-        return "White";
-    else
-        return "Black";
 }
 
 void Game::updateAllMoves()
@@ -142,7 +33,7 @@ void Game::updateAllMoves()
 
     // Compute all potential moves
     for(Tile* t : this->board.getTiles()) {
-        if(t->isOccupied() && this->getActivePlayer() == t->getPiece()->getColor()) {
+        if(t->isOccupied() && this->getBoard()->getActivePlayer()->getColor() == t->getPiece()->getColor()) {
             moves[t->getPosition()] = t->getPiece()->calculateMoves(this->getBoard());
         }
     }
@@ -153,17 +44,17 @@ void Game::updateAllMoves()
                 this->getBoard()->getTile(movesOfPiece.first)->getPiece()->getType() == KING) {
             for(vector<Move>::iterator it=movesOfPiece.second.begin(); it!=movesOfPiece.second.end(); it++) {
                 if((*it).getMoveType() == MT_CASTLING) {
-                    if(movesOfPiece.first < (*it).getCastlingRookPosition()) {
-                        for(unsigned int i=movesOfPiece.first + 1; i<(*it).getCastlingRookPosition(); i++) {
-                            if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard(), this->activePlayer)) {
+                    if(movesOfPiece.first < (*it).getCastlingRookPosition().getPosition()) {
+                        for(unsigned int i=movesOfPiece.first + 1; i<(*it).getCastlingRookPosition().getPosition(); i++) {
+                            if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard())) {
                                 // Castling not allowed; field in between under attack
                                 movesOfPiece.second.erase(it);
                                 break;
                             }
                         }
                     } else {
-                        for(unsigned int i=movesOfPiece.first - 1; i>(*it).getCastlingRookPosition(); i--) {
-                            if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard(), this->activePlayer)) {
+                        for(unsigned int i=movesOfPiece.first - 1; i>(*it).getCastlingRookPosition().getPosition(); i--) {
+                            if(this->getBoard()->getTile(i)->tileUnderAttack(this->getBoard())) {
                                 // Castling not allowed; field in between under attack
                                 movesOfPiece.second.erase(it);
                                 break;
@@ -180,7 +71,7 @@ void Game::updateAllMoves()
     vector<string> occupiedTiles;
     for(Tile* t : this->board.getTiles()) {
         if(t->isOccupied()) occupiedTiles.push_back(t->getPositionString());
-        if(t->tileUnderAttack(this->getBoard(), this->activePlayer)) attackedTiles.push_back(t->getPositionString());
+        if(t->tileUnderAttack(this->getBoard())) attackedTiles.push_back(t->getPositionString());
     }
     cout << "Occupied tiles: ";
     for(auto &s : occupiedTiles) cout << s << " ";
@@ -288,7 +179,7 @@ MoveType Game::move(const int &from, const int &to, const PromotionType &pt)
 
             // Update game
             this->getBoard()->getTile(to)->getPiece()->setMoved();
-            this->activePlayer = this->activePlayer==WHITE ? BLACK : WHITE;
+            this->getBoard()->switchPlayer();
             this->updateAllMoves();
             return m.getMoveType();
         }

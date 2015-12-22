@@ -8,15 +8,15 @@
 #include "utils.h"
 #include "tile.h"
 #include "piece/piece.h"
-#include "player.h"
+#include "player/player.h"
 
 class Board
 {
 public:
-    Board();
+    Board(const int &board_layout=0);
 
     // Initializers
-    void initBoard(const int &board_layout=0);
+    void initBoard(const int &board_layout);
     void standardBoard();
     void promotionTest();
     void castlingTest();
@@ -24,16 +24,23 @@ public:
     // Tile methods
     Tile* getTile(const unsigned int &i);
     Tile* getTile(const unsigned int &x, const unsigned int &y);
-
     std::vector<Tile*> getTiles();
-    std::vector<Piece_ptr> getPieces();
     bool isOnBoard(const int &i) const;
     bool isOnBoard(const int &x, const int &y) const;
 
     // Piece methods
+    std::vector<Piece_ptr> getPieces();
     void addPiece(const unsigned int &position, const PieceType &type, const PieceColor &color);
     void addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color);
     void removePiece(const unsigned int &position);
+
+    // Player methods
+    Player* getActivePlayer();
+    void switchPlayer();
+
+    // Board status
+    BoardStatus getBoardStatus() const;
+    std::string getBoardStatusString() const;
 
 private:
     // Tiles on board

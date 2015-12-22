@@ -20,7 +20,7 @@ public:
     Tile(const unsigned int &x, const unsigned int &y);
 
     // Field methods
-    bool tileUnderAttack(Board* b, const PieceColor &myColor);
+    bool tileUnderAttack(Board* b);
 
     // Piece methods
     Piece_ptr getPiece() const;

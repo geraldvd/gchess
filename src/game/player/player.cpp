@@ -121,6 +121,7 @@ MoveStatus Player::move(const Move &m)
         break;
     }
 
+    m.getMovingPiece()->setMoved();
     return MS_OK;
 }
 
@@ -132,23 +133,24 @@ MoveStatus Player::doPromotion(const PromotionType &pt, const Move &m)
 
     switch(pt) {
     case PT_QUEEN:
-        this->getBoard()->addPiece(m.getX(), m.getY(), QUEEN, m.getMovingPiece()->getColor());
+        this->getBoard()->addPiece(m.getX(), m.getY(), QUEEN, this->color);
         break;
     case PT_ROOK:
-        this->getBoard()->addPiece(m.getX(), m.getY(), ROOK, m.getMovingPiece()->getColor());
+        this->getBoard()->addPiece(m.getX(), m.getY(), ROOK, this->color);
         break;
     case PT_BISHOP:
-        this->getBoard()->addPiece(m.getX(), m.getY(), BISHOP, m.getMovingPiece()->getColor());
+        this->getBoard()->addPiece(m.getX(), m.getY(), BISHOP, this->color);
         break;
     case PT_KNIGHT:
-        this->getBoard()->addPiece(m.getX(), m.getY(), KNIGHT, m.getMovingPiece()->getColor());
+        this->getBoard()->addPiece(m.getX(), m.getY(), KNIGHT, this->color);
         break;
     default:
         throw invalid_argument("Promotion type unknown.");
         break;
     }
-    this->getBoard()->getTile(m.getX(), m.getY())->clearPiece();
+    m.getMovingPiece()->getTile()->clearPiece();
 
+    m.getMovingPiece()->setMoved();
     return MS_OK;
 }
 

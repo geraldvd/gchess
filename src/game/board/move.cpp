@@ -56,15 +56,9 @@ bool Move::isValid() const
     return this->moveValid;
 }
 
-void Move::setCatlingRookPosition(const unsigned int &position)
+void Move::setCatlingRookPosition(const Field &position)
 {
     this->castlingRookPosition = position;
-}
-
-bool Move::execute(Board* b)
-{
-    // TODO
-    return true;
 }
 
 Piece_ptr Move::getMovingPiece() const

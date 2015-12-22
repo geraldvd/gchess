@@ -22,10 +22,7 @@ public:
 
     // Castling methods
     Field getCastlingRookPosition() const;
-    void setCatlingRookPosition(const unsigned int &position);
-
-    // Move execution
-    bool execute(Board *b);
+    void setCatlingRookPosition(const Field &position);
 
     // Moving piece
     Piece_ptr getMovingPiece() const;

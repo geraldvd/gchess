@@ -2,7 +2,7 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
-#include <vector>
+#include <map>
 
 // Include project files
 #include "operators.h"
@@ -29,25 +29,26 @@ std::ostream &operator<<(std::ostream &os, Board &b)
           ", Board status: " << b.getBoardStatusString() << endl;
 
     // Fill board rows
-    vector<stringstream> rows(NUM_TILES_Y+1);
+    map<int,stringstream> rows;
     int currentRow = 0;
     for(Tile *t : b.getTiles()) {
         if(t->getX() == 0) {
-            rows.at(currentRow) << currentRow+1 << "   ";
+            rows[t->getY()] << currentRow+1 << "   ";
         }
         if(t->isOccupied()) {
-            rows.at(currentRow)<< setw(3) << t->getPiece()->getTypeString(true);
+            rows[t->getY()] << setw(3) << t->getPiece()->getTypeString(true);
         } else {
-            rows.at(currentRow) << setw(3) << "-";
+            rows[t->getY()] << setw(3) << "-";
         }
         if(t->getX() == NUM_TILES_X-1) {
-            rows.at(currentRow++) << endl;
+            rows[t->getY()] << endl;
+            currentRow++;
         }
     }
 
     // Return rows inverted (i.e., white below)
-    for(vector<stringstream>::reverse_iterator it=rows.rbegin(); it !=rows.rend(); it++) {
-        os << (*it).str();
+    for(map<int,stringstream>::reverse_iterator it=rows.rbegin(); it !=rows.rend(); it++) {
+        os << (*it).second.str();
     }
 
     // Footer

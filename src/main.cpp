@@ -50,6 +50,8 @@ int main(int argc, char **argv) {
                     from = string2field(position);
                 } catch(invalid_argument &e) {
                     cout << "Wrong coordinate; try again!" << endl;
+                    cin.clear();
+                    cin.ignore(INT_MAX, '\n');
                     continue;
                 }
                 break;
@@ -62,6 +64,8 @@ int main(int argc, char **argv) {
                     to = string2field(position);
                 } catch(invalid_argument &e) {
                     cout << "Wrong coordinate; try again!" << endl;
+                    cin.clear();
+                    cin.ignore(INT_MAX, '\n');
                     continue;
                 }
                 break;

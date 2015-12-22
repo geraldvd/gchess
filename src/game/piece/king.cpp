@@ -85,7 +85,7 @@ std::vector<Move> King::calculateMoves(Board *b)
                     b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getType() == ROOK && // Is the piece a rook?
                     b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
                     !b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
-                Move m(this->getTile()->getX()-3, this->getTile()->getY(), this->getTile()->getPiece(), MT_CASTLING);
+                Move m(this->getTile()->getX()-2, this->getTile()->getY(), this->getTile()->getPiece(), MT_CASTLING);
                 m.setCatlingRookPosition(b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPosition());
                 moves.push_back(m);
             }

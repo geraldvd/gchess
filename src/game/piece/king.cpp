@@ -51,11 +51,11 @@ std::vector<Move> King::calculateMoves(Board *b)
                 if(b->getTile(m)->isOccupied()) {
                     if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
                         // Opponent piece; can be taken!
-                        moves.push_back(Move(m, MT_NORMAL));
+                        moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
                     }
                 } else {
                     // Free place, move allowed
-                    moves.push_back(Move(m, MT_NORMAL));
+                    moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
                 }
             }
         }
@@ -72,7 +72,7 @@ std::vector<Move> King::calculateMoves(Board *b)
                     b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->getType() == ROOK && // Is the piece a rook?
                     b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
                     !b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
-                Move m(this->getTile()->getX()+2, this->getTile()->getY(), MT_CASTLING);
+                Move m(this->getTile()->getX()+2, this->getTile()->getY(), this->getTile()->getPiece(), MT_CASTLING);
                 m.setCatlingRookPosition(b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPosition());
                 moves.push_back(m);
             }
@@ -85,7 +85,7 @@ std::vector<Move> King::calculateMoves(Board *b)
                     b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getType() == ROOK && // Is the piece a rook?
                     b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
                     !b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
-                Move m(this->getTile()->getX()-3, this->getTile()->getY(), MT_CASTLING);
+                Move m(this->getTile()->getX()-3, this->getTile()->getY(), this->getTile()->getPiece(), MT_CASTLING);
                 m.setCatlingRookPosition(b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPosition());
                 moves.push_back(m);
             }

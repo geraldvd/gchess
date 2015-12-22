@@ -10,29 +10,9 @@
 // Specify namespaces
 using namespace std;
 
-Tile operator+(const Tile &t1, const Tile &t2)
-{
-    return Tile(t1.getPosition()+ t2.getPosition());
-}
-
-bool operator==(const Tile &t1, const Tile &t2)
-{
-    return t1.getPosition()==t2.getPosition();
-}
-
-bool operator<(const Tile &t1, const Tile &t2)
-{
-    return t1.getPosition() < t2.getPosition();
-}
-
-bool operator>(const Tile &t1, const Tile &t2)
-{
-    return t1.getPosition() > t2.getPosition();
-}
-
 Move operator+(const Move &m, const unsigned int &i)
 {
-    return Move(m.getX() + i%8, m.getY() + (i-i%8)/8);
+    return Move(m.getX() + i%8, m.getY() + (i-i%8)/8, m.getMovingPiece());
 }
 
 Move operator+(const unsigned int &i, const Move &m)
@@ -78,4 +58,28 @@ std::ostream &operator<<(std::ostream &os, Board &b)
     }
 
     return os;
+}
+
+bool operator==(const Move &m1, const Move &m2)
+{
+    if(m1.getX() != m2.getX() || m1.getY() != m2.getY() || m1.getMovingPiece() != m2.getMovingPiece() ||
+            m1.getMoveType() != m2.getMoveType() || m1.getCastlingRookPosition() != m2.getCastlingRookPosition()) {
+        return false;
+    }
+    return true;
+}
+
+bool operator==(const Field &f1, const Field &f2)
+{
+    return f1.getX()==f2.getX() && f1.getY()==f2.getY();
+}
+
+bool operator!=(const Field &f1, const Field &f2)
+{
+    return f1.getX()!=f2.getX() || f1.getY()!=f2.getY();
+}
+
+ostream &operator<<(ostream &os, Board *b)
+{
+    return operator<<(os, *b);
 }

@@ -1,9 +1,11 @@
 // Include standard libraries
 #include <stdexcept>
+#include <algorithm>
 
 // Include project files
 #include "board/board.h"
 #include "piece/king.h"
+#include "piece/pawn.h"
 #include "player.h"
 
 // Specify namespaces
@@ -63,9 +65,91 @@ std::vector<Move> Player::getMoves() const
     return this->moves;
 }
 
-MoveType Player::move(const Field &from, const Field &to, const PromotionType &pt)
+MoveStatus Player::move(const Move &m)
 {
+    if(find(this->moves.begin(), this->moves.end(), m) == this->moves.end()) {
+        return MS_INVALID;
+    }
 
+    // Check pawn double moves (for En Passant capturing)
+    if(m.getMovingPiece()->getType() == PAWN) {
+        Pawn* p = static_cast<Pawn*>(m.getMovingPiece().get());
+        if(m.getMoveType() == MT_PAWNJUMP) {
+            p->setJustMovedDouble(true);
+        } else {
+            p->setJustMovedDouble(false);
+        }
+    }
+
+    // Perform move
+    switch(m.getMoveType()) {
+    case MT_PROMOTION:
+        return MS_PROMOTION;
+        break;
+    case MT_CASTLING:
+    {
+        // Move king
+        Field from = this->getKing()->getTile()->getPosition();
+        this->getBoard()->getTile(m.getPosition())->setPiece(this->getKing());
+        this->getBoard()->getTile(from)->clearPiece();
+        // Move rook
+        if(m.getX() == NUM_TILES_X-2) {
+            // King moved to the right
+            this->getBoard()->getTile(m.getX()-1, m.getY())->setPiece(this->getBoard()->getTile(m.getX()+1, m.getY())->getPiece());
+            this->getBoard()->getTile(m.getX()+1, m.getY())->clearPiece();
+        } else {
+            this->getBoard()->getTile(m.getX()+1, m.getY())->setPiece(this->getBoard()->getTile(m.getX()-2, m.getY())->getPiece());
+            this->getBoard()->getTile(m.getX()-2, m.getY())->clearPiece();
+        }
+    }
+        break;
+    case MT_ENPASSANT:
+    {
+        // Capture opponent pawn
+        if(m.getMovingPiece()->getColor() == WHITE) {
+            this->getBoard()->getTile(m.getX(), m.getY()-1)->clearPiece();
+        } else {
+            this->getBoard()->getTile(m.getX(), m.getY()+1)->clearPiece();
+        }
+    }
+    default:
+    {
+        Field from = m.getMovingPiece()->getTile()->getPosition();
+        this->getBoard()->getTile(m.getX(), m.getY())->setPiece(m.getMovingPiece());
+        this->getBoard()->getTile(from)->clearPiece();
+    }
+        break;
+    }
+
+    return MS_OK;
+}
+
+MoveStatus Player::doPromotion(const PromotionType &pt, const Move &m)
+{
+    if(m.getMoveType() != MT_PROMOTION) {
+        return MS_INVALID;
+    }
+
+    switch(pt) {
+    case PT_QUEEN:
+        this->getBoard()->addPiece(m.getX(), m.getY(), QUEEN, m.getMovingPiece()->getColor());
+        break;
+    case PT_ROOK:
+        this->getBoard()->addPiece(m.getX(), m.getY(), ROOK, m.getMovingPiece()->getColor());
+        break;
+    case PT_BISHOP:
+        this->getBoard()->addPiece(m.getX(), m.getY(), BISHOP, m.getMovingPiece()->getColor());
+        break;
+    case PT_KNIGHT:
+        this->getBoard()->addPiece(m.getX(), m.getY(), KNIGHT, m.getMovingPiece()->getColor());
+        break;
+    default:
+        throw invalid_argument("Promotion type unknown.");
+        break;
+    }
+    this->getBoard()->getTile(m.getX(), m.getY())->clearPiece();
+
+    return MS_OK;
 }
 
 std::shared_ptr<King> Player::getKing()

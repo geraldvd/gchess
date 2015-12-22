@@ -11,8 +11,8 @@ class Move : public Field
 {
 public:
     Move();
-    Move(const int &x, const int &y, const MoveType &mt=MT_NORMAL);
-    Move(const int &m, const MoveType &mt=MT_NORMAL);
+    Move(const int &x, const int &y, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL);
+    Move(const int &m, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL);
 
     // Move type methods
     MoveType getMoveType() const;

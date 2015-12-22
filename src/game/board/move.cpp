@@ -9,21 +9,24 @@
 using namespace std;
 
 Move::Move() :
-    Move(0, MT_NONE)
+    Move(0, NULL, MT_NONE)
 {
 }
 
-Move::Move(const int &x, const int &y, const MoveType &mt) :
+Move::Move(const int &x, const int &y, Piece_ptr movingPiece, const MoveType &mt) :
     Field(x, y),
     moveType(mt),
     moveValid(true),
+    movingPiece(movingPiece),
     castlingRookPosition(0)
 {
 }
 
-Move::Move(const int &m, const MoveType &mt) :
+Move::Move(const int &m, Piece_ptr movingPiece, const MoveType &mt) :
     Field(m),
     moveType(mt),
+    moveValid(true),
+    movingPiece(movingPiece),
     castlingRookPosition(0)
 {
 }

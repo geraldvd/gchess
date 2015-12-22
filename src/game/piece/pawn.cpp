@@ -39,9 +39,9 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
     if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
         // Check promotion
         if((this->getColor()==WHITE && m>55) || (this->getColor()==BLACK && m<8)) {
-            moves.push_back(Move(m, MT_PROMOTION));
+            moves.push_back(Move(m, this->getTile()->getPiece(), MT_PROMOTION));
         } else {
-            moves.push_back(Move(m, MT_NORMAL));
+            moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
         }
 
         // Check jumps
@@ -53,7 +53,7 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
             m -= 8;
         }
         if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
-            moves.push_back(Move(m, MT_PAWNJUMP));
+            moves.push_back(Move(m, this->getTile()->getPiece(), MT_PAWNJUMP));
         }
     }
 
@@ -76,9 +76,9 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
 
             // Check promotion
             if((this->getColor()==WHITE && m>55) || (this->getColor()==BLACK && m<8)) {
-                moves.push_back(Move(m, MT_PROMOTION));
+                moves.push_back(Move(m, this->getTile()->getPiece(), MT_PROMOTION));
             } else {
-                moves.push_back(Move(m, MT_NORMAL));
+                moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
             }
         }
     }
@@ -91,9 +91,9 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
         Pawn* p = static_cast<Pawn*>(b->getTile(this->getTile()->getX()+1, this->getTile()->getY())->getPiece().get());
         if(p->getJustMovedDouble()) {
             if(p->getColor() == WHITE) {
-                moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()-1, MT_ENPASSANT));
+                moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()-1, this->getTile()->getPiece(), MT_ENPASSANT));
             } else {
-                moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()+1, MT_ENPASSANT));
+                moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()+1, this->getTile()->getPiece(), MT_ENPASSANT));
             }
         }
         // Reset justMovedDouble
@@ -106,9 +106,9 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
         Pawn* p = static_cast<Pawn*>(b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->getPiece().get());
         if(p->getJustMovedDouble()) {
             if(p->getColor() == WHITE) {
-                moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()-1, MT_ENPASSANT));
+                moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()-1, this->getTile()->getPiece(), MT_ENPASSANT));
             } else {
-                moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()+1, MT_ENPASSANT));
+                moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()+1, this->getTile()->getPiece(), MT_ENPASSANT));
             }
         }
         // Reset justMovedDouble

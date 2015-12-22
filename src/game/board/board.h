@@ -43,9 +43,6 @@ public:
     BoardStatus getBoardStatus() const;
     std::string getBoardStatusString() const;
 
-    // Move method
-    bool move(const Field &from, const Field &to, const PromotionType &pt=PT_NONE);
-
 private:
     // Tiles on board
     std::vector<Tile> tiles;

@@ -1,5 +1,7 @@
 // Include standard libraries
 #include <sstream>
+#include <stdexcept>
+#include <iostream>
 
 // Include project files
 #include "utils.h"
@@ -42,6 +44,12 @@ void Field::setPosition(const int &x, const int &y)
     this->x = x;
     this->y = y;
 }
+Field::Field() :
+    Field(0,0)
+{
+
+}
+
 Field::Field(const int &x, const int &y)
 {
     this->setPosition(x, y);
@@ -58,4 +66,21 @@ int Field::getX() const {
 
 void Field::setX(const int &x) {
     this->x = x;
+}
+
+Field string2field(const string &s)
+{
+    if(s.length() != 2) {
+        throw invalid_argument("Coordinate must have 2 characters.");
+    }
+
+
+    int x = s.at(0) >= 'A' && s.at(0) <= 'Z' ? static_cast<int>(s.at(0)) - 'A' : static_cast<int>(s.at(0)) - 'a';
+    int y = static_cast<int>(s.at(1)) - 49;
+
+    if(x<0 || x>NUM_TILES_X-1 || y<0 || y>NUM_TILES_Y-1) {
+        throw invalid_argument("Format: 'Xn', where X is a letter between A and H, and n is a number between 1 and 8.");
+    }
+
+    return Field(x,y);
 }

@@ -19,6 +19,7 @@ class Field {
     int y;
 public:
     // Constructors
+    Field();
     Field(const int &x, const int &y);
     Field(const int &p);
 
@@ -43,10 +44,14 @@ enum PieceColor {WHITE=1, BLACK=-1};
 enum BoardStatus {BS_NORMAL, BS_CHECKWHITE, BS_CHECKBLACK, BS_CHECKMATEWHITE, BS_CHECKMATEBLACK, BS_STALEMATE};
 
 // Move type
-enum MoveType {MT_NONE, MT_INVALID, MT_NORMAL, MT_PAWNJUMP, MT_CASTLING, MT_ENPASSANT, MT_PROMOTION};
+enum MoveType {MT_NONE, MT_NORMAL, MT_PAWNJUMP, MT_CASTLING, MT_ENPASSANT, MT_PROMOTION};
 enum PromotionType {PT_NONE, PT_QUEEN, PT_ROOK, PT_BISHOP, PT_KNIGHT};
+enum MoveStatus {MS_OK, MS_INVALID, MS_PROMOTION};
 
 // Shared pointer to piece
 typedef std::shared_ptr<Piece> Piece_ptr;
+
+// Extra functions
+Field string2field(const std::string &s);
 
 #endif // UTILS_H

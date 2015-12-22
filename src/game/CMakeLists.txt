@@ -1,6 +1,6 @@
 # Create library
 add_library(${PROJECT_NAME}_game
-    game.cpp
+    gamemanager.cpp
     utils.cpp
     operators.cpp
 

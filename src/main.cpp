@@ -9,15 +9,12 @@
     #include <QApplication>
     #include "chessgame.h"
 #else
-    #include <game.h>
+    #include <iostream>
+    #include <string>
+    #include "gamemanager.h"
 #endif
 
 #include <QDebug>
-
-// Include project libraries
-#ifdef WITH_GAME
-    #include "game.h"
-#endif
 
 // Namespaces
 using namespace std;
@@ -35,9 +32,45 @@ int main(int argc, char **argv) {
 #else
     qDebug() << "Running from terminal!" << endl;
 
-    Board b(1);
+    // Start game
+    GameManager game;
 
-    cout << b << endl;
+    string position;
+    do {
+        cout << game.getBoard() << endl << endl;
+
+        Field from, to;
+
+        do{
+            cout << "Move " << game.getBoard()->getActivePlayer()->getColorString() << ". Type coordinates from -> to." << endl;
+            while(true) {
+                try {
+                    cout << "From: ";
+                    cin >> position;
+                    from = string2field(position);
+                } catch(invalid_argument &e) {
+                    cout << "Wrong coordinate; try again!" << endl;
+                    continue;
+                }
+                break;
+            }
+
+            while(true) {
+                try {
+                    cout << "To: ";
+                    cin >> position;
+                    to = string2field(position);
+                } catch(invalid_argument &e) {
+                    cout << "Wrong coordinate; try again!" << endl;
+                    continue;
+                }
+                break;
+            }
+        } while(game.move(from, to) == MS_INVALID);
+        cout << endl;
+    } while(game.getBoard()->getBoardStatus() != BS_CHECKMATEBLACK && game.getBoard()->getBoardStatus() != BS_CHECKMATEWHITE &&
+            game.getBoard()->getBoardStatus() != BS_STALEMATE);
+
 
     return 0;
 #endif

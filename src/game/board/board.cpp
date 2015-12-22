@@ -264,13 +264,3 @@ string Board::getBoardStatusString() const
 
     return status;
 }
-
-bool Board::move(const Field &from, const Field &to, const PromotionType &pt)
-{
-    MoveType moveStatus = this->getActivePlayer()->move(from, to, pt);
-    if(moveStatus == MT_INVALID || moveStatus == MT_NONE) {
-        return false;
-    }
-    this->switchPlayer();
-    this->getActivePlayer()->updateMoves();
-}

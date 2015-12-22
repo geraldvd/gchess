@@ -46,13 +46,13 @@ std::vector<Move> LinePiece::calculateMoves(Board *b)
             if(b->getTile(mx, my)->isOccupied()) {
                 if(this->getColor() != b->getTile(mx, my)->getPiece()->getColor() /* TODO && isKing() */) {
                     // Opponent piece; can be taken!
-                    moves.push_back(Move(mx, my, MT_NORMAL));
+                    moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
                 }
                 // Rest of direction vector is blocked
                 break;
             } else {
                 // Free place, move allowed
-                moves.push_back(Move(mx, my, MT_NORMAL));
+                moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
             }
 
             // Next location on direction vector

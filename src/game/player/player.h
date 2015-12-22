@@ -25,7 +25,8 @@ public:
     // Move methods
     void updateMoves();
     std::vector<Move> getMoves() const;
-    MoveType move(const Field &from, const Field &to, const PromotionType &pt=PT_NONE);
+    MoveStatus move(const Move &m);
+    MoveStatus doPromotion(const enum PromotionType &pt, const Move &m);
 
     // King methods
     std::shared_ptr<King> getKing();

@@ -108,11 +108,11 @@ void Chessboard::clearPieces()
     this->pieces.clear();
 }
 
-void Chessboard::highlightField(const unsigned int &position)
+void Chessboard::highlightField(const Move &move)
 {
-    if(this->highlights.find(position) == this->highlights.end()) {
+    if(this->highlights.find(move.getPosition()) == this->highlights.end()) {
         // Determine location of highlight
-        ChessLabel* l = new ChessLabel(position, this);
+        ChessLabel* l = new ChessLabel(move.getPosition(), this);
 
         // Draw circle for highlighting
         QPixmap pm(l->width(),l->height());
@@ -131,11 +131,14 @@ void Chessboard::highlightField(const unsigned int &position)
         l->setMask(pm.mask());
         l->setVisible(true);
 
+        // Add move to label
+        l->setMove(move);
+
         // Setup signals and slots
         connect(l, SIGNAL(clicked()), this->parent, SLOT(slotMovePiece()));
 
         // Add piece to highlighted fields
-        this->highlights[position] = l;
+        this->highlights[move.getPosition()] = l;
     }
 }
 

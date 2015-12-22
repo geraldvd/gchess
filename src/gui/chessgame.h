@@ -13,8 +13,10 @@
 
 // Include project files
 #include "piece/piece.h"
+#include "piece/king.h"
 #include "chessboard.h"
-#include "../game/game.h"
+#include "board/board.h"
+#include "player/player.h"
 #include "chesslabel.h"
 
 
@@ -27,14 +29,11 @@ public:
     explicit ChessGame(QWidget *parent=0);
     ~ChessGame();
 
-    // Piece functions (calling chessboard methods)
-//    void addPiece(Piece *p);
-
 signals:
 
 public slots:
     // Slot for starting new game
-    void newGame();
+    void newGame(const int &board_layout=0);
 
     // Slot for highlighting
     void toggleHighlighting();
@@ -48,7 +47,7 @@ private:
     QMenu *file_menu;
 
     // Game variables
-    Game game;
+    Board board;
     ChessLabel *activeField;
 };
 

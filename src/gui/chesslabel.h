@@ -19,8 +19,11 @@ public:
     explicit ChessLabel(const unsigned int &f, QWidget *parent=0);
 
     // Getters and setters
-    unsigned int getPosition() const;
+    Field getPosition() const;
     void setPosition(const unsigned int &f);
+    void setMove(const Move &m);
+    bool hasMove() const;
+    Move* getMove();
 
 signals:
     void clicked();
@@ -29,6 +32,7 @@ protected:
     void mousePressEvent(QMouseEvent* event);
 
 private:
+    Move pieceMove;
     static const unsigned int field_size;
 };
 

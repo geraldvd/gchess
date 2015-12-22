@@ -8,6 +8,11 @@
 // Specify namespaces
 using namespace std;
 
+Move::Move() :
+    Move(0, MT_NONE)
+{
+}
+
 Move::Move(const int &x, const int &y, const MoveType &mt) :
     Field(x, y),
     moveType(mt),

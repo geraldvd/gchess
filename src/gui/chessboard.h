@@ -34,7 +34,7 @@ public:
     void clearPieces();
 
     // Hightlight functions
-    void highlightField(const unsigned int & position);
+    void highlightField(const Move &move);
     void unhighlightField(const unsigned int & position);
     void clearHighlights();
     void checkField(const unsigned int & position);

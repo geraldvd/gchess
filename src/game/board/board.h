@@ -22,6 +22,7 @@ public:
     void castlingTest();
 
     // Tile methods
+    Tile* getTile(const Field &f);
     Tile* getTile(const unsigned int &i);
     Tile* getTile(const unsigned int &x, const unsigned int &y);
     std::vector<Tile*> getTiles();
@@ -41,6 +42,9 @@ public:
     // Board status
     BoardStatus getBoardStatus() const;
     std::string getBoardStatusString() const;
+
+    // Move method
+    bool move(const Field &from, const Field &to, const PromotionType &pt=PT_NONE);
 
 private:
     // Tiles on board

@@ -23,14 +23,19 @@ public:
     Board *getBoard();
 
     // Move methods
+    void updateMoves();
+    std::vector<Move> getMoves() const;
     MoveType move(const Field &from, const Field &to, const PromotionType &pt=PT_NONE);
-    MoveType move(const Move &m);
+
+    // King methods
+    std::shared_ptr<King> getKing();
+    bool kingCheck() const;
 
 private:
     // Move methods
     std::vector<Move> getPossibleMoves();
     std::vector<Move> getPotentialMoves();
-    bool isCasting(const Move &m);
+    bool isCastling(const Move &m);
 
 
 private:

@@ -10,6 +10,7 @@ class Board;
 class Move : public Field
 {
 public:
+    Move();
     Move(const int &x, const int &y, const MoveType &mt=MT_NORMAL);
     Move(const int &m, const MoveType &mt=MT_NORMAL);
 

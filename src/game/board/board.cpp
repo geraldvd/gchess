@@ -27,10 +27,6 @@ Board::Board(const int &board_layout) :
 
     // Initialize board
     this->initBoard(board_layout);
-
-    // Setup players - NOTE: must be done after tile initialization
-    this->whitePlayer = Player(WHITE, this);
-    this->blackPlayer = Player(BLACK, this);
 }
 
 void Board::initBoard(const int &board_layout)
@@ -46,6 +42,13 @@ void Board::initBoard(const int &board_layout)
         this->standardBoard();
         break;
     }
+
+    // Setup players
+    this->whitePlayer = Player(WHITE, this);
+    this->blackPlayer = Player(BLACK, this);
+
+    // Calculate valid moves
+    this->getActivePlayer()->updateMoves();
 }
 
 void Board::standardBoard()
@@ -114,6 +117,11 @@ void Board::castlingTest()
 
     // Set active player and calculate possible moves
     this->activePlayer = WHITE;
+}
+
+Tile *Board::getTile(const Field &f)
+{
+    return &this->tiles.at(f.getPosition());
 }
 
 Tile *Board::getTile(const unsigned int &i)
@@ -255,4 +263,14 @@ string Board::getBoardStatusString() const
     }
 
     return status;
+}
+
+bool Board::move(const Field &from, const Field &to, const PromotionType &pt)
+{
+    MoveType moveStatus = this->getActivePlayer()->move(from, to, pt);
+    if(moveStatus == MT_INVALID || moveStatus == MT_NONE) {
+        return false;
+    }
+    this->switchPlayer();
+    this->getActivePlayer()->updateMoves();
 }

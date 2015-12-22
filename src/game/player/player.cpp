@@ -53,6 +53,32 @@ Board *Player::getBoard()
     return this->board;
 }
 
+void Player::updateMoves()
+{
+    this->moves = this->getPossibleMoves();
+}
+
+std::vector<Move> Player::getMoves() const
+{
+    return this->moves;
+}
+
+MoveType Player::move(const Field &from, const Field &to, const PromotionType &pt)
+{
+
+}
+
+std::shared_ptr<King> Player::getKing()
+{
+    return this->king;
+}
+
+bool Player::kingCheck() const
+{
+    // TODO
+    return false;
+}
+
 std::vector<Move> Player::getPossibleMoves()
 {
     vector<Move> moves{this->getPotentialMoves()};
@@ -63,7 +89,7 @@ std::vector<Move> Player::getPossibleMoves()
         switch(m.getMoveType()) {
         case MT_CASTLING:
             if(m.isValid() && m.getMoveType() == MT_CASTLING) {
-                m.setValidity(this->isCasting(m));
+                m.setValidity(this->isCastling(m));
             }
             break;
         default:
@@ -135,7 +161,7 @@ std::vector<Move> Player::getPotentialMoves()
     return moves;
 }
 
-bool Player::isCasting(const Move &m)
+bool Player::isCastling(const Move &m)
 {
     if(m.getMovingPiece()->getType() != KING || m.getMoveType() != MT_CASTLING ||
             m.getCastlingRookPosition().getY() != m.getY()) {

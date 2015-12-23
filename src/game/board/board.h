@@ -34,6 +34,7 @@ public:
     void addPiece(const unsigned int &position, const PieceType &type, const PieceColor &color);
     void addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color);
     void removePiece(const unsigned int &position);
+    void clearPieces();
 
     // Player methods
     Player* getActivePlayer();

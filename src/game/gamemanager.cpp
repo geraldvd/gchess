@@ -15,7 +15,7 @@
 using namespace std;
 
 GameManager::GameManager() :
-    board(Board(2))
+    board(Board())
 {
 
 }

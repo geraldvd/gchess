@@ -31,6 +31,8 @@ Board::Board(const int &board_layout) :
 
 void Board::initBoard(const int &board_layout)
 {
+    this->clearPieces();
+
     switch(board_layout) {
     case 1:
         this->promotionTest();
@@ -214,6 +216,15 @@ void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceTy
 void Board::removePiece(const unsigned int &position)
 {
     this->getTile(position)->clearPiece();
+}
+
+void Board::clearPieces()
+{
+    for(auto &t : this->getTiles()) {
+        if(t->isOccupied()) {
+            t->clearPiece();
+        }
+    }
 }
 
 Player *Board::getActivePlayer()

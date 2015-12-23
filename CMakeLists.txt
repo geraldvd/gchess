@@ -49,11 +49,11 @@ option(WITH_TESTS "Should unittests be compiled?" OFF)
 #########################################################################
 ### Qt 5 settings
 if(WITH_QT)
-    set(BASE_DIR_QT5
-        "/opt/Qt/5.4/gcc_64"
-    #    "/Applications/Qt/5.4/clang_64"
-        CACHE FILEPATH "The full path to the Qt 5 installation."
-    )
+    if(APPLE)
+        set(BASE_DIR_QT5 "/Applications/Qt/5.4/clang_64" CACHE FILEPATH "The full path to the Qt 5 installation (OSX)")
+    else(APPLE)
+        set(BASE_DIR_QT5 "/opt/Qt/5.4/gcc_64" CACHE FILEPATH "The full path to the Qt 5 installation (Linux)")
+    endif(APPLE)
 endif(WITH_QT)
 
 

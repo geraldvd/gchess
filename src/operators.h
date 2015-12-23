@@ -1,5 +1,5 @@
 #ifndef OPERATORS_H
-#define OPERATOR_H
+#define OPERATORS_H
 
 // Include standard libraries
 #include <ostream>

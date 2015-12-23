@@ -2,25 +2,23 @@
 
 // Include standard libraries
 #include <iostream>
-#include <utility>
+#include <string>
+#include <limits>
 
 // Include Qt
-#ifdef WITH_GRAPHICS
+#ifdef WITH_QT
     #include <QApplication>
-    #include "chessgame.h"
-#else
-    #include <iostream>
-    #include <string>
-    #include "gamemanager.h"
+    #include "gui/chessgame.h"
 #endif
 
-#include <QDebug>
+// Include project files
+#include "gamemanager.h"
 
 // Namespaces
 using namespace std;
 
 int main(int argc, char **argv) {
-#ifdef WITH_GRAPHICS
+#ifdef WITH_QT
     // Initialize Qt application
     QApplication a(argc,argv);
 
@@ -30,8 +28,6 @@ int main(int argc, char **argv) {
 
     return a.exec();
 #else
-    qDebug() << "Running from terminal!" << endl;
-
     // Start game
     GameManager game;
 
@@ -51,7 +47,7 @@ int main(int argc, char **argv) {
                 } catch(invalid_argument &e) {
                     cout << "Wrong coordinate; try again!" << endl;
                     cin.clear();
-                    cin.ignore(INT_MAX, '\n');
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     continue;
                 }
                 break;
@@ -65,7 +61,7 @@ int main(int argc, char **argv) {
                 } catch(invalid_argument &e) {
                     cout << "Wrong coordinate; try again!" << endl;
                     cin.clear();
-                    cin.ignore(INT_MAX, '\n');
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     continue;
                 }
                 break;

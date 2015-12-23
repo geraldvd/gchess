@@ -3,7 +3,7 @@
 
 // Include project files
 #include "linepiece.h"
-#include "board/board.h"
+#include "../board/board.h"
 
 // Specify namespaces
 using namespace std;

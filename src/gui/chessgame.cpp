@@ -4,7 +4,7 @@
 // Include project files
 #include "chessgame.h"
 #include "promotiondialog.h"
-#include "piece/king.h"
+#include "../piece/king.h"
 
 
 ChessGame::ChessGame(QWidget *parent) :

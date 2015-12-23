@@ -5,10 +5,10 @@
 #include <vector>
 
 // Include project files
-#include "utils.h"
+#include "../utils.h"
 #include "tile.h"
-#include "piece/piece.h"
-#include "player/player.h"
+#include "../piece/piece.h"
+#include "../player/player.h"
 
 class Board
 {

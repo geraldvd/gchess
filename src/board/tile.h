@@ -7,7 +7,7 @@
 #include <memory>
 
 // Include project files
-#include "utils.h"
+#include "../utils.h"
 
 // Forward declarations
 class Piece;

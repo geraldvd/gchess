@@ -14,7 +14,7 @@
 // Include project files
 #include "chessboard.h"
 #include "chesslabel.h"
-#include "gamemanager.h"
+#include "../gamemanager.h"
 
 
 class ChessGame : public QMainWindow

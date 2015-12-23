@@ -3,7 +3,7 @@
 
 // Include project files
 #include "tile.h"
-#include "board/board.h"
+#include "board.h"
 
 // Specify namespaces
 using namespace std;

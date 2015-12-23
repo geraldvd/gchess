@@ -3,9 +3,9 @@
 #include <algorithm>
 
 // Include project files
-#include "board/board.h"
-#include "piece/king.h"
-#include "piece/pawn.h"
+#include "../board/board.h"
+#include "../piece/king.h"
+#include "../piece/pawn.h"
 #include "player.h"
 
 // Specify namespaces

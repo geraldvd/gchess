@@ -11,7 +11,7 @@
 #include "bishop.h"
 #include "knight.h"
 #include "pawn.h"
-#include "player/player.h"
+#include "../player/player.h"
 
 // Specify namespaces
 using namespace std;

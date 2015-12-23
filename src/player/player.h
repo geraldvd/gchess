@@ -5,7 +5,7 @@
 #include <memory>
 
 // Include project libraries
-#include "utils.h"
+#include "../utils.h"
 
 // Forward declarations
 class Board;

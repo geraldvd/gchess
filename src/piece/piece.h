@@ -6,7 +6,7 @@
 #include <string>
 
 // Include project files
-#include "operators.h"
+#include "../operators.h"
 
 // Forward declarations
 class Board;

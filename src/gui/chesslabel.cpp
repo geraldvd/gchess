@@ -1,5 +1,5 @@
 #include "chesslabel.h"
-#include "board/board.h"
+#include "../board/board.h"
 
 const unsigned int ChessLabel::field_size = 50;
 

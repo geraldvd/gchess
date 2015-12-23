@@ -1,6 +1,6 @@
 // Include project files
 #include "piece.h"
-#include "board/tile.h"
+#include "../board/tile.h"
 
 // Specify namespaces
 using namespace std;

@@ -2,7 +2,7 @@
 #define MOVE_H
 
 // Include project files
-#include "utils.h"
+#include "../utils.h"
 
 // Forward declarations
 class Board;

@@ -4,9 +4,9 @@
 
 // Include project files
 #include "knight.h"
-#include "operators.h"
-#include "board/board.h"
-#include "board/move.h"
+#include "../operators.h"
+#include "../board/board.h"
+#include "../board/move.h"
 
 // Specify namespaces
 using namespace std;

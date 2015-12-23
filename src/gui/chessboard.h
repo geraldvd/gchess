@@ -15,7 +15,7 @@
 #include <QLabel>
 
 // Include project libraries
-#include "utils.h"
+#include "../utils.h"
 #include "chesslabel.h"
 
 class Chessboard : public QLabel

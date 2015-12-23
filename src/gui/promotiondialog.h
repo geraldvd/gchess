@@ -2,7 +2,7 @@
 #define PROMOTIONDIALOG_H
 
 #include <QDialog>
-#include "utils.h"
+#include "../utils.h"
 
 namespace Ui {
 class PromotionDialog;

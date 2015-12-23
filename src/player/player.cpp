@@ -220,8 +220,7 @@ void Player::updateMoves()
         if(this->color == this->getBoard()->getActivePlayer()->getColor()) {
             // Check whether move will result in check
             if(m.isValid()) {
-                // TODO Not working!!! To many pointers to make good copy constructors
-//                m.setValidity(! this->movingIntoCheck(m));
+                m.setValidity(! this->movingIntoCheck(m));
             }
         }
 
@@ -321,5 +320,10 @@ bool Player::isCastling(const Move &m)
 
     // All checks passed
     return true;
+}
+
+bool Player::movingIntoCheck(const Move &m)
+{
+    return false;
 }
 

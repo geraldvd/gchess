@@ -5,6 +5,7 @@
 #include <utility>
 #include <string>
 #include <memory>
+#include <vector>
 
 // Include project files
 #include "../utils.h"
@@ -22,6 +23,7 @@ public:
 
     // Field methods
     bool tileUnderAttack(Player *p);
+    std::vector<Piece_ptr> attackingPieces(Player *p);
 
     // Piece methods
     Piece_ptr getPiece() const;

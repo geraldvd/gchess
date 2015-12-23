@@ -57,3 +57,16 @@ bool Tile::tileUnderAttack(Player *p)
     }
     return false;
 }
+
+vector<Piece_ptr> Tile::attackingPieces(Player *p)
+{
+    // Note: multiple pieces can attack a tile
+    vector<Piece_ptr> attackingPieces;
+
+    for(auto &m : p->getMoves()) {
+        if(m.getPosition() == this->getPosition()) {
+            attackingPieces.push_back(m.getMovingPiece());
+        }
+    }
+    return attackingPieces;
+}

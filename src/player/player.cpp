@@ -193,38 +193,32 @@ void Player::updateMoves()
     vector<Move> moves{this->getPotentialMoves()};
     vector<Move> finalMoves;
 
+    // Check status
+    if(this->king->getTile()->tileUnderAttack(this->getOpponent())) {
+        if(this->color == WHITE) {
+            this->getBoard()->setBoardStatus(BS_CHECKWHITE);
+        } else {
+            this->getBoard()->setBoardStatus(BS_CHECKBLACK);
+        }
+    } else {
+        this->getBoard()->setBoardStatus(BS_NORMAL);
+    }
+
     // Check moves w.r.t. board
     for(auto &m : moves) {
-        switch(m.getMoveType()) {
-        case MT_CASTLING:
-            if(m.isValid() && m.getMoveType() == MT_CASTLING) {
-                m.setValidity(this->isCastling(m));
-            }
-            break;
-        default:
-            break;
+        // Check castling
+        if(m.getMoveType() == MT_CASTLING && m.isValid()) {
+            m.setValidity(this->isCastling(m));
         }
 
-        // Check status
-        if(this->king->getTile()->tileUnderAttack(this->getOpponent())) {
-            if(this->color == WHITE) {
-                this->getBoard()->setBoardStatus(BS_CHECKWHITE);
-            } else {
-                this->getBoard()->setBoardStatus(BS_CHECKBLACK);
-            }
-        } else {
-            this->getBoard()->setBoardStatus(BS_NORMAL);
+
+        // Check whether move will result in check
+        if(m.isValid()) {
+            m.setValidity(! this->movingIntoCheck(m));
         }
 
-        // Only for active player
-        if(this->color == this->getBoard()->getActivePlayer()->getColor()) {
-            // Check whether move will result in check
-            if(m.isValid()) {
-                m.setValidity(! this->movingIntoCheck(m));
-            }
-        }
 
-        // Check whether this is a final move
+        // Check whether this is a final (allowed) move
         if(m.isValid()) {
             finalMoves.push_back(m);
         }
@@ -244,48 +238,6 @@ void Player::updateMoves()
     }
 
     this->moves = finalMoves;
-
-//    // Testing
-//    vector<string> attackedTiles;
-//    vector<string> occupiedTiles;
-//    for(Tile* t : this->board.getTiles()) {
-//        if(t->isOccupied()) occupiedTiles.push_back(t->getPositionString());
-//        if(t->tileUnderAttack(this->getBoard())) attackedTiles.push_back(t->getPositionString());
-//    }
-//    cout << "Occupied tiles: ";
-//    for(auto &s : occupiedTiles) cout << s << " ";
-//    cout << endl;
-//    cout << "Attacked tiles: ";
-//    for(auto &s : attackedTiles) cout << s << " ";
-//    cout << endl << endl;
-
-//    // Check whether king is currently in check position
-//    for(auto &p : this->getBoard()->getPieces()) {
-//        if(p->getColor() == this->activePlayer && p->getType() == KING && p->getTile()->tileUnderAttack(this->getBoard())) {
-//            // King check!
-//            for(auto &movesOfPiece : moves) {
-//                // Loop through all pieces
-//                for(vector<Move>::iterator it=movesOfPiece.second.begin(); it!=movesOfPiece.second.end(); it++) {
-//                    // Perform virtual move
-//                    Game virtualGame(*this);
-//                    if((*it).getMoveType() == MT_PROMOTION) {
-//                        // TODO deal with this
-//                    } else {
-//                        virtualGame.move(movesOfPiece.first, (*it).get());
-//                    }
-
-//                    // Check check status
-//                    if(virtualGame.getBoard()->getTile(p->getTile()->getPosition())->tileUnderAttack(virtualGame.getBoard())) {
-//                        // Move not allowed
-//                        //moves2[movesOfPiece.first].push_back((*it));
-//                        movesOfPiece.second.erase(it);
-//                    }
-//                }
-//            }
-//            break;
-//        }
-//    }
-
 }
 
 std::vector<Move> Player::getPotentialMoves()
@@ -324,6 +276,66 @@ bool Player::isCastling(const Move &m)
 
 bool Player::movingIntoCheck(const Move &m)
 {
+    // Check whether king moves AND puts itself in CHECK
+    if(m.getMovingPiece()->getType() == KING && this->getBoard()->getTile(m)->tileUnderAttack(this->getOpponent())) {
+            return true;
+    }
+
+    // Loop through indirectly attacking line pieces (Queen, Rook, Bishop); i.e., one piece between line piece and king
+    for(Piece_ptr attackingPiece : m.getMovingPiece()->getTile()->attackingPieces(this->getOpponent())) {
+        if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == ROOK) {
+            // Check if move is on vertical line of king; move only allowed on same line (else: king in CHECK)
+            if(attackingPiece->getTile()->getX() == this->getKing()->getTile()->getX() && m.getX() != attackingPiece->getTile()->getX()) {
+                // Piece on vertical attacking line of king, check if there are pieces between king and m.getMovingPiece()
+                int istart{m.getY()};
+                int iend{attackingPiece->getTile()->getY()};
+                int istep{istart < iend ? 1 : -1};
+                bool nothingOccupied{true};
+                for(int i=istart+istep; istep*i<istep*iend; i+=istep) {
+                    if(this->getBoard()->getTile(attackingPiece->getTile()->getX(), i)->isOccupied()) {
+                        nothingOccupied = false;
+                        break;
+                    }
+                }
+                if(nothingOccupied) {
+                    // Move puts king in check state; not allowed
+                    return true;
+                }
+
+            }
+            // Same procedure for horizontal line
+            else if(attackingPiece->getTile()->getY() == this->getKing()->getTile()->getY() && m.getY() != attackingPiece->getTile()->getY()) {
+                int istart{m.getX()};
+                int iend{attackingPiece->getTile()->getX()};
+                int istep{istart < iend ? 1 : -1};
+                bool nothingOccupied{true};
+                for(int i=istart+istep; istep*i<istep*iend; i+=istep) {
+                    if(this->getBoard()->getTile(i, attackingPiece->getTile()->getY())->isOccupied()) {
+                        nothingOccupied = false;
+                        break;
+                    }
+                }
+                if(nothingOccupied) {
+                    return true;
+                }
+            }
+
+            // Check whether king tries to move on same line (away from line piece not captured yet!
+            if(m.getMovingPiece()->getType() == KING &&
+                    (m.getY() == attackingPiece->getTile()->getY() || m.getX() == attackingPiece->getTile()->getX())) {
+                return true;
+            }
+
+
+        }
+
+        // Check if move is on diagonal line of king (same procedures as above)
+        if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == BISHOP) {
+            // TODO: diagonals (same story as horizontal/vertical)
+        }
+        // TODO: king on same diagonal (same as above; maybe combine the two?)
+    }
+
     return false;
 }
 

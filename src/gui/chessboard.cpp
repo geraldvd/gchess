@@ -11,6 +11,7 @@
 #include <QPen>
 #include <QBrush>
 #include <QFont>
+#include <QDebug>
 
 // Include project files
 #include "chessboard.h"

@@ -20,7 +20,7 @@ ChessLabel::ChessLabel(const unsigned int &f, QWidget *parent) :
 Field ChessLabel::getPosition() const
 {
     // TODO check 7-y...
-    return Field(this->x() / ChessLabel::field_size, (7 - this->y()) / ChessLabel::field_size);
+    return Field(this->x() / ChessLabel::field_size, 7 - (this->y() / ChessLabel::field_size));
 }
 
 void ChessLabel::setPosition(const unsigned int &f)

@@ -18,7 +18,7 @@ public:
     Board* getBoard();
 
     // Move methods
-    MoveStatus move(const Move &m);
+    MoveStatus move(Move &m);
     MoveStatus move(const Field &from, const Field &to);
 
 private:

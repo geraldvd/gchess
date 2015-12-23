@@ -55,9 +55,13 @@ Board *Player::getBoard()
     return this->board;
 }
 
-void Player::updateMoves()
+Player *Player::getOpponent()
 {
-    this->moves = this->getPossibleMoves();
+    if(this->color == WHITE) {
+        return this->board->getBlackPlayer();
+    } else {
+        return this->board->getWhitePlayer();
+    }
 }
 
 std::vector<Move> Player::getMoves() const
@@ -84,7 +88,11 @@ MoveStatus Player::move(const Move &m)
     // Perform move
     switch(m.getMoveType()) {
     case MT_PROMOTION:
-        return MS_PROMOTION;
+        if(m.getPromotionType() == PT_NONE) {
+            return MS_PROMOTION;
+        } else {
+            return this->doPromotion(m);
+        }
         break;
     case MT_CASTLING:
     {
@@ -125,13 +133,13 @@ MoveStatus Player::move(const Move &m)
     return MS_OK;
 }
 
-MoveStatus Player::doPromotion(const PromotionType &pt, const Move &m)
+MoveStatus Player::doPromotion(const Move &m)
 {
     if(m.getMoveType() != MT_PROMOTION) {
         return MS_INVALID;
     }
 
-    switch(pt) {
+    switch(m.getPromotionType()) {
     case PT_QUEEN:
         this->getBoard()->addPiece(m.getX(), m.getY(), QUEEN, this->color);
         break;
@@ -161,11 +169,11 @@ std::shared_ptr<King> Player::getKing()
 
 bool Player::kingCheck() const
 {
-    // TODO
+
     return false;
 }
 
-std::vector<Move> Player::getPossibleMoves()
+void Player::updateMoves()
 {
     vector<Move> moves{this->getPotentialMoves()};
     vector<Move> finalMoves;
@@ -188,7 +196,7 @@ std::vector<Move> Player::getPossibleMoves()
         }
     }
 
-    return finalMoves;
+    this->moves = finalMoves;
 
 //    // Testing
 //    vector<string> attackedTiles;
@@ -254,9 +262,11 @@ bool Player::isCastling(const Move &m)
         return false;
     }
 
-    int step = m.getX() < m.getCastlingRookPosition().getX() ? 1 : -1;
-    for(int i=m.getX()+1; i<m.getCastlingRookPosition().getX(); i+= step) {
-        if(this->getBoard()->getTile(i, m.getY())->tileUnderAttack(this->getBoard())) {
+    int istep = m.getMovingPiece()->getTile()->getX() < m.getCastlingRookPosition().getX() ? 1 : -1;
+    int istart = m.getMovingPiece()->getTile()->getX()+istep;
+    int iend = istart + 2*istep;
+    for(int i=istart; istep*i<istep*iend; i+= istep) {
+        if(this->getBoard()->getTile(i, m.getY())->tileUnderAttack(this->getOpponent())) {
             return false;
         }
     }

@@ -12,12 +12,9 @@
 #include <QVBoxLayout>
 
 // Include project files
-#include "piece/piece.h"
-#include "piece/king.h"
 #include "chessboard.h"
-#include "board/board.h"
-#include "player/player.h"
 #include "chesslabel.h"
+#include "gamemanager.h"
 
 
 class ChessGame : public QMainWindow
@@ -47,7 +44,7 @@ private:
     QMenu *file_menu;
 
     // Game variables
-    Board board;
+    GameManager game;
     ChessLabel *activeField;
 };
 

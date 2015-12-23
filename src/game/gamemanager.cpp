@@ -25,17 +25,19 @@ Board *GameManager::getBoard()
     return &this->board;
 }
 
-MoveStatus GameManager::move(const Move &m)
+MoveStatus GameManager::move(Move &m)
 {
     MoveStatus moveStatus = this->board.getActivePlayer()->move(m);
     if(moveStatus == MS_PROMOTION) {
-        // TODO implement promotion choice
-        moveStatus = this->board.getActivePlayer()->doPromotion(PT_QUEEN, m);
+        // If promotion was not specified before, assume Queen
+        m.setPromotionType(PT_QUEEN);
+        moveStatus = this->board.getActivePlayer()->doPromotion(m);
     }
 
     if(moveStatus == MS_OK) {
         // Update game
         this->board.switchPlayer();
+        this->board.getActivePlayer()->getOpponent()->updateMoves(); // TODO updateMoves? Or look at all potential moves?
         this->board.getActivePlayer()->updateMoves();
     }
     return moveStatus;

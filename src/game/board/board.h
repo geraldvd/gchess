@@ -37,6 +37,8 @@ public:
 
     // Player methods
     Player* getActivePlayer();
+    Player* getWhitePlayer();
+    Player* getBlackPlayer();
     void switchPlayer();
 
     // Board status

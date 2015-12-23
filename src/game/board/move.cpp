@@ -13,12 +13,13 @@ Move::Move() :
 {
 }
 
-Move::Move(const int &x, const int &y, Piece_ptr movingPiece, const MoveType &mt) :
+Move::Move(const int &x, const int &y, Piece_ptr movingPiece, const MoveType &mt, const PromotionType &pt) :
     Field(x, y),
     moveType(mt),
     moveValid(true),
     movingPiece(movingPiece),
-    castlingRookPosition(0)
+    castlingRookPosition(0),
+    promotionType(pt)
 {
 }
 
@@ -59,6 +60,16 @@ bool Move::isValid() const
 void Move::setCatlingRookPosition(const Field &position)
 {
     this->castlingRookPosition = position;
+}
+
+PromotionType Move::getPromotionType() const
+{
+    return this->promotionType;
+}
+
+void Move::setPromotionType(const PromotionType &pt)
+{
+    this->promotionType = pt;
 }
 
 Piece_ptr Move::getMovingPiece() const

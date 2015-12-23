@@ -47,16 +47,12 @@ void Tile::clearPiece()
     }
 }
 
-bool Tile::tileUnderAttack(Board *b)
+bool Tile::tileUnderAttack(Player *p)
 {
-    for(auto &p : b->getPieces()) {
-        // Check whether field is empty OR has opposing color
-        if(/*(this->isOccupied() && this->getPiece()->getColor() != p->getColor()) || */p->getColor() != b->getActivePlayer()->getColor()) {
-            for(auto &m : p->calculateMoves(b)) {
-                if(m.getPosition() == this->getPosition()) {
-                    return true;
-                }
-            }
+    // Read: is tile under attack by p?
+    for(auto &m : p->getMoves()) {
+        if(m.getPosition() == this->getPosition()) {
+            return true;
         }
     }
     return false;

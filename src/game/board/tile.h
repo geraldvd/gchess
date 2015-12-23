@@ -12,6 +12,7 @@
 // Forward declarations
 class Piece;
 class Board;
+class Player;
 
 class Tile : public Field
 {
@@ -20,7 +21,7 @@ public:
     Tile(const unsigned int &x, const unsigned int &y);
 
     // Field methods
-    bool tileUnderAttack(Board* b);
+    bool tileUnderAttack(Player *p);
 
     // Piece methods
     Piece_ptr getPiece() const;

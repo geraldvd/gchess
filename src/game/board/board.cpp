@@ -48,6 +48,7 @@ void Board::initBoard(const int &board_layout)
     this->blackPlayer = Player(BLACK, this);
 
     // Calculate valid moves
+    this->getActivePlayer()->getOpponent()->updateMoves();
     this->getActivePlayer()->updateMoves();
 }
 
@@ -113,7 +114,7 @@ void Board::castlingTest()
     this->addPiece(63, ROOK, BLACK);
 
     // Attack one of the fields
-    this->addPiece(6, 1, BISHOP, BLACK);
+    this->addPiece(5, 2, BISHOP, BLACK);
 
     // Set active player and calculate possible moves
     this->activePlayer = WHITE;
@@ -223,6 +224,17 @@ Player *Board::getActivePlayer()
         return &this->blackPlayer;
     }
 }
+
+Player *Board::getWhitePlayer()
+{
+    return &this->whitePlayer;
+}
+
+Player *Board::getBlackPlayer()
+{
+    return &this->blackPlayer;
+}
+
 
 void Board::switchPlayer()
 {

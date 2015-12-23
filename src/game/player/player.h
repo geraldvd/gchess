@@ -21,12 +21,13 @@ public:
     std::string getColorString() const;
     void setColor(const PieceColor &color);
     Board *getBoard();
+    Player* getOpponent();
 
     // Move methods
     void updateMoves();
     std::vector<Move> getMoves() const;
     MoveStatus move(const Move &m);
-    MoveStatus doPromotion(const enum PromotionType &pt, const Move &m);
+    MoveStatus doPromotion(const Move &m);
 
     // King methods
     std::shared_ptr<King> getKing();
@@ -34,7 +35,6 @@ public:
 
 private:
     // Move methods
-    std::vector<Move> getPossibleMoves();
     std::vector<Move> getPotentialMoves();
     bool isCastling(const Move &m);
 

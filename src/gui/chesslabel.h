@@ -5,7 +5,8 @@
 #include <QLabel>
 
 // Include project libraries
-#include "game.h"
+#include "utils.h"
+#include "board/move.h"
 
 /**
  * @brief ChessLabel class inherits from QLabel. Goal: clickable, contains chess field locations

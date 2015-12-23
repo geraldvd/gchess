@@ -59,7 +59,7 @@ void ChessGame::newGame(const int &board_layout)
 
     // Start new game
     this->game.getBoard()->initBoard(board_layout);
-    this->statusBar()->showMessage(QString::fromStdString(this->game.getBoard()->getActivePlayer()->getColorString()));
+    this->statusBar()->showMessage(this->getStatusMessage());
 
     // Add pieces
     for(auto p : this->game.getBoard()->getPieces()) {
@@ -169,7 +169,7 @@ void ChessGame::slotMovePiece()
         this->chessboard->unCheckField();
 
         // Set new active player
-        this->statusBar()->showMessage(QString::fromStdString(this->game.getBoard()->getActivePlayer()->getColorString()));
+        this->statusBar()->showMessage(this->getStatusMessage());
 
 
         // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
@@ -177,5 +177,11 @@ void ChessGame::slotMovePiece()
             this->chessboard->checkField(this->game.getBoard()->getActivePlayer()->getKing()->getTile()->getPosition());
         }
     }
+}
+
+QString ChessGame::getStatusMessage()
+{
+    return QString::fromStdString(this->game.getBoard()->getActivePlayer()->getColorString() +
+                                  " (Board status: " + this->game.getBoard()->getBoardStatusString() + ")");
 }
 

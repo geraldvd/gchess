@@ -46,6 +46,9 @@ private:
     // Game variables
     GameManager game;
     ChessLabel *activeField;
+
+    // Extra methods
+    QString getStatusMessage();
 };
 
 #endif // CHESSGAME_H

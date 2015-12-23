@@ -16,11 +16,6 @@ class Tile;
 bool operator==(const Field &f1, const Field &f2);
 bool operator!=(const Field &f1, const Field &f2);
 
-// Move operators - TODO: must be field operations
-Move operator+(const Move &m, const unsigned int &i);
-Move operator+(const unsigned int &i, const Move &m);
-bool operator==(const Move &m1, const Move &m2);
-
 // Board operators
 std::ostream& operator<<(std::ostream& os, Board &b);
 std::ostream& operator<<(std::ostream& os, Board *b);

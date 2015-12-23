@@ -167,9 +167,24 @@ std::shared_ptr<King> Player::getKing()
     return this->king;
 }
 
-bool Player::kingCheck() const
+bool Player::kingCheck()
 {
-
+    switch(this->getBoard()->getBoardStatus()) {
+    case BS_CHECKWHITE:
+    case BS_CHECKMATEWHITE:
+        if(this->color == WHITE) {
+            return true;
+        }
+        break;
+    case BS_CHECKBLACK:
+    case BS_CHECKMATEBLACK:
+        if(this->color == BLACK) {
+            return true;
+        }
+        break;
+    default:
+        break;
+    }
     return false;
 }
 
@@ -190,9 +205,42 @@ void Player::updateMoves()
             break;
         }
 
+        // Check status
+        if(this->king->getTile()->tileUnderAttack(this->getOpponent())) {
+            if(this->color == WHITE) {
+                this->getBoard()->setBoardStatus(BS_CHECKWHITE);
+            } else {
+                this->getBoard()->setBoardStatus(BS_CHECKBLACK);
+            }
+        } else {
+            this->getBoard()->setBoardStatus(BS_NORMAL);
+        }
+
+        // Only for active player
+        if(this->color == this->getBoard()->getActivePlayer()->getColor()) {
+            // Check whether move will result in check
+            if(m.isValid()) {
+                // TODO Not working!!! To many pointers to make good copy constructors
+//                m.setValidity(! this->movingIntoCheck(m));
+            }
+        }
+
         // Check whether this is a final move
         if(m.isValid()) {
             finalMoves.push_back(m);
+        }
+    }
+
+    // Checkmate or stalemate?
+    if(finalMoves.size() == 0) {
+        if(this->kingCheck()) {
+            if(this->color == WHITE) {
+                this->getBoard()->setBoardStatus(BS_CHECKMATEWHITE);
+            } else {
+                this->getBoard()->setBoardStatus(BS_CHECKMATEBLACK);
+            }
+        } else {
+            this->getBoard()->setBoardStatus(BS_STALEMATE);
         }
     }
 

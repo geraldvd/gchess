@@ -287,3 +287,8 @@ string Board::getBoardStatusString() const
 
     return status;
 }
+
+void Board::setBoardStatus(const BoardStatus &bs)
+{
+    this->board_status = bs;
+}

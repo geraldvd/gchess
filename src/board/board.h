@@ -45,6 +45,7 @@ public:
     // Board status
     BoardStatus getBoardStatus() const;
     std::string getBoardStatusString() const;
+    void setBoardStatus(const BoardStatus &bs);
 
 private:
     // Tiles on board

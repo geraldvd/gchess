@@ -10,16 +10,6 @@
 // Specify namespaces
 using namespace std;
 
-Move operator+(const Move &m, const unsigned int &i)
-{
-    return Move(m.getX() + i%8, m.getY() + (i-i%8)/8, m.getMovingPiece());
-}
-
-Move operator+(const unsigned int &i, const Move &m)
-{
-    return m+i;
-}
-
 
 std::ostream &operator<<(std::ostream &os, Board &b)
 {
@@ -59,15 +49,6 @@ std::ostream &operator<<(std::ostream &os, Board &b)
     }
 
     return os;
-}
-
-bool operator==(const Move &m1, const Move &m2)
-{
-    if(m1.getX() != m2.getX() || m1.getY() != m2.getY() || m1.getMovingPiece() != m2.getMovingPiece() ||
-            m1.getMoveType() != m2.getMoveType() || m1.getCastlingRookPosition() != m2.getCastlingRookPosition()) {
-        return false;
-    }
-    return true;
 }
 
 bool operator==(const Field &f1, const Field &f2)

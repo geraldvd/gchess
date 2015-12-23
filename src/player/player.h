@@ -80,7 +80,7 @@ public:
      * @return std::shared_ptr to King object
      */
     std::shared_ptr<King> getKing();
-    bool kingCheck() const;
+    bool kingCheck();
 
 private:
     // Move methods
@@ -95,6 +95,12 @@ private:
      * @return true if castling is allowed
      */
     bool isCastling(const Move &m);
+    /**
+     * @brief Check whether a move will result in check (i.e., illegal move)
+     * @param Move to be checked
+     * @return True if it results in check
+     */
+    bool movingIntoCheck(const Move &m);
 
 
 private:

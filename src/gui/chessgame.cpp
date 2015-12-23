@@ -14,7 +14,7 @@ ChessGame::ChessGame(QWidget *parent) :
     chessboard(new Chessboard(this)),
 
     // Initialize menu's
-    file_menu(new QMenu("file")),
+    game_menu(new QMenu("file")),
 
     // Initialize game
     game(),
@@ -31,16 +31,20 @@ ChessGame::ChessGame(QWidget *parent) :
 
     // Setup menubar
     QList<QAction *> actions;
-    actions.append(new QAction("New Game", this->file_menu));
-    actions.append(new QAction("Exit", this->file_menu));
+    actions.append(new QAction("New Game", this->game_menu));
+    actions.append(new QAction("Test: Promotion", this->game_menu));
+    actions.append(new QAction("Test: Castling", this->game_menu));
+    actions.append(new QAction("Exit", this->game_menu));
 
     // Add menu's
-    this->file_menu = this->menuBar()->addMenu("&File");
-    this->file_menu->addActions(actions);
+    this->game_menu = this->menuBar()->addMenu("&Game");
+    this->game_menu->addActions(actions);
 
     // Setup menu signals and slots
-    connect(this->file_menu->actions().at(0), SIGNAL(triggered()), this, SLOT(newGame()));
-    connect(this->file_menu->actions().at(1), SIGNAL(triggered()), this, SLOT(close()));
+    connect(this->game_menu->actions().at(0), SIGNAL(triggered()), this, SLOT(newGame()));
+    connect(this->game_menu->actions().at(1), SIGNAL(triggered()), this, SLOT(promotionTest()));
+    connect(this->game_menu->actions().at(2), SIGNAL(triggered()), this, SLOT(castlingTest()));
+    connect(this->game_menu->actions().at(3), SIGNAL(triggered()), this, SLOT(close()));
 
     // Start new game
     this->newGame();
@@ -48,7 +52,7 @@ ChessGame::ChessGame(QWidget *parent) :
 
 ChessGame::~ChessGame()
 {
-    delete this->file_menu;
+    delete this->game_menu;
 }
 
 void ChessGame::newGame(const int &board_layout)
@@ -56,6 +60,7 @@ void ChessGame::newGame(const int &board_layout)
     // Empty board
     this->chessboard->clearPieces();
     this->chessboard->clearHighlights();
+    this->chessboard->unCheckField();
 
     // Start new game
     this->game.getBoard()->initBoard(board_layout);
@@ -65,6 +70,16 @@ void ChessGame::newGame(const int &board_layout)
     for(auto p : this->game.getBoard()->getPieces()) {
         this->chessboard->addPiece(p->getTile()->getPosition(), p->getColor(), p->getType());
     }
+}
+
+void ChessGame::promotionTest()
+{
+    this->newGame(1);
+}
+
+void ChessGame::castlingTest()
+{
+    this->newGame(2);
 }
 
 void ChessGame::toggleHighlighting()

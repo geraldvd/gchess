@@ -31,6 +31,8 @@ signals:
 public slots:
     // Slot for starting new game
     void newGame(const int &board_layout=0);
+    void promotionTest();
+    void castlingTest();
 
     // Slot for highlighting
     void toggleHighlighting();
@@ -41,7 +43,7 @@ private:
     Chessboard *chessboard;
 
     // Menu's
-    QMenu *file_menu;
+    QMenu *game_menu;
 
     // Game variables
     GameManager game;

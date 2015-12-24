@@ -40,6 +40,9 @@ void Board::initBoard(const int &board_layout)
     case 2:
         this->castlingTest();
         break;
+    case 3:
+        this->movingInCheckTest();
+        break;
     default:
         this->standardBoard();
         break;
@@ -117,6 +120,24 @@ void Board::castlingTest()
 
     // Attack one of the fields
     this->addPiece(5, 2, BISHOP, BLACK);
+
+    // Set active player and calculate possible moves
+    this->activePlayer = WHITE;
+}
+
+void Board::movingInCheckTest()
+{
+    // Kings
+    this->addPiece(1, 0, KING, WHITE);
+    this->addPiece(7, 5, KING, BLACK);
+
+    // Queen
+    this->addPiece(1, 7, QUEEN, BLACK);
+
+    // Add blocking piece
+    this->addPiece(1, 3, KNIGHT, WHITE);
+//    this->addPiece(1, 3, PAWN, WHITE);
+//    this->addPiece(2, 4, QUEEN, BLACK);
 
     // Set active player and calculate possible moves
     this->activePlayer = WHITE;

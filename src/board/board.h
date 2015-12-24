@@ -20,6 +20,7 @@ public:
     void standardBoard();
     void promotionTest();
     void castlingTest();
+    void movingInCheckTest();
 
     // Tile methods
     Tile* getTile(const Field &f);

@@ -214,7 +214,7 @@ void Player::updateMoves()
 
         // Check whether move will result in check
         if(m.isValid()) {
-            m.setValidity(! this->movingIntoCheck(m));
+//            m.setValidity(! this->movingIntoCheck(m));
         }
 
 
@@ -284,6 +284,16 @@ bool Player::movingIntoCheck(const Move &m)
     // Loop through indirectly attacking line pieces (Queen, Rook, Bishop); i.e., one piece between line piece and king
     for(Piece_ptr attackingPiece : m.getMovingPiece()->getTile()->attackingPieces(this->getOpponent())) {
         if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == ROOK) {
+
+            // First check whether king tries to move on same line (away from line piece not captured yet!
+            if(m.getMovingPiece()->getType() == KING) {
+                    if(m.getY() == attackingPiece->getTile()->getY() || m.getX() == attackingPiece->getTile()->getX()) {
+                        return true;
+                    }
+                    // Don't continue with King - TODO: maybe needed later, than don't return, but use else statement
+                    return false;
+            }
+
             // Check if move is on vertical line of king; move only allowed on same line (else: king in CHECK)
             if(attackingPiece->getTile()->getX() == this->getKing()->getTile()->getX() && m.getX() != attackingPiece->getTile()->getX()) {
                 // Piece on vertical attacking line of king, check if there are pieces between king and m.getMovingPiece()
@@ -320,20 +330,15 @@ bool Player::movingIntoCheck(const Move &m)
                 }
             }
 
-            // Check whether king tries to move on same line (away from line piece not captured yet!
-            if(m.getMovingPiece()->getType() == KING &&
-                    (m.getY() == attackingPiece->getTile()->getY() || m.getX() == attackingPiece->getTile()->getX())) {
-                return true;
-            }
 
 
         }
 
-        // Check if move is on diagonal line of king (same procedures as above)
-        if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == BISHOP) {
-            // TODO: diagonals (same story as horizontal/vertical)
-        }
-        // TODO: king on same diagonal (same as above; maybe combine the two?)
+//        // Check if move is on diagonal line of king (same procedures as above)
+//        if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == BISHOP) {
+//            // TODO: diagonals (same story as horizontal/vertical)
+//        }
+//        // TODO: king on same diagonal (same as above; maybe combine the two?)
     }
 
     return false;

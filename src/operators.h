@@ -15,6 +15,7 @@ class Tile;
 // Field operators
 bool operator==(const Field &f1, const Field &f2);
 bool operator!=(const Field &f1, const Field &f2);
+Field operator+(const Field &f1, const Field &f2);
 
 // Board operators
 std::ostream& operator<<(std::ostream& os, Board &b);

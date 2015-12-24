@@ -65,3 +65,9 @@ ostream &operator<<(ostream &os, Board *b)
 {
     return operator<<(os, *b);
 }
+
+
+Field operator+(const Field & f1, const Field & f2)
+{
+    return Field(f1.getX()+f2.getX(), f1.getY()+f2.getY());
+}

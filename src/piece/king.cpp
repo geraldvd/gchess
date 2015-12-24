@@ -34,13 +34,13 @@ std::vector<Move> King::calculateMoves(Board *b)
 
     // Check whether moves are allowed
     for(auto &d : displacements) {
-        unsigned int m = this->getTile()->getPosition() + d.first + 8*d.second;
-        if(b->isOnBoard(m)) {
+        Field m = *this->getTile() + Field(d.first, d.second);
+        if(b->isOnBoard(m.getX(), m.getY())) {
             // Check whether opponent king is too close (note: displacements vector can be used)
             bool kingTooClose{false};
             for(auto &k : displacements) {
-                unsigned int kingPosition = m + k.first + 8*k.second;
-                if(b->isOnBoard(kingPosition) && b->getTile(kingPosition)->isOccupied()
+                Field kingPosition = m + Field(k.first, k.second);
+                if(b->isOnBoard(kingPosition.getX(), kingPosition.getY()) && b->getTile(kingPosition)->isOccupied()
                         && b->getTile(kingPosition)->getPiece()->getColor() != this->getColor()
                         && b->getTile(kingPosition)->getPiece()->getType() == KING) {
                     kingTooClose = true;
@@ -51,11 +51,11 @@ std::vector<Move> King::calculateMoves(Board *b)
                 if(b->getTile(m)->isOccupied()) {
                     if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
                         // Opponent piece; can be taken!
-                        moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
+                        moves.push_back(Move(m.getPosition(), this->getTile()->getPiece(), MT_NORMAL));
                     }
                 } else {
                     // Free place, move allowed
-                    moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
+                    moves.push_back(Move(m.getPosition(), this->getTile()->getPiece(), MT_NORMAL));
                 }
             }
         }

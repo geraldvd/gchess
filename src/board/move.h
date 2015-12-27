@@ -3,6 +3,7 @@
 
 // Include project files
 #include "../utils.h"
+#include "field.h"
 
 // Forward declarations
 class Board;

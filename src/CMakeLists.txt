@@ -61,6 +61,7 @@ add_executable(${PROJECT_NAME}
     operators.cpp
 
     # Board
+    board/field.cpp
     board/tile.cpp
     board/move.cpp
     board/board.cpp

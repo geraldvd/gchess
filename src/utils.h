@@ -13,27 +13,6 @@ const int NUM_TILES{64};
 const int NUM_TILES_X{8};
 const int NUM_TILES_Y{8};
 
-// Field class
-class Field {
-    int x;
-    int y;
-public:
-    // Constructors
-    Field();
-    Field(const int &x, const int &y);
-    Field(const int &p);
-
-    // Getters and setters
-    int getX() const;
-    void setX(const int &x);
-    int getY() const;
-    void setY(const int &y);
-    int getPosition() const;
-    std::string getPositionString() const;
-    void setPosition(const int &p);
-    void setPosition(const int &x, const int &y);
-};
-
 // Piece type
 enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
 
@@ -52,6 +31,6 @@ enum MoveStatus {MS_INVALID=0, MS_OK=1, MS_PROMOTION=2};
 typedef std::shared_ptr<Piece> Piece_ptr;
 
 // Extra functions
-Field string2field(const std::string &s);
+
 
 #endif // UTILS_H

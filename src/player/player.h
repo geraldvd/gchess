@@ -101,6 +101,12 @@ private:
      * @return True if it results in check
      */
     bool movingIntoCheck(const Move &m);
+    /**
+     * @brief Check whether move will solve a check position
+     * @param Move to be checked
+     * @return True if it does not result (i.e., solves) check
+     */
+    bool movingOutOfCheck(const Move &m);
 
 
 private:

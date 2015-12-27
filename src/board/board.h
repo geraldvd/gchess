@@ -21,6 +21,8 @@ public:
     void promotionTest();
     void castlingTest();
     void movingInCheckTest();
+    void moveOutCheckTest();
+    void moveOutCheckTest2();
 
     // Tile methods
     Tile* getTile(const Field &f);

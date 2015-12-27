@@ -64,7 +64,7 @@ vector<Piece_ptr> Tile::attackingPieces(Player *p)
     vector<Piece_ptr> attackingPieces;
 
     for(auto &m : p->getMoves()) {
-        if(m.getPosition() == this->getPosition()) {
+        if(m == *this) {
             attackingPieces.push_back(m.getMovingPiece());
         }
     }

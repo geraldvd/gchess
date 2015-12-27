@@ -193,7 +193,7 @@ void Player::updateMoves()
     vector<Move> moves{this->getPotentialMoves()};
     vector<Move> finalMoves;
 
-    // Check status
+    // CHECK status
     if(this->king->getTile()->tileUnderAttack(this->getOpponent())) {
         if(this->color == WHITE) {
             this->getBoard()->setBoardStatus(BS_CHECKWHITE);
@@ -214,7 +214,12 @@ void Player::updateMoves()
 
         // Check whether move will result in check
         if(m.isValid()) {
-//            m.setValidity(! this->movingIntoCheck(m));
+            m.setValidity(! this->movingIntoCheck(m));
+        }
+
+        // Check whether moves solves possible check position
+        if(m.isValid() && this->kingCheck()) {
+            m.setValidity(this->movingOutOfCheck(m));
         }
 
 
@@ -341,6 +346,47 @@ bool Player::movingIntoCheck(const Move &m)
 //        // TODO: king on same diagonal (same as above; maybe combine the two?)
     }
 
-    return false;
+            return false;
+}
+
+bool Player::movingOutOfCheck(const Move & m)
+{
+    if(! this->kingCheck()) {
+        return true;
+    }
+
+    // King moves already covered by movingIntoCheck() method, to be sure (i.e., when different calling order): again
+    if(m.getMovingPiece()->getType() == KING && this->getBoard()->getTile(m)->tileUnderAttack(this->getOpponent())) {
+            return true;
+    }
+
+    // Check attacking pieces (to king), and see whether performing the move solves this OR captures the piece.
+    for(Piece_ptr attackingPiece : m.getMovingPiece()->getTile()->attackingPieces(this->getOpponent())) {
+        // Check if attacking piece is captures (solves the problem)
+        if(*attackingPiece->getTile() == m) {
+            continue;
+        }
+
+        // Check horizontal/vertical line pieces
+        if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == ROOK) {
+            if(m.getX() == attackingPiece->getTile()->getX() &&
+                    ( (m.getX()<attackingPiece->getTile()->getX() && m.getX()>this->getKing()->getTile()->getX()) ||
+                      (m.getX()>attackingPiece->getTile()->getX() && m.getX()<this->getKing()->getTile()->getX()) )) {
+                return false;
+            }
+            if(m.getY() == attackingPiece->getTile()->getY() &&
+                    ( (m.getY()<attackingPiece->getTile()->getY() && m.getY()>this->getKing()->getTile()->getY()) ||
+                      (m.getY()>attackingPiece->getTile()->getY() && m.getY()<this->getKing()->getTile()->getY()) )) {
+                return false;
+            }
+        }
+
+        // Check diagonal line pieces
+        if(attackingPiece->getType() == QUEEN || attackingPiece->getType() == BISHOP) {
+
+        }
+    }
+
+    return true;
 }
 

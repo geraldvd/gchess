@@ -43,6 +43,12 @@ void Board::initBoard(const int &board_layout)
     case 3:
         this->movingInCheckTest();
         break;
+    case 4:
+        this->moveOutCheckTest();
+        break;
+    case 5:
+        this->moveOutCheckTest2();
+        break;
     default:
         this->standardBoard();
         break;
@@ -122,6 +128,32 @@ void Board::castlingTest()
     this->addPiece(5, 2, BISHOP, BLACK);
 
     // Set active player and calculate possible moves
+    this->activePlayer = WHITE;
+}
+
+void Board::moveOutCheckTest() {
+
+    // Kings
+    this->addPiece(4, 0, KING, WHITE);
+    this->addPiece(7, 7, KING, BLACK);
+
+    // Other pieces
+    this->addPiece(0, 7, ROOK, WHITE);
+    this->addPiece(4, 7, KNIGHT, BLACK);
+
+    this->activePlayer = BLACK;
+
+}
+
+void Board::moveOutCheckTest2()
+{
+    // Kings
+    this->addPiece(4, 0, KING, WHITE);
+    this->addPiece(4, 7, KING, BLACK);
+
+    this->addPiece(6, 0, ROOK, BLACK);
+    this->addPiece(2, 2, KNIGHT, WHITE);
+
     this->activePlayer = WHITE;
 }
 

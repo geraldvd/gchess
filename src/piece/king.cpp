@@ -33,28 +33,30 @@ std::vector<Move> King::calculateMoves(Board *b)
 
     // Check whether moves are allowed
     for(auto &d : displacements) {
-        Field m = *this->getTile() + Field(d.first, d.second);
-        if(b->isOnBoard(m.getX(), m.getY())) {
+        int mx = this->getTile()->getX() + d.first;
+        int my = this->getTile()->getY() + d.second;
+        if(b->isOnBoard(mx, my)) {
             // Check whether opponent king is too close (note: displacements vector can be used)
             bool kingTooClose{false};
             for(auto &k : displacements) {
-                Field kingPosition = m + Field(k.first, k.second);
-                if(b->isOnBoard(kingPosition.getX(), kingPosition.getY()) && b->getTile(kingPosition)->isOccupied()
-                        && b->getTile(kingPosition)->getPiece()->getColor() != this->getColor()
-                        && b->getTile(kingPosition)->getPiece()->getType() == KING) {
+                int kingPositionX = mx + k.first;
+                int kingPositionY = my + k.second;
+                if(b->isOnBoard(kingPositionX, kingPositionY) && b->getTile(kingPositionX, kingPositionY)->isOccupied()
+                        && b->getTile(kingPositionX, kingPositionY)->getPiece()->getColor() != this->getColor()
+                        && b->getTile(kingPositionX, kingPositionY)->getPiece()->getType() == KING) {
                     kingTooClose = true;
                 }
             }
 
             if(!kingTooClose) {
-                if(b->getTile(m)->isOccupied()) {
-                    if(this->getColor() != b->getTile(m)->getPiece()->getColor() /* TODO && isKing() */) {
+                if(b->getTile(mx, my)->isOccupied()) {
+                    if(this->getColor() != b->getTile(mx, my)->getPiece()->getColor() /* TODO && isKing() */) {
                         // Opponent piece; can be taken!
-                        moves.push_back(Move(m.getPosition(), this->getTile()->getPiece(), MT_NORMAL));
+                        moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
                     }
                 } else {
                     // Free place, move allowed
-                    moves.push_back(Move(m.getPosition(), this->getTile()->getPiece(), MT_NORMAL));
+                    moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
                 }
             }
         }

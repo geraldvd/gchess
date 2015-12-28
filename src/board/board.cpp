@@ -19,8 +19,11 @@ using namespace std;
 Board::Board(const PieceColor &activePlayer, const BoardStatus &bs) :
     tiles(NUM_TILES),
     board_status(bs),
-    activePlayer(activePlayer)
+    whitePlayer(),
+    blackPlayer()
 {
+    this->setActivePlayer(WHITE);
+
     // Setup tiles
     for(unsigned int i=0; i<NUM_TILES_X; i++) {
         for(unsigned int j=0; j<NUM_TILES_Y; j++) {
@@ -47,7 +50,7 @@ std::vector<Tile*> Board::getTiles()
 {
     vector<Tile*> tiles;
 
-    for(auto tile : this->tiles) {
+    for(auto &tile : this->tiles) {
         tiles.push_back(&tile);
     }
     return tiles;
@@ -56,7 +59,7 @@ std::vector<Tile*> Board::getTiles()
 std::vector<Piece_ptr> Board::getPieces()
 {
     vector<Piece_ptr> pieces;
-    for(auto t : this->getTiles()) {
+    for(auto &t : this->getTiles()) {
         if(t->isOccupied()) {
             pieces.push_back(t->getPiece());
         }
@@ -145,30 +148,44 @@ void Board::setBoardStatus(const BoardStatus &bs)
     this->board_status = bs;
 }
 
-PieceColor Board::getActiveColor()
+void Board::setPlayer(const PieceColor &color)
+{
+    if(color == WHITE) {
+        this->whitePlayer = Player(WHITE, this);
+    } else {
+        this->blackPlayer = Player(BLACK, this);
+    }
+}
+
+Player *Board::getActivePlayer()
 {
     return this->activePlayer;
 }
 
-string Board::getActiveColorString() const
+Player *Board::getWhitePlayer()
 {
-    if(this->activePlayer == WHITE) {
-        return "white";
-    } else {
-        return "black";
-    }
+    return &this->whitePlayer;
 }
 
-void Board::setActiveColor(const PieceColor &color)
+Player *Board::getBlackPlayer()
 {
-    this->activePlayer = color;
+    return &this->blackPlayer;
+}
+
+void Board::setActivePlayer(const PieceColor &color)
+{
+    if(color == WHITE) {
+        this->activePlayer = &this->whitePlayer;
+    } else {
+        this->activePlayer = &this->blackPlayer;
+    }
 }
 
 void Board::switchPlayer()
 {
-    if(this->activePlayer == WHITE) {
-        this->activePlayer = BLACK;
+    if(this->activePlayer->getColor() == WHITE) {
+        this->activePlayer = &this->blackPlayer;
     } else {
-        this->activePlayer = WHITE;
+        this->activePlayer = &this->whitePlayer;
     }
 }

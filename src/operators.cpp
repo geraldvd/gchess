@@ -14,7 +14,7 @@ using namespace std;
 std::ostream &operator<<(std::ostream &os, Board &b)
 {
     // Board information top
-    os << "Active player: " << b.getActiveColorString()
+    os << "Active player: " << b.getActivePlayer()->getColorString()
        <<
           ", Board status: " << b.getBoardStatusString() << endl;
 
@@ -70,4 +70,14 @@ ostream &operator<<(ostream &os, Board *b)
 Field operator+(const Field & f1, const Field & f2)
 {
     return Field(f1.getX()+f2.getX(), f1.getY()+f2.getY());
+}
+
+bool operator==(const Move &m1, const Move &m2)
+{
+    return m1.getHash() == m2.getHash();
+}
+
+bool operator<(const Move &m1, const Move &m2)
+{
+    return m1.getHash() < m2.getHash();
 }

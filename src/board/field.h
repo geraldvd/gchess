@@ -27,5 +27,8 @@ public:
 
     // Static methods
     static Field string2field(const std::string &s);
+
+    // Hash for comparison
+    unsigned int getHash() const;
 };
 #endif // FIELD_H

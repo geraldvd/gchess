@@ -31,29 +31,26 @@ void GameManager::initBoard(const int &board_layout)
 
     switch(board_layout) {
     case 1:
-        this->promotionTest();
+//        this->promotionTest();
         break;
     case 2:
-        this->castlingTest();
+//        this->castlingTest();
         break;
     case 3:
-        this->movingInCheckTest();
+//        this->movingInCheckTest();
         break;
     case 4:
-        this->moveOutCheckTest();
+//        this->moveOutCheckTest();
         break;
     case 5:
-        this->moveOutCheckTest2();
+//        this->moveOutCheckTest2();
         break;
     default:
         this->standardBoard();
         break;
     }
 
-    // Setup players
-    this->whitePlayer = Player(WHITE, this->getBoard());
-    this->blackPlayer = Player(BLACK, this->getBoard());
-
+    this->board.getActivePlayer()->updateMoves();
 }
 
 void GameManager::standardBoard()
@@ -84,15 +81,20 @@ void GameManager::standardBoard()
     this->board.addPiece(1, 7, KNIGHT, BLACK);
     this->board.addPiece(6, 7, KNIGHT, BLACK);
 
-    // Set active player
-    this->board.setActiveColor(WHITE);
+    // Set players
+    this->board.setPlayer(WHITE);
+    this->board.setPlayer(BLACK);
+    this->board.setActivePlayer(WHITE);
 }
 
-Player *GameManager::getActivePlayer()
+MoveStatus GameManager::move(const Field &from, const Field &to)
 {
-    if(this->board.getActiveColor() == WHITE) {
-        return &this->whitePlayer;
-    } else {
-        return &this->blackPlayer;
+    for(auto &m : this->board.getActivePlayer()->getMoves()) {
+        if(*m.getMovingPiece()->getTile() == from && m.getDestination() == to) {
+            this->board = this->board.getActivePlayer()->move(m);
+            this->board.getActivePlayer()->updateMoves();
+            return MS_OK;
+        }
     }
+    return MS_INVALID;
 }

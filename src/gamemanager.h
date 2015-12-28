@@ -26,13 +26,10 @@ public:
     void moveOutCheckTest();
     void moveOutCheckTest2();
 
-    // Player method
-    Player* getActivePlayer();
+    // Move
+    MoveStatus move(const Field &from, const Field &to);
 
 private:
-    Player whitePlayer;
-    Player blackPlayer;
-
     Board board;
 };
 

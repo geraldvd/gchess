@@ -90,6 +90,15 @@ Field Field::string2field(const string &s)
     return Field(x,y);
 }
 
+unsigned int Field::getHash() const
+{
+    unsigned int h = 31;
+    h = (h*HASH_A) ^ (this->x*HASH_B);
+    h = (h*HASH_A) ^ (this->y*HASH_B);
+
+    return h % HASH_C;
+}
+
 
 
 

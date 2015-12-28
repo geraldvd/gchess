@@ -32,5 +32,10 @@ enum MoveStatus {MS_INVALID=0, MS_OK=1, MS_PROMOTION=2};
 typedef std::shared_ptr<Piece> Piece_ptr;
 typedef std::shared_ptr<Field> Field_ptr;
 
+// Hash primes
+const unsigned int HASH_A{54059};
+const unsigned int HASH_B{76963};
+const unsigned int HASH_C{86969};
+
 
 #endif // UTILS_H

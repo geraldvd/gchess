@@ -33,6 +33,9 @@ public:
     // Move execution
     Board execute(Board * b);
 
+    // Hash for comparison
+    unsigned int getHash() const;
+
 private:
     // Basic move information
     MoveType moveType;

@@ -3,6 +3,7 @@
 
 // Include standard libraries
 #include <memory>
+#include <map>
 
 // Include project libraries
 #include "../utils.h"
@@ -45,6 +46,11 @@ public:
      * @return Pointer to Board object
      */
     Board *getBoard();
+    /**
+     * @brief Getter for opponent
+     * @return Pointer to Player object
+     */
+    Player* getOpponent();
 
     // Move methods
     /**
@@ -61,15 +67,7 @@ public:
      * @param Move to be performed
      * @return MoveStatus: MS_OK, MS_INVALID or MS_PROMOTION (if so: call this->doPromotion)
      */
-    MoveStatus move(const Move &m);
-
-    MoveStatus move(const Field &from, const Field &to);
-    /**
-     * @brief Perform piece promotion, given that PromotionType is set in move variable
-     * @param Move to be performed, with PromotionType as PT_QUEEN, PT_ROOK, PT_BISHOP, PT_KNIGHT
-     * @return MoveStatus: MS_OK or MS_INVALID
-     */
-    MoveStatus doPromotion(const Move &m);
+    Board move(const Move &m);
 
     // King methods
     /**
@@ -79,19 +77,12 @@ public:
     std::shared_ptr<King> getKing();
     bool kingCheck();
 
-private:
     // Move methods
     /**
      * @brief Calculate potential moves. Asked to individual pieces. Not yet accounting for board layout (e.g., check)
      * @return Vector of Move objects
      */
     std::vector<Move> getPotentialMoves();
-    /**
-     * @brief Returns true if castling move is valid (rook and king did not move, fields in between free, fields passed by king not under attack)
-     * @param Move to be checked
-     * @return true if castling is allowed
-     */
-    bool isCastling(const Move &m);
 
 
 private:
@@ -106,6 +97,7 @@ private:
 
     // Possible moves
     std::vector<Move> moves;
+    std::map<Move, Board> moveBoards;
 };
 
 #endif // PLAYER_H

@@ -21,6 +21,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
+#if 0
 #ifdef WITH_QT
     // Initialize Qt application
     QApplication a(argc,argv);
@@ -41,7 +42,7 @@ int main(int argc, char **argv) {
         Field from{0, 0}, to{0, 0};
 
         do{
-            cout << "Move " << game.getActivePlayer()->getColorString() << ". Type coordinates from -> to." << endl;
+            cout << "Move " << game.getBoard()->getActivePlayer()->getColorString() << ". Type coordinates from -> to." << endl;
             while(true) {
                 try {
                     cout << "From: ";
@@ -69,12 +70,20 @@ int main(int argc, char **argv) {
                 }
                 break;
             }
-        } while(game.getActivePlayer()->move(from, to) == MS_INVALID);
+        } while(game.move(from, to) == MS_INVALID);
         cout << endl;
+
     } while(game.getBoard()->getBoardStatus() != BS_CHECKMATEBLACK && game.getBoard()->getBoardStatus() != BS_CHECKMATEWHITE &&
             game.getBoard()->getBoardStatus() != BS_STALEMATE);
 
 
     return 0;
 #endif
+#endif
+    GameManager game;
+
+    cout << game.getBoard() << endl << endl;
+    MoveStatus m =game.move(Field(3,1), Field(3,2));
+    cout << game.getBoard() << endl << endl;
+    return 0;
 }

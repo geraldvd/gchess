@@ -9,6 +9,7 @@
 #include "field.h"
 #include "tile.h"
 #include "../piece/piece.h"
+#include "../player/player.h"
 
 class Board
 {
@@ -31,9 +32,11 @@ public:
     void setBoardStatus(const BoardStatus &bs);
 
     // Player methods
-    PieceColor getActiveColor();
-    std::string getActiveColorString() const;
-    void setActiveColor(const PieceColor &color);
+    void setPlayer(const PieceColor &color);
+    Player* getActivePlayer();
+    Player* getWhitePlayer();
+    Player* getBlackPlayer();
+    void setActivePlayer(const PieceColor &color);
     void switchPlayer();
 
 private:
@@ -46,8 +49,10 @@ private:
     // Status of Kings on board
     BoardStatus board_status;
 
-    // Player to move
-    PieceColor activePlayer;
+    // Players
+    Player whitePlayer;
+    Player blackPlayer;
+    Player* activePlayer;
 };
 
 #endif // BOARD_H

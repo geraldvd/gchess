@@ -36,6 +36,9 @@ public:
     void setMoved(const bool &hasMoved);
     virtual std::vector<Move> calculateMoves(Board *b) = 0;
 
+    // Hash for comparison
+    unsigned int getHash() const;
+
 protected:
     // Position of piece
     Tile* tile;

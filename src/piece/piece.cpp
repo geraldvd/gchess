@@ -83,3 +83,14 @@ void Piece::setMoved(const bool &hasMoved)
 {
     this->moved = hasMoved;
 }
+
+unsigned int Piece::getHash() const
+{
+    unsigned int h = 31;
+    h = (h*HASH_A) ^ (this->tile->getHash()*HASH_B);
+    h = (h*HASH_A) ^ (this->type*HASH_B);
+    h = (h*HASH_A) ^ (this->color*HASH_B);
+    h = this->moved ? (h*HASH_A) ^ (this->moved*HASH_B) : h*HASH_A;
+
+    return h % HASH_C;
+}

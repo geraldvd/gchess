@@ -10,19 +10,20 @@ class Field {
     int y;
 public:
     // Constructors
-    Field();
     Field(const int &x, const int &y);
     Field(const int &p);
 
-    // Getters and setters
+    // Getters
     int getX() const;
-    void setX(const int &x);
     int getY() const;
-    void setY(const int &y);
     int getPosition() const;
     std::string getPositionString() const;
-    void setPosition(const int &p);
+
+    // Setters
+    void setX(const int &x);
+    void setY(const int &y);
     void setPosition(const int &x, const int &y);
+    void setPosition(const int &p);
 
     // Static methods
     static Field string2field(const std::string &s);

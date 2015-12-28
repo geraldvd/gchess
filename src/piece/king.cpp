@@ -8,11 +8,10 @@
 
 using namespace std;
 
-King::King(const PieceColor &c, const bool &has_moved, Tile *parent) :
-    Piece(KING, c, has_moved, parent)
+King::King(const PieceColor &c, const bool &has_moved, Tile *tile) :
+    Piece(KING, c, has_moved, tile)
 {
 }
-
 
 std::vector<Move> King::calculateMoves(Board *b)
 {
@@ -62,7 +61,7 @@ std::vector<Move> King::calculateMoves(Board *b)
     }
 
     // Check castling
-    if(!this->has_moved && this->getTile()->getX() == 4) {
+    if(!this->moved && this->getTile()->getX() == 4) {
         if((this->getColor() == WHITE && this->getTile()->getY() == 0) ||
                 (this->getColor() == BLACK && this->getTile()->getY() == 7)) {
             // Check rooks to the right
@@ -73,7 +72,7 @@ std::vector<Move> King::calculateMoves(Board *b)
                     b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
                     !b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
                 Move m(this->getTile()->getX()+2, this->getTile()->getY(), this->getTile()->getPiece(), MT_CASTLING);
-                m.setCatlingRookPosition(b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPosition());
+                m.setCastlingRookPosition(b->getTile(this->getTile()->getX()+3, this->getTile()->getY())->getPosition());
                 moves.push_back(m);
             }
 
@@ -86,67 +85,11 @@ std::vector<Move> King::calculateMoves(Board *b)
                     b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->getColor() == this->getColor() && // Is the color the same?
                     !b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPiece()->hasMoved()) { // Did the rook move already?
                 Move m(this->getTile()->getX()-2, this->getTile()->getY(), this->getTile()->getPiece(), MT_CASTLING);
-                m.setCatlingRookPosition(b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPosition());
+                m.setCastlingRookPosition(b->getTile(this->getTile()->getX()-4, this->getTile()->getY())->getPosition());
                 moves.push_back(m);
             }
         }
     }
 
-    return moves;
-
-// TODO castling
-
-//    // Check castling
-//    this->castlingRooks = vector<Piece*>();
-//    if(!this->hasMoved) {
-//        for(auto &p : pieces) {
-//            if(p->getType() == ROOK && p->getColor() == this->getColor() && !p->hasMoved) {
-//                bool castlingAllowed{true};
-//                // Check whether fields between King and Rook are empty
-//                int a{0}, b{0};
-//                if(p->getPosition().first > this->getPosition().first) {
-//                    // Start from King position
-//                    a = this->getPosition().first;
-//                    b = p->getPosition().first;
-//                } else {
-//                    // Start from Rook position
-//                    a = p->getPosition().first;
-//                    b = this->getPosition().first;
-//                }
-//                for(int i=a+1; i<b; i++) of{
-//                    for(auto &p2 : pieces) {
-//                        if(this->getColor() == WHITE) {
-//                            if(p2->getPosition() == Field(i,0)) {
-//                                // Castling not allowed!
-//                                castlingAllowed = false;
-//                            }
-//                        } else {
-//                            if(p2->getPosition() == Field(i,7)) {
-//                                // Castling not allowed!
-//                                castlingAllowed = false;
-//                            }
-//                        }
-//                    }
-//                }
-//                // TODO: check whether fields between King and Rook are in check state!
-//                if(castlingAllowed) {
-//                    if(this->getColor() == WHITE) {
-//                        if(this->moveOnboard(Field(p->getPosition().first+1, 0))) {
-//                            this->moves.push_back(Move(Field(p->getPosition().first+1, 0), CASTLING));
-//                        } else {
-//                            this->moves.push_back(Move(Field(p->getPosition().first-1, 0), CASTLING));
-//                        }
-//                    } else {
-//                        if(this->moveOnboard(Field(p->getPosition().first+1, 7))) {
-//                            this->moves.push_back(Move(Field(p->getPosition().first+1, 7), CASTLING));
-//                        } else {
-//                            this->moves.push_back(Move(Field(p->getPosition().first-1, 7), CASTLING));
-//                        }
-//                    }
-//                    this->castlingRooks.push_back(p);
-//                }
-//            }
-//        }
-//        }
     return moves;
 }

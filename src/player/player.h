@@ -45,11 +45,6 @@ public:
      * @return Pointer to Board object
      */
     Board *getBoard();
-    /**
-     * @brief Getter for opponent
-     * @return Pointer to Player object
-     */
-    Player* getOpponent();
 
     // Move methods
     /**
@@ -67,6 +62,8 @@ public:
      * @return MoveStatus: MS_OK, MS_INVALID or MS_PROMOTION (if so: call this->doPromotion)
      */
     MoveStatus move(const Move &m);
+
+    MoveStatus move(const Field &from, const Field &to);
     /**
      * @brief Perform piece promotion, given that PromotionType is set in move variable
      * @param Move to be performed, with PromotionType as PT_QUEEN, PT_ROOK, PT_BISHOP, PT_KNIGHT
@@ -95,18 +92,6 @@ private:
      * @return true if castling is allowed
      */
     bool isCastling(const Move &m);
-    /**
-     * @brief Check whether a move will result in check (i.e., illegal move)
-     * @param Move to be checked
-     * @return True if it results in check
-     */
-    bool movingIntoCheck(const Move &m);
-    /**
-     * @brief Check whether move will solve a check position
-     * @param Move to be checked
-     * @return True if it does not result (i.e., solves) check
-     */
-    bool movingOutOfCheck(const Move &m);
 
 
 private:

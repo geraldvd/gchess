@@ -10,12 +10,22 @@
 // Specify namespaces
 using namespace std;
 
-int Field::getY() const {
-    return this->y;
+Field::Field(const int &x, const int &y)
+{
+    this->setPosition(x, y);
 }
 
-void Field::setY(const int &y) {
-    this->y = y;
+Field::Field(const int &p)
+{
+    this->setPosition(p);
+}
+
+int Field::getX() const {
+    return this->x;
+}
+
+int Field::getY() const {
+    return this->y;
 }
 
 int Field::getPosition() const
@@ -34,16 +44,33 @@ std::string Field::getPositionString() const
     return ss.str();
 }
 
+void Field::setX(const int &x) {
+    if(x>=0 && x<NUM_TILES_X) {
+        this->x = x;
+    } else {
+        throw invalid_argument("x must be between 0 and 7.");
+    }
+}
+
+void Field::setY(const int &y) {
+    if(y>=0 && y<NUM_TILES_Y) {
+        this->y = y;
+    } else {
+        throw invalid_argument("y must be between 0 and 7.");
+    }
+}
+
+
 void Field::setPosition(const int &p)
 {
-    this->x = p%8;
-    this->y = (p-p%8)/8;
+    this->setX(p%8);
+    this->setY((p-p%8)/8);
 }
 
 void Field::setPosition(const int &x, const int &y)
 {
-    this->x = x;
-    this->y = y;
+    this->setX(x);
+    this->setY(y);
 }
 
 Field Field::string2field(const string &s)
@@ -65,26 +92,4 @@ Field Field::string2field(const string &s)
 
 
 
-Field::Field() :
-    Field(0,0)
-{
 
-}
-
-Field::Field(const int &x, const int &y)
-{
-    this->setPosition(x, y);
-}
-
-Field::Field(const int &p)
-{
-    this->setPosition(p);
-}
-
-int Field::getX() const {
-    return this->x;
-}
-
-void Field::setX(const int &x) {
-    this->x = x;
-}

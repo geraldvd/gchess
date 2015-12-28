@@ -30,55 +30,54 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
     vector<Move> moves;
 
     // Check normal move and promotion
-    unsigned int m = this->getTile()->getPosition();
-    if(this->getColor() == WHITE) {
-        m += 8;
-    } else {
-        m -= 8;
-    }
-    if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
+    int mx = this->getTile()->getX();
+    int my = this->getColor()==WHITE ? this->getTile()->getY()+1 : this->getTile()->getY()-1;
+
+    if(b->isOnBoard(mx, my) && !(b->getTile(mx, my)->isOccupied())) {
         // Check promotion
-        if((this->getColor()==WHITE && m>55) || (this->getColor()==BLACK && m<8)) {
-            moves.push_back(Move(m, this->getTile()->getPiece(), MT_PROMOTION));
+        if((this->getColor()==WHITE && my==7) || (this->getColor()==BLACK && my==0)) {
+            moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION));
         } else {
-            moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
+            moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
         }
 
         // Check jumps
-        if(this->getColor() == WHITE && m>=16 && m<24) {
-            m += 8;
+        if(this->getColor() == WHITE && my==1) {
+            my += 1;
         }
-        if(this->getColor() == BLACK && m>=40 && m<48)
+        if(this->getColor() == BLACK && my==6)
         {
-            m -= 8;
+            my -= 1;
         }
-        if(b->isOnBoard(m) && !(b->getTile(m)->isOccupied())) {
-            moves.push_back(Move(m, this->getTile()->getPiece(), MT_PAWNJUMP));
+        if(b->isOnBoard(mx, my) && !(b->getTile(mx, my)->isOccupied())) {
+            moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PAWNJUMP));
         }
     }
 
     // Check capturing
-    vector<pair<unsigned int, unsigned int> > captures = {
-        pair<unsigned int, unsigned int>(1,1),
-        pair<unsigned int, unsigned int>(-1,1)
+    vector<int> captures = {
+        1,
+        -1
     };
 
     for(auto &c : captures) {
         if(this->getColor() == WHITE) {
-            m = this->getTile()->getPosition() + c.first + 8*c.second;
+            mx = this->getTile()->getX() + c;
+            my = this->getTile()->getY() + 1;
         } else {
-            m = this->getTile()->getPosition() - c.first - 8*c.second;
+            mx = this->getTile()->getX() + c;
+            my = this->getTile()->getY() - 1;
         }
 
         // Check whether caputring is allowed
-        if(b->isOnBoard(m) && b->getTile(m)->isOccupied() && this->getColor() != b->getTile(m)->getPiece()->getColor()) {
+        if(b->isOnBoard(mx, my) && b->getTile(mx, my)->isOccupied() && this->getColor() != b->getTile(mx, my)->getPiece()->getColor()) {
             // TODO check king
 
             // Check promotion
-            if((this->getColor()==WHITE && m>55) || (this->getColor()==BLACK && m<8)) {
-                moves.push_back(Move(m, this->getTile()->getPiece(), MT_PROMOTION));
+            if((this->getColor()==WHITE && my==7) || (this->getColor()==BLACK && my==0)) {
+                moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION));
             } else {
-                moves.push_back(Move(m, this->getTile()->getPiece(), MT_NORMAL));
+                moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
             }
         }
     }

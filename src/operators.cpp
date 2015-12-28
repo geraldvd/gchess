@@ -14,14 +14,14 @@ using namespace std;
 std::ostream &operator<<(std::ostream &os, Board &b)
 {
     // Board information top
-    os << "Active player: " << b.getActivePlayer()->getColorString()
+    os << "Active player: " << b.getActiveColorString()
        <<
           ", Board status: " << b.getBoardStatusString() << endl;
 
     // Fill board rows
     map<int,stringstream> rows;
     int currentRow = 0;
-    for(Tile *t : b.getTiles()) {
+    for(auto t : b.getTiles()) {
         if(t->getX() == 0) {
             rows[t->getY()] << currentRow+1 << "   ";
         }

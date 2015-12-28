@@ -13,6 +13,9 @@
 
 // Include project files
 #include "gamemanager.h"
+#ifndef WITH_QT
+    #include "board/field.h"
+#endif
 
 // Namespaces
 using namespace std;
@@ -35,15 +38,15 @@ int main(int argc, char **argv) {
     do {
         cout << game.getBoard() << endl << endl;
 
-        Field from, to;
+        Field from{0, 0}, to{0, 0};
 
         do{
-            cout << "Move " << game.getBoard()->getActivePlayer()->getColorString() << ". Type coordinates from -> to." << endl;
+            cout << "Move " << game.getActivePlayer()->getColorString() << ". Type coordinates from -> to." << endl;
             while(true) {
                 try {
                     cout << "From: ";
                     cin >> position;
-                    from = string2field(position);
+                    from = Field::string2field(position);
                 } catch(invalid_argument &e) {
                     cout << "Wrong coordinate; try again!" << endl;
                     cin.clear();
@@ -57,7 +60,7 @@ int main(int argc, char **argv) {
                 try {
                     cout << "To: ";
                     cin >> position;
-                    to = string2field(position);
+                    to = Field::string2field(position);
                 } catch(invalid_argument &e) {
                     cout << "Wrong coordinate; try again!" << endl;
                     cin.clear();
@@ -66,7 +69,7 @@ int main(int argc, char **argv) {
                 }
                 break;
             }
-        } while(game.move(from, to) == MS_INVALID);
+        } while(game.getActivePlayer()->move(from, to) == MS_INVALID);
         cout << endl;
     } while(game.getBoard()->getBoardStatus() != BS_CHECKMATEBLACK && game.getBoard()->getBoardStatus() != BS_CHECKMATEWHITE &&
             game.getBoard()->getBoardStatus() != BS_STALEMATE);

@@ -4,13 +4,14 @@
 // Include project files
 #include "tile.h"
 #include "board.h"
+#include "../player/player.h"
 
 // Specify namespaces
 using namespace std;
 
 
-Tile::Tile(const unsigned int &p) :
-    Field(p)
+Tile::Tile() :
+    Tile(0,0)
 {
 }
 
@@ -34,7 +35,7 @@ bool Tile::isOccupied() const
 }
 
 
-void Tile::setPiece(Piece_ptr p)
+void Tile::setPiece(const Piece_ptr &p)
 {
     this->piece = p;
     p->setTile(this);
@@ -47,24 +48,14 @@ void Tile::clearPiece()
     }
 }
 
-bool Tile::tileUnderAttack(Player *p)
-{
-    // Read: is tile under attack by p?
-    for(auto &m : p->getMoves()) {
-        if(m.getPosition() == this->getPosition()) {
-            return true;
-        }
-    }
-    return false;
-}
 
-vector<Piece_ptr> Tile::attackingPieces(Player *p)
+vector<Piece_ptr> Tile::attackingPieces(const vector<Move> &moves)
 {
     // Note: multiple pieces can attack a tile
     vector<Piece_ptr> attackingPieces;
 
-    for(auto &m : p->getMoves()) {
-        if(m == *this) {
+    for(auto &m : moves) {
+        if(m.getDestination() == *this) {
             attackingPieces.push_back(m.getMovingPiece());
         }
     }

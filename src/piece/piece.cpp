@@ -5,11 +5,11 @@
 // Specify namespaces
 using namespace std;
 
-Piece::Piece(const PieceType &type, const PieceColor & c, const bool &has_moved, Tile* parent) :
-    tile(parent),
+Piece::Piece(const PieceType &type, const PieceColor & c, const bool &hasMoved, Tile *tile) :
+    tile(tile),
     type(type),
     color(c),
-    has_moved(has_moved)
+    moved(hasMoved)
 {
 }
 
@@ -18,7 +18,7 @@ Piece::~Piece()
 
 }
 
-Tile *Piece::getTile()
+Tile *Piece::getTile() const
 {
     return this->tile;
 }
@@ -28,26 +28,26 @@ PieceType Piece::getType() const
     return this->type;
 }
 
-string Piece::getTypeString(const bool &short_notation) const
+string Piece::getTypeString(const bool &shortNotation) const
 {
     switch(this->type) {
     case KING:
-        return short_notation ? (this->color==WHITE ? "K" : "k") : "King";
+        return shortNotation ? (this->color==WHITE ? "K" : "k") : "King";
         break;
     case QUEEN:
-        return short_notation ? (this->color==WHITE ? "Q" : "q") : "Queen";
+        return shortNotation ? (this->color==WHITE ? "Q" : "q") : "Queen";
         break;
     case ROOK:
-        return short_notation ? (this->color==WHITE ? "R" : "r") : "Rook";
+        return shortNotation ? (this->color==WHITE ? "R" : "r") : "Rook";
         break;
     case BISHOP:
-        return short_notation ? (this->color==WHITE ? "B" : "b") : "Bishop";
+        return shortNotation ? (this->color==WHITE ? "B" : "b") : "Bishop";
         break;
     case KNIGHT:
-        return short_notation ? (this->color==WHITE ? "N" : "n") : "Knight";
+        return shortNotation ? (this->color==WHITE ? "N" : "n") : "Knight";
         break;
     case PAWN:
-        return short_notation ? (this->color==WHITE ? "P" : "p") : "Pawn";
+        return shortNotation ? (this->color==WHITE ? "P" : "p") : "Pawn";
         break;
     default:
         throw domain_error("Piece type not recognized.");
@@ -69,17 +69,17 @@ string Piece::getColorString() const
     }
 }
 
-bool Piece::hasMoved() const
-{
-    return this->has_moved;
-}
-
 void Piece::setTile(Tile *tile)
 {
     this->tile = tile;
 }
 
-void Piece::setMoved()
+bool Piece::hasMoved() const
 {
-    this->has_moved = true;
+    return this->moved;
+}
+
+void Piece::setMoved(const bool &hasMoved)
+{
+    this->moved = hasMoved;
 }

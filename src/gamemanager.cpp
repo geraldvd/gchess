@@ -14,10 +14,9 @@
 // Specify namespaces
 using namespace std;
 
-GameManager::GameManager() :
-    board(Board())
+GameManager::GameManager(const int &board_layout)
 {
-
+    this->initBoard(board_layout);
 }
 
 Board *GameManager::getBoard()
@@ -25,30 +24,75 @@ Board *GameManager::getBoard()
     return &this->board;
 }
 
-MoveStatus GameManager::move(Move &m)
+void GameManager::initBoard(const int &board_layout)
 {
-    MoveStatus moveStatus = this->board.getActivePlayer()->move(m);
-    if(moveStatus == MS_PROMOTION) {
-        // If promotion was not specified before, assume Queen
-        m.setPromotionType(PT_QUEEN);
-        moveStatus = this->board.getActivePlayer()->doPromotion(m);
+    // Create new board
+    this->board = Board();
+
+    switch(board_layout) {
+    case 1:
+        this->promotionTest();
+        break;
+    case 2:
+        this->castlingTest();
+        break;
+    case 3:
+        this->movingInCheckTest();
+        break;
+    case 4:
+        this->moveOutCheckTest();
+        break;
+    case 5:
+        this->moveOutCheckTest2();
+        break;
+    default:
+        this->standardBoard();
+        break;
     }
 
-    if(moveStatus == MS_OK) {
-        // Update game
-        this->board.switchPlayer();
-        this->board.getActivePlayer()->getOpponent()->updateMoves(); // TODO updateMoves? Or look at all potential moves?
-        this->board.getActivePlayer()->updateMoves();
-    }
-    return moveStatus;
+    // Setup players
+    this->whitePlayer = Player(WHITE, this->getBoard());
+    this->blackPlayer = Player(BLACK, this->getBoard());
+
 }
 
-MoveStatus GameManager::move(const Field &from, const Field &to)
+void GameManager::standardBoard()
 {
-    for(auto &m : this->getBoard()->getActivePlayer()->getMoves()) {
-        if(static_cast<Field>(m) == to && static_cast<Field>(*m.getMovingPiece()->getTile()) == from) {
-            return this->move(m);
-        }
+    // Pawns
+    for(unsigned int i=0; i<8; i++) {
+        this->board.addPiece(i, 1, PAWN, WHITE);
+        this->board.addPiece(i, 6, PAWN, BLACK);
     }
-    return MS_INVALID;
+
+    // White pieces
+    this->board.addPiece(4, 0, KING, WHITE);
+    this->board.addPiece(3, 0, QUEEN, WHITE);
+    this->board.addPiece(0, 0, ROOK, WHITE);
+    this->board.addPiece(7, 0, ROOK, WHITE);
+    this->board.addPiece(2, 0, BISHOP, WHITE);
+    this->board.addPiece(5, 0, BISHOP, WHITE);
+    this->board.addPiece(1, 0, KNIGHT, WHITE);
+    this->board.addPiece(6, 0, KNIGHT, WHITE);
+
+    // Black pieces
+    this->board.addPiece(4, 7, KING, BLACK);
+    this->board.addPiece(3, 7, QUEEN, BLACK);
+    this->board.addPiece(0, 7, ROOK, BLACK);
+    this->board.addPiece(7, 7, ROOK, BLACK);
+    this->board.addPiece(2, 7, BISHOP, BLACK);
+    this->board.addPiece(5, 7, BISHOP, BLACK);
+    this->board.addPiece(1, 7, KNIGHT, BLACK);
+    this->board.addPiece(6, 7, KNIGHT, BLACK);
+
+    // Set active player
+    this->board.setActiveColor(WHITE);
+}
+
+Player *GameManager::getActivePlayer()
+{
+    if(this->board.getActiveColor() == WHITE) {
+        return &this->whitePlayer;
+    } else {
+        return &this->blackPlayer;
+    }
 }

@@ -54,7 +54,7 @@ include_directories(${PROJECT_BINARY_DIR})
 
 #########################################################################
 ### Compilation settings
-add_executable(${PROJECT_NAME} 
+add_executable(${PROJECT_NAME}
     main.cpp
     gamemanager.cpp
     utils.cpp

@@ -7,6 +7,7 @@
 
 // Forward declarations
 class Piece;
+class Field;
 
 // Constants
 const int NUM_TILES{64};
@@ -20,17 +21,16 @@ enum PieceType {KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN};
 enum PieceColor {WHITE=1, BLACK=-1};
 
 // Check status
-enum BoardStatus {BS_NORMAL, BS_CHECKWHITE, BS_CHECKBLACK, BS_CHECKMATEWHITE, BS_CHECKMATEBLACK, BS_STALEMATE};
+enum BoardStatus {BS_NORMAL, BS_UNKNOWN, BS_CHECKWHITE, BS_CHECKBLACK, BS_CHECKMATEWHITE, BS_CHECKMATEBLACK, BS_STALEMATE};
 
 // Move type
 enum MoveType {MT_NONE=0, MT_NORMAL=1, MT_PAWNJUMP=2, MT_CASTLING=3, MT_ENPASSANT=4, MT_PROMOTION=5};
 enum PromotionType {PT_NONE=0, PT_QUEEN=1, PT_ROOK=2, PT_BISHOP=3, PT_KNIGHT=4};
 enum MoveStatus {MS_INVALID=0, MS_OK=1, MS_PROMOTION=2};
 
-// Shared pointer to piece
+// Shared pointers
 typedef std::shared_ptr<Piece> Piece_ptr;
-
-// Extra functions
+typedef std::shared_ptr<Field> Field_ptr;
 
 
 #endif // UTILS_H

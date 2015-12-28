@@ -8,35 +8,36 @@
 // Forward declarations
 class Board;
 
-class Move : public Field
+class Move
 {
 public:
-    Move();
+    Move(const Field &f, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL, const PromotionType &pt=PT_NONE);
     Move(const int &x, const int &y, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL, const PromotionType &pt=PT_NONE);
-    Move(const int &m, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL);
 
     // Move type methods
     MoveType getMoveType() const;
     void setMoveType(const MoveType &mt);
-    void setValidity(const bool &valid);
-    bool isValid() const;
-
-    // Extra information methods
-    Field getCastlingRookPosition() const;
-    void setCatlingRookPosition(const Field &position);
-    PromotionType getPromotionType() const;
-    void setPromotionType(const PromotionType &pt);
 
     // Moving piece
     Piece_ptr getMovingPiece() const;
 
-private:
-    // Move type
-    MoveType moveType;
-    bool moveValid;
+    // Destination
+    Field getDestination() const;
 
-    // Moving piece
+    // Extra information
+    Field getCastlingRookPosition() const;
+    PromotionType getPromotionType() const;
+    void setCastlingRookPosition(const Field &position);
+    void setPromotionType(const PromotionType &pt);
+
+    // Move execution
+    Board execute(Board * b);
+
+private:
+    // Basic move information
+    MoveType moveType;
     Piece_ptr movingPiece;
+    Field destination;
 
     // Extra information
     Field castlingRookPosition;

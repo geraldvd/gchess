@@ -16,25 +16,25 @@ class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const PieceType &type, const PieceColor &c, const bool &has_moved, Tile *parent=NULL);
+    Piece(const PieceType &type, const PieceColor &c, const bool &hasMoved=false,  Tile* tile=NULL);
     virtual ~Piece();
 
     // Type methods
     PieceType getType() const;
-    std::string getTypeString(const bool &short_notation=false) const;
+    std::string getTypeString(const bool &shortNotation=false) const;
 
     // Color methods
     PieceColor getColor() const;
     std::string getColorString() const;
 
     // Tile methods
-    Tile* getTile();
+    Tile* getTile() const;
     void setTile(Tile* tile);
 
     // Move methods
-    virtual std::vector<Move> calculateMoves(Board *b) = 0;
     bool hasMoved() const;
-    void setMoved();
+    void setMoved(const bool &hasMoved);
+    virtual std::vector<Move> calculateMoves(Board *b) = 0;
 
 protected:
     // Position of piece
@@ -46,8 +46,8 @@ protected:
     // White or black?
     PieceColor color;
 
-    // Has to be false for Rook and King when castling
-    bool has_moved;
+    // Piece moved already? (Needed for castling)
+    bool moved;
 };
 
 #endif // PIECE_H

@@ -6,22 +6,33 @@
 // Include project files
 #include "utils.h"
 #include "board/board.h"
-#include "board/move.h"
+#include "player/player.h"
 
 
 class GameManager
 {
 public:
-    GameManager();
+    GameManager(const int &board_layout=0);
 
     // Get current gameboard
     Board* getBoard();
 
-    // Move methods
-    MoveStatus move(Move &m);
-    MoveStatus move(const Field &from, const Field &to);
+    // Board creators
+    void initBoard(const int &board_layout);
+    void standardBoard();
+    void promotionTest();
+    void castlingTest();
+    void movingInCheckTest();
+    void moveOutCheckTest();
+    void moveOutCheckTest2();
+
+    // Player method
+    Player* getActivePlayer();
 
 private:
+    Player whitePlayer;
+    Player blackPlayer;
+
     Board board;
 };
 

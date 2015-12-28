@@ -15,20 +15,20 @@
 class Piece;
 class Board;
 class Player;
+class Move;
 
 class Tile : public Field
 {
 public:
-    Tile(const unsigned int &p);
+    Tile();
     Tile(const unsigned int &x, const unsigned int &y);
 
     // Field methods
-    bool tileUnderAttack(Player *p);
-    std::vector<Piece_ptr> attackingPieces(Player *p);
+    std::vector<Piece_ptr> attackingPieces(const std::vector<Move> &moves);
 
     // Piece methods
     Piece_ptr getPiece() const;
-    void setPiece(Piece_ptr p);
+    void setPiece(const Piece_ptr &p);
     void clearPiece();
     bool isOccupied() const;
 

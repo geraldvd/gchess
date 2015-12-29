@@ -10,7 +10,7 @@ ChessLabel::ChessLabel(QWidget *parent) :
 
 ChessLabel::ChessLabel(const unsigned int &f, QWidget *parent) :
     QLabel(parent),
-    pieceMove()
+    pieceMove(0, NULL, MT_NONE)
 {
     this->setPosition(f);
     this->setFixedWidth(ChessLabel::field_size);

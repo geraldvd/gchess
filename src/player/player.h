@@ -67,7 +67,7 @@ public:
      * @param Move to be performed
      * @return MoveStatus: MS_OK, MS_INVALID or MS_PROMOTION (if so: call this->doPromotion)
      */
-    Board move(const Move &m);
+    Board move(Move &m);
 
     // King methods
     /**
@@ -97,7 +97,6 @@ private:
 
     // Possible moves
     std::vector<Move> moves;
-    std::map<Move, Board> moveBoards;
 };
 
 #endif // PLAYER_H

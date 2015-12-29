@@ -5,6 +5,7 @@
 #include "move.h"
 #include "board.h"
 #include "../piece/pawn.h"
+#include "../piece/king.h"
 
 // Specify namespaces
 using namespace std;
@@ -137,7 +138,16 @@ Board Move::execute(Board *b)
         boardAfterMove.setActivePlayer(WHITE);
     }
 
-    boardAfterMove.setBoardStatus(BS_UNKNOWN);
+    // Set boardstatus
+    if(boardAfterMove.getActivePlayer()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()->getOpponent()).size() != 0) {
+        if(boardAfterMove.getActivePlayer()->getColor() == WHITE) {
+            boardAfterMove.setBoardStatus(BS_CHECKWHITE);
+        } else {
+            boardAfterMove.setBoardStatus(BS_CHECKBLACK);
+        }
+    } else {
+        boardAfterMove.setBoardStatus(BS_NORMAL);
+    }
 
     return boardAfterMove;
 }

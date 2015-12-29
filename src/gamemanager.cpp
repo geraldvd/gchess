@@ -31,19 +31,19 @@ void GameManager::initBoard(const int &board_layout)
 
     switch(board_layout) {
     case 1:
-//        this->promotionTest();
+        this->promotionTest();
         break;
     case 2:
-//        this->castlingTest();
+        this->castlingTest();
         break;
     case 3:
-//        this->movingInCheckTest();
+        this->movingInCheckTest();
         break;
     case 4:
-//        this->moveOutCheckTest();
+        this->moveOutCheckTest();
         break;
     case 5:
-//        this->moveOutCheckTest2();
+        this->moveOutCheckTest2();
         break;
     default:
         this->standardBoard();
@@ -86,6 +86,98 @@ void GameManager::standardBoard()
     this->board.setPlayer(BLACK);
     this->board.setActivePlayer(WHITE);
 }
+
+void GameManager::promotionTest()
+{
+    // Kings
+    this->board.addPiece(4, 0, KING, WHITE);
+    this->board.addPiece(4, 7, KING, BLACK);
+
+    // Promotion pawn
+    this->board.addPiece(2, 6, PAWN, WHITE);
+    this->board.addPiece(6, 1, PAWN, BLACK);
+
+    // Extra piece (for promotion via capturing)
+    this->board.addPiece(1, 7, KNIGHT, BLACK);
+
+    // Set active player and calculate possible moves
+    this->board.setPlayer(WHITE);
+    this->board.setPlayer(BLACK);
+    this->board.setActivePlayer(WHITE);
+}
+
+void GameManager::castlingTest()
+{
+    // Kings
+    this->board.addPiece(4, 0, KING, WHITE);
+    this->board.addPiece(4, 7, KING, BLACK);
+
+    // Rooks
+    this->board.addPiece(0, 0, ROOK, WHITE);
+    this->board.addPiece(7, 0, ROOK, WHITE);
+    this->board.addPiece(0, 7, ROOK, BLACK);
+    this->board.addPiece(7, 7, ROOK, BLACK);
+
+    // Attack one of the fields
+    this->board.addPiece(5, 2, BISHOP, BLACK);
+
+    // Set active player and calculate possible moves
+    this->board.setPlayer(WHITE);
+    this->board.setPlayer(BLACK);
+    this->board.setActivePlayer(WHITE);
+}
+
+void GameManager::moveOutCheckTest() {
+
+    // Kings
+    this->board.addPiece(4, 0, KING, WHITE);
+    this->board.addPiece(7, 7, KING, BLACK);
+
+    // Other pieces
+    this->board.addPiece(0, 7, ROOK, WHITE);
+    this->board.addPiece(4, 7, KNIGHT, BLACK);
+
+    this->board.setPlayer(WHITE);
+    this->board.setPlayer(BLACK);
+    this->board.setActivePlayer(BLACK);
+
+}
+
+void GameManager::moveOutCheckTest2()
+{
+    // Kings
+    this->board.addPiece(4, 0, KING, WHITE);
+    this->board.addPiece(4, 7, KING, BLACK);
+
+    this->board.addPiece(6, 0, ROOK, BLACK);
+    this->board.addPiece(2, 2, KNIGHT, WHITE);
+
+    this->board.setPlayer(WHITE);
+    this->board.setPlayer(BLACK);
+    this->board.setActivePlayer(WHITE);
+}
+
+void GameManager::movingInCheckTest()
+{
+    // Kings
+    this->board.addPiece(1, 0, KING, WHITE);
+    this->board.addPiece(7, 5, KING, BLACK);
+
+    // Queen
+    this->board.addPiece(1, 7, QUEEN, BLACK);
+
+    // Add blocking piece
+    this->board.addPiece(1, 3, KNIGHT, WHITE);
+//    this->addPiece(1, 3, PAWN, WHITE);
+//    this->addPiece(2, 4, QUEEN, BLACK);
+
+    // Set active player and calculate possible moves
+    this->board.setPlayer(WHITE);
+    this->board.setPlayer(BLACK);
+    this->board.setActivePlayer(WHITE);
+}
+
+
 
 MoveStatus GameManager::move(const Field &from, const Field &to)
 {

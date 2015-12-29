@@ -21,7 +21,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-#if 0
+#if 1
 #ifdef WITH_QT
     // Initialize Qt application
     QApplication a(argc,argv);
@@ -79,11 +79,12 @@ int main(int argc, char **argv) {
 
     return 0;
 #endif
-#endif
+#else
     GameManager game;
 
     cout << game.getBoard() << endl << endl;
     MoveStatus m =game.move(Field(3,1), Field(3,2));
     cout << game.getBoard() << endl << endl;
     return 0;
+#endif
 }

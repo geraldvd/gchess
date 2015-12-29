@@ -1,6 +1,7 @@
 // Include standard libraries
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 // Include project files
 #include "../board/board.h"
@@ -69,12 +70,12 @@ std::vector<Move> Player::getMoves() const
     return this->moves;
 }
 
-Board Player::move(const Move &m)
+Board Player::move(Move &m)
 {
-    if(this->moveBoards.find(m) == this->moveBoards.end()) {
+    if(find(this->moves.begin(), this->moves.end(), m) == this->moves.end()) {
         return *this->getBoard();
     } else {
-        return this->moveBoards.at(m);
+        return m.execute(this->getBoard());
     }
 }
 
@@ -110,7 +111,6 @@ void Player::updateMoves()
     // TODO setmoved
     vector<Move> moves{this->getPotentialMoves()};
     vector<Move> finalMoves;
-    map<Move, Board> finalBoards;
 
     for(auto &m : moves) {
         // Virtual move execution
@@ -120,7 +120,7 @@ void Player::updateMoves()
         if(boardAfterMove.getActivePlayer()->getOpponent()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()).size() != 0) {
             // Not allowed, moving into check
             continue;
-        } else if(boardAfterMove.getActivePlayer()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()->getOpponent()).size() != 0) {
+        } /*else if(boardAfterMove.getActivePlayer()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()->getOpponent()).size() != 0) {
             if(boardAfterMove.getActivePlayer()->getColor() == WHITE) {
                 boardAfterMove.setBoardStatus(BS_CHECKWHITE);
             } else {
@@ -128,12 +128,10 @@ void Player::updateMoves()
             }
         } else {
             boardAfterMove.setBoardStatus(BS_NORMAL);
-        }
+        }*/
 
         // Add move to  allowed moves
         finalMoves.push_back(m);
-        finalBoards[m] = boardAfterMove;
-
     }
 
 
@@ -151,7 +149,6 @@ void Player::updateMoves()
     }
 
     this->moves = finalMoves;
-    this->moveBoards = finalBoards;
 }
 
 std::vector<Move> Player::getPotentialMoves()

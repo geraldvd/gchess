@@ -34,6 +34,9 @@ ChessGame::ChessGame(QWidget *parent) :
     actions.append(new QAction("New Game", this->game_menu));
     actions.append(new QAction("Test: Promotion", this->game_menu));
     actions.append(new QAction("Test: Castling", this->game_menu));
+    actions.append(new QAction("Test: Move into check", this->game_menu));
+    actions.append(new QAction("Test: Move out check (1)", this->game_menu));
+    actions.append(new QAction("Test: Move out check (2)", this->game_menu));
     actions.append(new QAction("Exit", this->game_menu));
 
     // Add menu's
@@ -44,10 +47,13 @@ ChessGame::ChessGame(QWidget *parent) :
     connect(this->game_menu->actions().at(0), SIGNAL(triggered()), this, SLOT(newGame()));
     connect(this->game_menu->actions().at(1), SIGNAL(triggered()), this, SLOT(promotionTest()));
     connect(this->game_menu->actions().at(2), SIGNAL(triggered()), this, SLOT(castlingTest()));
-    connect(this->game_menu->actions().at(3), SIGNAL(triggered()), this, SLOT(close()));
+    connect(this->game_menu->actions().at(3), SIGNAL(triggered()), this, SLOT(moveIntoCheckTest()));
+    connect(this->game_menu->actions().at(4), SIGNAL(triggered()), this, SLOT(moveOutOfCheckTest()));
+    connect(this->game_menu->actions().at(5), SIGNAL(triggered()), this, SLOT(moveOutOfCheckTest2()));
+    connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(close()));
 
     // Start new game
-    this->newGame(5);
+    this->newGame(0);
 }
 
 ChessGame::~ChessGame()
@@ -63,7 +69,7 @@ void ChessGame::newGame(const int &board_layout)
     this->chessboard->unCheckField();
 
     // Start new game
-    this->game.getBoard()->initBoard(board_layout);
+    this->game.initBoard(board_layout);
     this->statusBar()->showMessage(this->getStatusMessage());
 
     // Add pieces
@@ -80,6 +86,21 @@ void ChessGame::promotionTest()
 void ChessGame::castlingTest()
 {
     this->newGame(2);
+}
+
+void ChessGame::moveIntoCheckTest()
+{
+    this->newGame(3);
+}
+
+void ChessGame::moveOutOfCheckTest()
+{
+    this->newGame(4);
+}
+
+void ChessGame::moveOutOfCheckTest2()
+{
+    this->newGame(5);
 }
 
 void ChessGame::toggleHighlighting()
@@ -129,14 +150,14 @@ void ChessGame::slotMovePiece()
                 if(pd.exec()) {
                     // TODO move return bool?
                     to->getMove()->setPromotionType(pd.getPromotionType());
-                    if(this->game.move(*to->getMove()) == MS_OK) {
+                    if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
                         this->chessboard->removePiece(from.getPosition());
                         this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), pd.getPieceType());
                     }
                 } else {
                     // Assume queen
                     to->getMove()->setPromotionType(PT_QUEEN);
-                    if(this->game.move(*to->getMove()) == MS_OK) {
+                    if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
                         this->chessboard->removePiece(from.getPosition());
                         this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), QUEEN);
                     }
@@ -144,7 +165,7 @@ void ChessGame::slotMovePiece()
             }
             break;
         case MT_CASTLING:
-            if(this->game.move(*to->getMove()) == MS_OK) {
+            if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
                 // Move king
                 this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
                 // Move rook
@@ -156,7 +177,7 @@ void ChessGame::slotMovePiece()
             }
             break;
         case MT_ENPASSANT:
-            if(this->game.move(*to->getMove()) == MS_OK) {
+            if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
                 if(this->game.getBoard()->getTile(to->getPosition())->getPiece()->getColor() == WHITE) {
                     this->chessboard->removePiece(to->getPosition().getPosition()-8);
                 } else {
@@ -167,7 +188,7 @@ void ChessGame::slotMovePiece()
             break;
         case MT_PAWNJUMP:
         case MT_NORMAL:
-            if(this->game.move(*to->getMove()) == MS_OK) {
+            if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
                 this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
             }
             break;

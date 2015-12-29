@@ -33,6 +33,9 @@ public slots:
     void newGame(const int &board_layout=0);
     void promotionTest();
     void castlingTest();
+    void moveIntoCheckTest();
+    void moveOutOfCheckTest();
+    void moveOutOfCheckTest2();
 
     // Slot for highlighting
     void toggleHighlighting();

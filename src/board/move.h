@@ -11,6 +11,7 @@ class Board;
 class Move
 {
 public:
+    Move();
     Move(const Field &f, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL, const PromotionType &pt=PT_NONE);
     Move(const int &x, const int &y, Piece_ptr movingPiece, const MoveType &mt=MT_NORMAL, const PromotionType &pt=PT_NONE);
 

@@ -44,10 +44,10 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
         }
 
         // Check jumps
-        if(this->getColor() == WHITE && my==1) {
+        if(this->getColor() == WHITE && my==2) {
             my += 1;
         }
-        if(this->getColor() == BLACK && my==6)
+        if(this->getColor() == BLACK && my==5)
         {
             my -= 1;
         }

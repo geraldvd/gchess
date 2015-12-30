@@ -130,6 +130,15 @@ std::shared_ptr<King> Board::getInActiveKing()
     return this->activePlayer==WHITE ? this->blackKing : this->whiteKing;
 }
 
+bool Board::activeKingCheck() const
+{
+    if((this->activePlayer == WHITE && (this->board_status == BS_CHECKWHITE || this->board_status == BS_CHECKMATEWHITE)) ||
+        (this->activePlayer == BLACK && (this->board_status == BS_CHECKBLACK || this->board_status == BS_CHECKMATEBLACK))) {
+        return true;
+    }
+    return false;
+}
+
 
 BoardStatus Board::getBoardStatus() const
 {
@@ -229,11 +238,14 @@ Board Board::move(Move & m)
 
 void Board::updateMoves()
 {
-    // TODO setmoved
     vector<Move> moves{this->getAllPotentialMoves()};
     vector<Move> finalMoves;
 
     for(auto &m : moves) {
+        if(m.getMovingPiece()->getColor() != this->activePlayer) {
+            // Opponent's move
+            continue;
+        }
         // Virtual move execution
         Board boardAfterMove = m.execute(this);
 
@@ -265,17 +277,4 @@ void Board::updateMoves()
 std::vector<Move> Board::getMoves() const
 {
     return this->moves;
-}
-
-std::vector<Move> Board::getMoves(const PieceColor & color)
-{
-    vector<Move> moves;
-
-    for(auto &m : this->moves) {
-        if(m.getMovingPiece()->getColor() == color) {
-            moves.push_back(m);
-        }
-    }
-
-    return moves;
 }

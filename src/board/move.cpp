@@ -127,6 +127,9 @@ Board Move::execute(Board *b)
         boardAfterMove.addPiece(p->getTile()->getX(), p->getTile()->getY(), p->getType(), p->getColor());
     }
 
+    // Set moved
+    this->movingPiece->setMoved(true);
+
     // Set active piece
     if(this->movingPiece->getColor() == WHITE) {
         boardAfterMove.setActivePlayer(BLACK);

@@ -53,7 +53,7 @@ ChessGame::ChessGame(QWidget *parent) :
     connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(close()));
 
     // Start new game
-    this->newGame(0);
+    this->newGame(1);
 }
 
 ChessGame::~ChessGame()
@@ -121,7 +121,7 @@ void ChessGame::toggleHighlighting()
             this->chessboard->clearHighlights();
 
             // Highlight moves
-            for(auto &m : this->game.getBoard()->getMoves(this->game.getBoard()->getActivePlayer())) {
+            for(auto &m : this->game.getBoard()->getMoves()) {
                 // Only highlight moves of clicked piece
                 if(*m.getMovingPiece()->getTile() == l->getPosition()) {
                     this->chessboard->highlightField(m);
@@ -209,9 +209,9 @@ void ChessGame::slotMovePiece()
 
 
         // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
-//        if(this->game.getActivePlayer().kingCheck()) {
-//            this->chessboard->checkField(this->game.getActivePlayer().getKing()->getTile()->getPosition());
-//        }
+        if(this->game.getBoard()->activeKingCheck()) {
+            this->chessboard->checkField(this->game.getBoard()->getActiveKing()->getTile()->getPosition());
+        }
     }
 }
 

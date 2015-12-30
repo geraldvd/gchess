@@ -27,6 +27,7 @@ public:
     void addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color);
     std::shared_ptr<King> getActiveKing();
     std::shared_ptr<King> getInActiveKing();
+    bool activeKingCheck() const;
 
     // Board status
     BoardStatus getBoardStatus() const;
@@ -45,7 +46,6 @@ public:
     Board move(Move &m);
     void updateMoves();
     std::vector<Move> getMoves() const;
-    std::vector<Move> getMoves(const PieceColor &color);
 
 
 private:

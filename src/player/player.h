@@ -53,21 +53,13 @@ public:
     Player* getOpponent();
 
     // Move methods
-    /**
-     * @brief Called at initialization and after move to find ALL possible next moves
-     */
-    void updateMoves();
+
     /**
      * @brief Getter for possible moves, given that vector is filled before
      * @return Vector of Move objects
      */
     std::vector<Move> getMoves() const;
-    /**
-     * @brief Perform actual move, given that this->moves is correctly filled
-     * @param Move to be performed
-     * @return MoveStatus: MS_OK, MS_INVALID or MS_PROMOTION (if so: call this->doPromotion)
-     */
-    Board move(Move &m);
+
 
     // King methods
     /**
@@ -78,11 +70,6 @@ public:
     bool kingCheck();
 
     // Move methods
-    /**
-     * @brief Calculate potential moves. Asked to individual pieces. Not yet accounting for board layout (e.g., check)
-     * @return Vector of Move objects
-     */
-    std::vector<Move> getPotentialMoves();
 
 
 private:
@@ -95,8 +82,7 @@ private:
     // Keep track of king
     std::shared_ptr<King> king;
 
-    // Possible moves
-    std::vector<Move> moves;
+
 };
 
 #endif // PLAYER_H

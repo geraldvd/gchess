@@ -6,7 +6,6 @@
 // Include project files
 #include "utils.h"
 #include "board/board.h"
-#include "player/player.h"
 
 
 class GameManager

@@ -24,7 +24,7 @@ public:
     Tile(const unsigned int &x, const unsigned int &y);
 
     // Field methods
-    std::vector<Piece_ptr> attackingPieces(Player *p);
+    std::vector<Piece_ptr> attackingPieces(Board * b, const PieceColor & attackingColor);
 
     // Piece methods
     Piece_ptr getPiece() const;

@@ -114,14 +114,14 @@ void ChessGame::toggleHighlighting()
         this->activeField = NULL;
     } else {
         // Check whether piece is allowed to move
-        if(this->game.getBoard()->getActivePlayer()->getColor() == this->game.getBoard()->getTile(l->getPosition())->getPiece()->getColor()) {
+        if(this->game.getBoard()->getActivePlayer() == this->game.getBoard()->getTile(l->getPosition())->getPiece()->getColor()) {
             this->activeField = l;
 
             // Clear old highlights
             this->chessboard->clearHighlights();
 
             // Highlight moves
-            for(auto &m : this->game.getBoard()->getActivePlayer()->getMoves()) {
+            for(auto &m : this->game.getBoard()->getMoves(this->game.getBoard()->getActivePlayer())) {
                 // Only highlight moves of clicked piece
                 if(*m.getMovingPiece()->getTile() == l->getPosition()) {
                     this->chessboard->highlightField(m);
@@ -209,15 +209,15 @@ void ChessGame::slotMovePiece()
 
 
         // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
-        if(this->game.getBoard()->getActivePlayer()->kingCheck()) {
-            this->chessboard->checkField(this->game.getBoard()->getActivePlayer()->getKing()->getTile()->getPosition());
-        }
+//        if(this->game.getActivePlayer().kingCheck()) {
+//            this->chessboard->checkField(this->game.getActivePlayer().getKing()->getTile()->getPosition());
+//        }
     }
 }
 
 QString ChessGame::getStatusMessage()
 {
-    return QString::fromStdString(this->game.getBoard()->getActivePlayer()->getColorString() +
+    return QString::fromStdString(this->game.getBoard()->getActivePlayerString() +
                                   " (Board status: " + this->game.getBoard()->getBoardStatusString() + ")");
 }
 

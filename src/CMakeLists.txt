@@ -36,10 +36,6 @@ include_directories(board)
 add_subdirectory(engine)
 include_directories(engine)
 
-# Add player
-add_subdirectory(player)
-include_directories(player)
-
 # Add gui
 if(WITH_QT)
     add_subdirectory(gui)
@@ -75,9 +71,6 @@ add_executable(${PROJECT_NAME}
     piece/bishop.cpp
     piece/knight.cpp
     piece/pawn.cpp
-
-    # Player
-    player/player.cpp
 )
 
 if(WITH_QT)

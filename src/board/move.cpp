@@ -127,10 +127,6 @@ Board Move::execute(Board *b)
         boardAfterMove.addPiece(p->getTile()->getX(), p->getTile()->getY(), p->getType(), p->getColor());
     }
 
-    // Set players
-    boardAfterMove.setPlayer(WHITE);
-    boardAfterMove.setPlayer(BLACK);
-
     // Set active piece
     if(this->movingPiece->getColor() == WHITE) {
         boardAfterMove.setActivePlayer(BLACK);
@@ -139,8 +135,8 @@ Board Move::execute(Board *b)
     }
 
     // Set boardstatus
-    if(boardAfterMove.getActivePlayer()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()->getOpponent()).size() != 0) {
-        if(boardAfterMove.getActivePlayer()->getColor() == WHITE) {
+    if(boardAfterMove.getActiveKing()->getTile()->attackingPieces(&boardAfterMove, boardAfterMove.getInActivePlayer()).size() != 0) {
+        if(boardAfterMove.getActivePlayer() == WHITE) {
             boardAfterMove.setBoardStatus(BS_CHECKWHITE);
         } else {
             boardAfterMove.setBoardStatus(BS_CHECKBLACK);

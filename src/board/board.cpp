@@ -11,16 +11,15 @@
 #include "bishop.h"
 #include "knight.h"
 #include "pawn.h"
-#include "../player/player.h"
 
 // Specify namespaces
 using namespace std;
 
 Board::Board(const PieceColor &activePlayer, const BoardStatus &bs) :
     tiles(NUM_TILES),
-    board_status(bs),
-    whitePlayer(),
-    blackPlayer()
+    whiteKing(NULL),
+    blackKing(NULL),
+    board_status(bs)
 {
     this->setActivePlayer(WHITE);
 
@@ -81,7 +80,21 @@ void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceTy
     Piece_ptr p;
     switch(type) {
     case KING:
-        p.reset(new King(color));
+        if(color == WHITE) {
+            if(this->whiteKing != NULL) {
+                throw domain_error("Only one white king is allowed on the board.");
+            }
+
+            this->whiteKing.reset(new King(color));
+            p = this->whiteKing;
+        } else {
+            if(this->blackKing != NULL) {
+                throw domain_error("Only one black king is allowed on the board.");
+            }
+
+            this->blackKing.reset(new King(color));
+            p = this->blackKing;
+        }
         break;
     case QUEEN:
         p.reset(new Queen(color));
@@ -105,6 +118,16 @@ void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceTy
     this->pieces.push_back(p);
     p->setTile(this->getTile(x, y));
     this->getTile(x, y)->setPiece(p);
+}
+
+std::shared_ptr<King> Board::getActiveKing()
+{
+    return this->activePlayer==WHITE ? this->whiteKing : this->blackKing;
+}
+
+std::shared_ptr<King> Board::getInActiveKing()
+{
+    return this->activePlayer==WHITE ? this->blackKing : this->whiteKing;
 }
 
 
@@ -148,44 +171,111 @@ void Board::setBoardStatus(const BoardStatus &bs)
     this->board_status = bs;
 }
 
-void Board::setPlayer(const PieceColor &color)
-{
-    if(color == WHITE) {
-        this->whitePlayer = Player(WHITE, this);
-    } else {
-        this->blackPlayer = Player(BLACK, this);
-    }
-}
-
-Player *Board::getActivePlayer()
+PieceColor Board::getActivePlayer() const
 {
     return this->activePlayer;
 }
 
-Player *Board::getWhitePlayer()
+PieceColor Board::getInActivePlayer() const
 {
-    return &this->whitePlayer;
-}
-
-Player *Board::getBlackPlayer()
-{
-    return &this->blackPlayer;
-}
-
-void Board::setActivePlayer(const PieceColor &color)
-{
-    if(color == WHITE) {
-        this->activePlayer = &this->whitePlayer;
+    if(this->activePlayer == WHITE) {
+        return BLACK;
     } else {
-        this->activePlayer = &this->blackPlayer;
+        return WHITE;
     }
+}
+
+string Board::getActivePlayerString() const
+{
+    return this->activePlayer==WHITE ? "white" : "black";
+}
+
+void Board::setActivePlayer(const PieceColor & color)
+{
+    this->activePlayer = color;
 }
 
 void Board::switchPlayer()
 {
-    if(this->activePlayer->getColor() == WHITE) {
-        this->activePlayer = &this->blackPlayer;
+    if(this->activePlayer == WHITE) {
+        this->activePlayer = BLACK;
     } else {
-        this->activePlayer = &this->whitePlayer;
+        this->activePlayer = WHITE;
     }
+}
+
+std::vector<Move> Board::getAllPotentialMoves()
+{
+    vector<Move> moves;
+
+    for(auto &t : this->getTiles()) {
+        if(t->isOccupied() /*&& t->getPiece()->getColor() == this->color*/) {
+            vector<Move> pieceMoves = t->getPiece()->calculateMoves(this);
+            moves.insert(moves.end(), pieceMoves.begin(), pieceMoves.end());
+        }
+    }
+
+    return moves;
+}
+
+Board Board::move(Move & m)
+{
+    if(find(this->moves.begin(), this->moves.end(), m) == this->moves.end()) {
+        return *this;
+    } else {
+        return m.execute(this);
+    }
+}
+
+void Board::updateMoves()
+{
+    // TODO setmoved
+    vector<Move> moves{this->getAllPotentialMoves()};
+    vector<Move> finalMoves;
+
+    for(auto &m : moves) {
+        // Virtual move execution
+        Board boardAfterMove = m.execute(this);
+
+        // CHECK status
+        if(boardAfterMove.getInActiveKing()->getTile()->attackingPieces(&boardAfterMove, boardAfterMove.getActivePlayer()).size() != 0) {
+            // Not allowed, moving into check
+            continue;
+        }
+
+        // Add move to  allowed moves
+        finalMoves.push_back(m);
+    }
+
+
+    // Checkmate or stalemate?
+    if(finalMoves.size() == 0) {
+        if(this->getBoardStatus() == BS_CHECKWHITE && this->getActivePlayer() == WHITE) {
+                this->setBoardStatus(BS_CHECKMATEWHITE);
+        } else if(this->getBoardStatus() == BS_CHECKBLACK && this->getActivePlayer() == BLACK) {
+                this->setBoardStatus(BS_CHECKMATEBLACK);
+        } else {
+            this->setBoardStatus(BS_STALEMATE);
+        }
+    }
+
+    this->moves = finalMoves;
+}
+
+std::vector<Move> Board::getMoves() const
+{
+    return this->moves;
+}
+
+std::vector<Move> Board::getMoves(const PieceColor & color)
+{
+    vector<Move> moves;
+
+    for(auto &m : this->moves) {
+        if(m.getMovingPiece()->getColor() == color) {
+            moves.push_back(m);
+        }
+    }
+
+    return moves;
 }

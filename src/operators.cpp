@@ -14,7 +14,8 @@ using namespace std;
 std::ostream &operator<<(std::ostream &os, Board &b)
 {
     // Board information top
-    os << "Active player: " << b.getActivePlayer()->getColorString()
+    string activePlayer = b.getActivePlayer()==WHITE ? "white" : "black";
+    os << "Active player: " << activePlayer
        <<
           ", Board status: " << b.getBoardStatusString() << endl;
 

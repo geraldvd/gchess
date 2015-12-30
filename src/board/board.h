@@ -25,6 +25,8 @@ public:
     // Piece methods
     std::vector<Piece_ptr> getPieces();
     void addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color);
+    std::shared_ptr<King> getActiveKing();
+    std::shared_ptr<King> getInActiveKing();
 
     // Board status
     BoardStatus getBoardStatus() const;
@@ -32,12 +34,19 @@ public:
     void setBoardStatus(const BoardStatus &bs);
 
     // Player methods
-    void setPlayer(const PieceColor &color);
-    Player* getActivePlayer();
-    Player* getWhitePlayer();
-    Player* getBlackPlayer();
+    PieceColor getActivePlayer() const;
+    PieceColor getInActivePlayer() const;
+    std::string getActivePlayerString() const;
     void setActivePlayer(const PieceColor &color);
     void switchPlayer();
+
+    // Move methods
+    std::vector<Move> getAllPotentialMoves();
+    Board move(Move &m);
+    void updateMoves();
+    std::vector<Move> getMoves() const;
+    std::vector<Move> getMoves(const PieceColor &color);
+
 
 private:
     // Tiles on board
@@ -45,14 +54,17 @@ private:
 
     // Pieces on board
     std::vector<Piece_ptr> pieces;
+    std::shared_ptr<King> whiteKing;
+    std::shared_ptr<King> blackKing;
 
     // Status of Kings on board
     BoardStatus board_status;
 
-    // Players
-    Player whitePlayer;
-    Player blackPlayer;
-    Player* activePlayer;
+    // Active player
+    PieceColor activePlayer;
+
+    // Possible moves
+    std::vector<Move> moves;
 };
 
 #endif // BOARD_H

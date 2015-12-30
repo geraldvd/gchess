@@ -120,15 +120,7 @@ void Player::updateMoves()
         if(boardAfterMove.getActivePlayer()->getOpponent()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()).size() != 0) {
             // Not allowed, moving into check
             continue;
-        } /*else if(boardAfterMove.getActivePlayer()->getKing()->getTile()->attackingPieces(boardAfterMove.getActivePlayer()->getOpponent()).size() != 0) {
-            if(boardAfterMove.getActivePlayer()->getColor() == WHITE) {
-                boardAfterMove.setBoardStatus(BS_CHECKWHITE);
-            } else {
-                boardAfterMove.setBoardStatus(BS_CHECKBLACK);
-            }
-        } else {
-            boardAfterMove.setBoardStatus(BS_NORMAL);
-        }*/
+        }
 
         // Add move to  allowed moves
         finalMoves.push_back(m);

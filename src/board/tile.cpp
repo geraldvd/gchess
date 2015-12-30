@@ -21,13 +21,13 @@ Tile::Tile(const unsigned int &x, const unsigned int &y) :
 {
 }
 
-std::vector<Piece_ptr> Tile::attackingPieces(Player *p)
+std::vector<Piece_ptr> Tile::attackingPieces(Board *b, const PieceColor &attackingColor)
 {
     // Note: multiple pieces can attack a tile
     vector<Piece_ptr> attackingPieces;
 
-    for(auto &m : p->getPotentialMoves()) {
-        if(m.getDestination() == *this) {
+    for(auto &m : b->getAllPotentialMoves()) {
+        if(m.getMovingPiece()->getColor() == attackingColor && m.getDestination() == *this) {
             attackingPieces.push_back(m.getMovingPiece());
         }
     }

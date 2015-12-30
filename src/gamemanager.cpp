@@ -50,7 +50,7 @@ void GameManager::initBoard(const int &board_layout)
         break;
     }
 
-    this->board.getActivePlayer()->updateMoves();
+    this->getBoard()->updateMoves();
 }
 
 void GameManager::standardBoard()
@@ -82,8 +82,6 @@ void GameManager::standardBoard()
     this->board.addPiece(6, 7, KNIGHT, BLACK);
 
     // Set players
-    this->board.setPlayer(WHITE);
-    this->board.setPlayer(BLACK);
     this->board.setActivePlayer(WHITE);
 }
 
@@ -101,8 +99,6 @@ void GameManager::promotionTest()
     this->board.addPiece(1, 7, KNIGHT, BLACK);
 
     // Set active player and calculate possible moves
-    this->board.setPlayer(WHITE);
-    this->board.setPlayer(BLACK);
     this->board.setActivePlayer(WHITE);
 }
 
@@ -122,8 +118,6 @@ void GameManager::castlingTest()
     this->board.addPiece(5, 2, BISHOP, BLACK);
 
     // Set active player and calculate possible moves
-    this->board.setPlayer(WHITE);
-    this->board.setPlayer(BLACK);
     this->board.setActivePlayer(WHITE);
 }
 
@@ -137,8 +131,6 @@ void GameManager::moveOutCheckTest() {
     this->board.addPiece(0, 7, ROOK, WHITE);
     this->board.addPiece(4, 7, KNIGHT, BLACK);
 
-    this->board.setPlayer(WHITE);
-    this->board.setPlayer(BLACK);
     this->board.setActivePlayer(BLACK);
 
 }
@@ -152,8 +144,6 @@ void GameManager::moveOutCheckTest2()
     this->board.addPiece(6, 0, ROOK, BLACK);
     this->board.addPiece(2, 2, KNIGHT, WHITE);
 
-    this->board.setPlayer(WHITE);
-    this->board.setPlayer(BLACK);
     this->board.setActivePlayer(WHITE);
 }
 
@@ -172,8 +162,6 @@ void GameManager::movingInCheckTest()
 //    this->addPiece(2, 4, QUEEN, BLACK);
 
     // Set active player and calculate possible moves
-    this->board.setPlayer(WHITE);
-    this->board.setPlayer(BLACK);
     this->board.setActivePlayer(WHITE);
 }
 
@@ -181,10 +169,11 @@ void GameManager::movingInCheckTest()
 
 MoveStatus GameManager::move(const Field &from, const Field &to)
 {
-    for(auto &m : this->board.getActivePlayer()->getMoves()) {
-        if(*m.getMovingPiece()->getTile() == from && m.getDestination() == to) {
-            this->board = this->board.getActivePlayer()->move(m);
-            this->board.getActivePlayer()->updateMoves();
+    for(auto &m : this->board.getMoves()) {
+        if(m.getMovingPiece()->getColor() == this->board.getActivePlayer() &&
+                *m.getMovingPiece()->getTile() == from && m.getDestination() == to) {
+            this->board = this->board.move(m);
+            this->board.updateMoves();
             return MS_OK;
         }
     }

@@ -39,6 +39,7 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
             moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_QUEEN));
             moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_ROOK));
             moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_BISHOP));
+            moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_KNIGHT));
         } else {
             moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
         }
@@ -73,13 +74,12 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
 
         // Check whether caputring is allowed
         if(b->isOnBoard(mx, my) && b->getTile(mx, my)->isOccupied() && this->getColor() != b->getTile(mx, my)->getPiece()->getColor()) {
-            // TODO check king
-
             // Check promotion
             if((this->getColor()==WHITE && my==7) || (this->getColor()==BLACK && my==0)) {
                 moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_QUEEN));
                 moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_ROOK));
                 moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_BISHOP));
+                moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_PROMOTION, PT_KNIGHT));
             } else {
                 moves.push_back(Move(mx, my, this->getTile()->getPiece(), MT_NORMAL));
             }

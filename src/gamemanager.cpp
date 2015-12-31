@@ -45,6 +45,9 @@ void GameManager::initBoard(const int &board_layout)
     case 5:
         this->moveOutCheckTest2();
         break;
+    case 6:
+        this->enPassantTest();
+        break;
     default:
         this->standardBoard();
         break;
@@ -147,6 +150,19 @@ void GameManager::moveOutCheckTest2()
     this->board.setActivePlayer(WHITE);
 }
 
+void GameManager::enPassantTest()
+{
+    // Kings
+    this->board.addPiece(4, 0, KING, WHITE);
+    this->board.addPiece(4, 7, KING, BLACK);
+
+    // Pawns
+    this->board.addPiece(4, 6, PAWN, BLACK);
+    this->board.addPiece(3, 4, PAWN, WHITE);
+
+    this->board.setActivePlayer(BLACK);
+}
+
 void GameManager::movingInCheckTest()
 {
     // Kings
@@ -167,11 +183,15 @@ void GameManager::movingInCheckTest()
 
 
 
-MoveStatus GameManager::move(const Field &from, const Field &to)
+MoveStatus GameManager::move(const Field &from, const Field &to, const PromotionType &pt)
 {
     for(auto &m : this->board.getMoves()) {
         if(m.getMovingPiece()->getColor() == this->board.getActivePlayer() &&
                 *m.getMovingPiece()->getTile() == from && m.getDestination() == to) {
+            if(m.getMoveType() == MT_PROMOTION && m.getPromotionType() != pt) {
+                // Wrong promotion type
+                continue;
+            }
             this->board = this->board.move(m);
             this->board.updateMoves();
             return MS_OK;

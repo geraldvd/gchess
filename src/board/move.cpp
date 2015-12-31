@@ -148,6 +148,9 @@ Board Move::execute(Board *b)
         boardAfterMove.setBoardStatus(BS_NORMAL);
     }
 
+    // Compute new potential moves
+    boardAfterMove.calculatePotentialMoves();
+
     return boardAfterMove;
 }
 

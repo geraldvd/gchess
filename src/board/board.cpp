@@ -213,7 +213,7 @@ void Board::switchPlayer()
     }
 }
 
-std::vector<Move> Board::getAllPotentialMoves()
+void Board::calculatePotentialMoves()
 {
     vector<Move> moves;
 
@@ -224,7 +224,7 @@ std::vector<Move> Board::getAllPotentialMoves()
         }
     }
 
-    return moves;
+    this->potentialMoves = moves;
 }
 
 Board Board::move(Move & m)
@@ -238,16 +238,34 @@ Board Board::move(Move & m)
 
 void Board::updateMoves()
 {
-    vector<Move> moves{this->getAllPotentialMoves()};
+    this->calculatePotentialMoves();
     vector<Move> finalMoves;
 
-    for(auto &m : moves) {
+    for(auto &m : this->potentialMoves) {
         if(m.getMovingPiece()->getColor() != this->activePlayer) {
             // Opponent's move
             continue;
         }
         // Virtual move execution
         Board boardAfterMove = m.execute(this);
+
+        // Check castling
+        if(m.getMoveType() == MT_CASTLING) {
+            vector<int> xCastlingUnderAttack{m.getMovingPiece()->getTile()->getX(),
+                                             m.getDestination().getX(),
+                                             (m.getMovingPiece()->getTile()->getX() + m.getDestination().getX())/2};
+            bool castlingValid{true};
+            for(auto &i : xCastlingUnderAttack) {
+                // Check whether fields are in CHECK on old board
+                if(this->getTile(i, m.getDestination().getY())->attackingPieces(this, this->getInActivePlayer()).size() != 0) {
+                    // One of the fields passed by king to castle is under attack
+                    castlingValid = false;
+                }
+            }
+            if(! castlingValid) {
+                continue;
+            }
+        }
 
         // CHECK status
         if(boardAfterMove.getInActiveKing()->getTile()->attackingPieces(&boardAfterMove, boardAfterMove.getActivePlayer()).size() != 0) {

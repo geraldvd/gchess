@@ -24,9 +24,10 @@ public:
     void movingInCheckTest();
     void moveOutCheckTest();
     void moveOutCheckTest2();
+    void enPassantTest();
 
     // Move
-    MoveStatus move(const Field &from, const Field &to);
+    MoveStatus move(const Field &from, const Field &to, const PromotionType &pt=PT_QUEEN);
 
 private:
     Board board;

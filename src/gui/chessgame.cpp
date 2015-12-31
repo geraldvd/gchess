@@ -53,7 +53,7 @@ ChessGame::ChessGame(QWidget *parent) :
     connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(close()));
 
     // Start new game
-    this->newGame(1);
+    this->newGame(0);
 }
 
 ChessGame::~ChessGame()
@@ -150,14 +150,14 @@ void ChessGame::slotMovePiece()
                 if(pd.exec()) {
                     // TODO move return bool?
                     to->getMove()->setPromotionType(pd.getPromotionType());
-                    if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
+                    if(this->game.move(from, to->getMove()->getDestination(), pd.getPromotionType()) == MS_OK) {
                         this->chessboard->removePiece(from.getPosition());
                         this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), pd.getPieceType());
                     }
                 } else {
                     // Assume queen
                     to->getMove()->setPromotionType(PT_QUEEN);
-                    if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
+                    if(this->game.move(from, to->getMove()->getDestination(), PT_QUEEN) == MS_OK) {
                         this->chessboard->removePiece(from.getPosition());
                         this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), QUEEN);
                     }

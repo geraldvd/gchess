@@ -42,7 +42,7 @@ public:
     void switchPlayer();
 
     // Move methods
-    std::vector<Move> getAllPotentialMoves();
+    void calculatePotentialMoves();
     Board move(Move &m);
     void updateMoves();
     std::vector<Move> getMoves() const;
@@ -65,6 +65,7 @@ private:
 
     // Possible moves
     std::vector<Move> moves;
+    std::vector<Move> potentialMoves;
 };
 
 #endif // BOARD_H

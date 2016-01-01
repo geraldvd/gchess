@@ -138,6 +138,7 @@ Board Move::execute(Board *b)
     }
 
     // Set boardstatus
+    boardAfterMove.calculatePotentialMoves();
     if(boardAfterMove.getActiveKing()->getTile()->attackingPieces(&boardAfterMove, boardAfterMove.getInActivePlayer()).size() != 0) {
         if(boardAfterMove.getActivePlayer() == WHITE) {
             boardAfterMove.setBoardStatus(BS_CHECKWHITE);
@@ -147,9 +148,6 @@ Board Move::execute(Board *b)
     } else {
         boardAfterMove.setBoardStatus(BS_NORMAL);
     }
-
-    // Compute new potential moves
-    boardAfterMove.calculatePotentialMoves();
 
     return boardAfterMove;
 }

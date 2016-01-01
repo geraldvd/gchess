@@ -46,6 +46,7 @@ public:
     Board move(Move &m);
     void updateMoves();
     std::vector<Move> getMoves() const;
+    std::vector<Move> getPotentialMoves() const;
 
 
 private:

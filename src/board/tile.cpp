@@ -26,7 +26,7 @@ std::vector<Piece_ptr> Tile::attackingPieces(Board *b, const PieceColor &attacki
     // Note: multiple pieces can attack a tile
     vector<Piece_ptr> attackingPieces;
 
-    for(auto &m : /*b->getAllPotentialMoves()*/b->getMoves()) {
+    for(auto &m : /*b->getAllPotentialMoves()*/b->getPotentialMoves()) {
         if(m.getMovingPiece()->getColor() == attackingColor && m.getDestination() == *this) {
             attackingPieces.push_back(m.getMovingPiece());
         }

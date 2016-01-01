@@ -296,3 +296,8 @@ std::vector<Move> Board::getMoves() const
 {
     return this->moves;
 }
+
+std::vector<Move> Board::getPotentialMoves() const
+{
+    return this->potentialMoves;
+}

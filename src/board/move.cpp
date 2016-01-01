@@ -70,7 +70,7 @@ Board Move::execute(Board *b)
 
     for(auto &p : b->getPieces()) {
         // Castling rook movement
-        if(this->moveType == MT_CASTLING && p->getType() == ROOK && p->getColor() == this->getMovingPiece()->getColor() && p->getTile()->getPosition() == this->castlingRookPosition) {
+        if(this->moveType == MT_CASTLING && p->getType() == ROOK && p->getColor() == this->getMovingPiece()->getColor() && *(p->getTile()) == this->castlingRookPosition) {
             if(this->destination.getX() == NUM_TILES_X-2) {
                 boardAfterMove.addPiece(this->destination.getX()-1, this->destination.getY(), ROOK, p->getColor());
             } else {
@@ -84,27 +84,26 @@ Board Move::execute(Board *b)
             if(this->moveType == MT_PROMOTION) {
                 switch(this->promotionType) {
                 case PT_QUEEN:
-                    boardAfterMove.addPiece(destination.getX(), destination.getY(), QUEEN, p->getColor());
+                    boardAfterMove.addPiece(destination.getX(), destination.getY(), QUEEN, p->getColor(), true);
                     break;
                 case PT_ROOK:
-                    boardAfterMove.addPiece(destination.getX(), destination.getY(), ROOK, p->getColor());
+                    boardAfterMove.addPiece(destination.getX(), destination.getY(), ROOK, p->getColor(), true);
                     break;
                 case PT_BISHOP:
-                    boardAfterMove.addPiece(destination.getX(), destination.getY(), BISHOP, p->getColor());
+                    boardAfterMove.addPiece(destination.getX(), destination.getY(), BISHOP, p->getColor(), true);
                     break;
                 case PT_KNIGHT:
-                    boardAfterMove.addPiece(destination.getX(), destination.getY(), KNIGHT, p->getColor());
+                    boardAfterMove.addPiece(destination.getX(), destination.getY(), KNIGHT, p->getColor(), true);
                     break;
                 default:
                     throw domain_error("Unknown promotion type.");
                     break;
                 }
-            } else {
-                boardAfterMove.addPiece(destination.getX(), destination.getY(), p->getType(), p->getColor());
-                if(this->movingPiece->getType() == PAWN && this->moveType == MT_PAWNJUMP) {
-                    Pawn* p = static_cast<Pawn*>(boardAfterMove.getTile(destination)->getPiece().get());
-                    p->setJustMovedDouble(true);
-                }
+            } else if(this->moveType == MT_PAWNJUMP) {
+                boardAfterMove.addPiece(destination.getX(), destination.getY(), p->getType(), p->getColor(), true, true);
+            }
+            else {
+                boardAfterMove.addPiece(destination.getX(), destination.getY(), p->getType(), p->getColor(), true, false);
             }
             continue;
         }
@@ -118,7 +117,7 @@ Board Move::execute(Board *b)
         }
 
         // Captured piece
-        if(this->destination == *p->getTile()) {
+        if(this->destination == *(p->getTile())) {
             // Piece is captured
             continue;
         }

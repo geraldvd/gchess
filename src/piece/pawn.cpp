@@ -61,7 +61,7 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
             my = this->getTile()->getY() - 1;
         }
 
-        // Check whether caputring is allowed
+        // Check whether capturing is allowed
         if(b->isOnBoard(mx, my) && b->getTile(mx, my)->isOccupied() && this->getColor() != b->getTile(mx, my)->getPiece()->getColor()) {
             // Check promotion
             if((this->getColor()==WHITE && my==7) || (this->getColor()==BLACK && my==0)) {
@@ -88,8 +88,6 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
                 moves.push_back(Move(this->getTile()->getX()+1, this->getTile()->getY()+1, this->getTile()->getPiece(), MT_ENPASSANT));
             }
         }
-        // Reset justMovedDouble
-        p->setJustMovedDouble(false);
     }
     if(b->isOnBoard(this->getTile()->getX()-1, this->getTile()->getY()) &&
             b->getTile(this->getTile()->getX()-1, this->getTile()->getY())->isOccupied() &&
@@ -103,8 +101,6 @@ std::vector<Move> Pawn::calculateMoves(Board *b)
                 moves.push_back(Move(this->getTile()->getX()-1, this->getTile()->getY()+1, this->getTile()->getPiece(), MT_ENPASSANT));
             }
         }
-        // Reset justMovedDouble
-        p->setJustMovedDouble(false);
     }
 
     return moves;

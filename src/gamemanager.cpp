@@ -1,7 +1,6 @@
 // Include standard libraries
 #include <algorithm>
 #include <string>
-#include <iostream>
 
 // Include project files
 #include "gamemanager.h"
@@ -43,12 +42,9 @@ void GameManager::initBoard(const int &board_layout)
         this->moveOutCheckTest();
         break;
     case 5:
-        this->moveOutCheckTest2();
-        break;
-    case 6:
         this->enPassantTest();
         break;
-    case 7:
+    case 6:
         this->staleMateTest();
         break;
     default:
@@ -87,7 +83,7 @@ void GameManager::standardBoard()
     this->board.addPiece(1, 7, KNIGHT, BLACK);
     this->board.addPiece(6, 7, KNIGHT, BLACK);
 
-    // Set players
+    // Set active player
     this->board.setActivePlayer(WHITE);
 }
 
@@ -104,7 +100,7 @@ void GameManager::promotionTest()
     // Extra piece (for promotion via capturing)
     this->board.addPiece(1, 7, KNIGHT, BLACK);
 
-    // Set active player and calculate possible moves
+    // Set active player
     this->board.setActivePlayer(WHITE);
 }
 
@@ -123,12 +119,11 @@ void GameManager::castlingTest()
     // Attack one of the fields
     this->board.addPiece(5, 2, BISHOP, BLACK);
 
-    // Set active player and calculate possible moves
+    // Set active player
     this->board.setActivePlayer(WHITE);
 }
 
 void GameManager::moveOutCheckTest() {
-
     // Kings
     this->board.addPiece(4, 0, KING, WHITE);
     this->board.addPiece(7, 7, KING, BLACK);
@@ -137,20 +132,8 @@ void GameManager::moveOutCheckTest() {
     this->board.addPiece(0, 7, ROOK, WHITE);
     this->board.addPiece(4, 7, KNIGHT, BLACK);
 
+    // Set active player
     this->board.setActivePlayer(BLACK);
-
-}
-
-void GameManager::moveOutCheckTest2()
-{
-    // Kings
-    this->board.addPiece(4, 0, KING, WHITE);
-    this->board.addPiece(4, 7, KING, BLACK);
-
-    this->board.addPiece(6, 0, ROOK, BLACK);
-    this->board.addPiece(2, 2, KNIGHT, WHITE);
-
-    this->board.setActivePlayer(WHITE);
 }
 
 void GameManager::enPassantTest()
@@ -162,20 +145,24 @@ void GameManager::enPassantTest()
     // Pawns
     this->board.addPiece(4, 6, PAWN, BLACK);
     this->board.addPiece(3, 4, PAWN, WHITE);
+    this->board.addPiece(2, 1, PAWN, WHITE);
+    this->board.addPiece(3, 3, PAWN, BLACK);
 
+    // Set active player
     this->board.setActivePlayer(BLACK);
 }
 
 void GameManager::staleMateTest()
 {
     // Kings
-    this->board.addPiece(0, 0, KING, WHITE);
-    this->board.addPiece(7, 7, KING, BLACK);
+    this->board.addPiece(0, 0, KING, WHITE, true);
+    this->board.addPiece(7, 7, KING, BLACK, true);
 
     // Other pieces
-    this->board.addPiece(1, 2, ROOK, BLACK);
+    this->board.addPiece(1, 2, ROOK, BLACK, true);
     this->board.addPiece(3, 2, KNIGHT, BLACK);
 
+    // Set active player
     this->board.setActivePlayer(BLACK);
 }
 
@@ -190,10 +177,8 @@ void GameManager::movingInCheckTest()
 
     // Add blocking piece
     this->board.addPiece(1, 3, KNIGHT, WHITE);
-//    this->addPiece(1, 3, PAWN, WHITE);
-//    this->addPiece(2, 4, QUEEN, BLACK);
 
-    // Set active player and calculate possible moves
+    // Set active player
     this->board.setActivePlayer(WHITE);
 }
 

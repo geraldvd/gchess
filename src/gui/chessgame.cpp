@@ -35,8 +35,9 @@ ChessGame::ChessGame(QWidget *parent) :
     actions.append(new QAction("Test: Promotion", this->game_menu));
     actions.append(new QAction("Test: Castling", this->game_menu));
     actions.append(new QAction("Test: Move into check", this->game_menu));
-    actions.append(new QAction("Test: Move out check (1)", this->game_menu));
-    actions.append(new QAction("Test: Move out check (2)", this->game_menu));
+    actions.append(new QAction("Test: Move out check", this->game_menu));
+    actions.append(new QAction("Test: En Passent", this->game_menu));
+    actions.append(new QAction("Test: Stalemate", this->game_menu));
     actions.append(new QAction("Exit", this->game_menu));
 
     // Add menu's
@@ -49,11 +50,12 @@ ChessGame::ChessGame(QWidget *parent) :
     connect(this->game_menu->actions().at(2), SIGNAL(triggered()), this, SLOT(castlingTest()));
     connect(this->game_menu->actions().at(3), SIGNAL(triggered()), this, SLOT(moveIntoCheckTest()));
     connect(this->game_menu->actions().at(4), SIGNAL(triggered()), this, SLOT(moveOutOfCheckTest()));
-    connect(this->game_menu->actions().at(5), SIGNAL(triggered()), this, SLOT(moveOutOfCheckTest2()));
-    connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(close()));
+    connect(this->game_menu->actions().at(5), SIGNAL(triggered()), this, SLOT(enPassantTest()));
+    connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(staleMateTest()));
+    connect(this->game_menu->actions().at(7), SIGNAL(triggered()), this, SLOT(close()));
 
     // Start new game
-    this->newGame(7);
+    this->newGame(5);
 }
 
 ChessGame::~ChessGame()
@@ -98,7 +100,12 @@ void ChessGame::moveOutOfCheckTest()
     this->newGame(4);
 }
 
-void ChessGame::moveOutOfCheckTest2()
+void ChessGame::staleMateTest()
+{
+    this->newGame(6);
+}
+
+void ChessGame::enPassentTest()
 {
     this->newGame(5);
 }

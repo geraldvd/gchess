@@ -23,7 +23,6 @@ public:
     void castlingTest();
     void movingInCheckTest();
     void moveOutCheckTest();
-    void moveOutCheckTest2();
     void enPassantTest();
     void staleMateTest();
 

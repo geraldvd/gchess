@@ -15,6 +15,11 @@ class Board
 {
 public:
     Board(const PieceColor &activePlayer=WHITE, const BoardStatus &bs=BS_NORMAL);
+    Board(const int &board_int);
+
+    // Get total board in a single int
+    int get() const;
+    short pieceToShort() const;
 
     // Tile methods
     Tile* getTile(const unsigned int &x, const unsigned int &y);

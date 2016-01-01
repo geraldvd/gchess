@@ -1,6 +1,7 @@
 // Include project files
 #include "piece.h"
 #include "../board/tile.h"
+#include "pawn.h"
 
 // Specify namespaces
 using namespace std;
@@ -16,6 +17,24 @@ Piece::Piece(const PieceType &type, const PieceColor & c, const bool &hasMoved, 
 Piece::~Piece()
 {
 
+}
+
+short Piece::toShort() const
+{
+    short piecePosition = this->getTile()->getPosition(); // 0...63 (5 bits)
+    short pieceIsWhite = this->getColor()==WHITE ? 1 : 0; // (1 bit)
+    short pieceType = int(this->getType()); // 0...5 (3 bits)
+    short hasMoved = this->hasMoved() ? 1 : 0; // 1 bit
+    short justMovedDouble = 0; // 1 bit
+    if(this->getType() == PAWN) {
+        Pawn* pawn = dynamic_pointer_cast<Pawn*>(this);
+        if(pawn->getJustMovedDouble()) {
+            justMovedDouble = 1;
+        }
+    }
+
+    // Add piece to single number
+    return piecePosition + 64*pieceIsWhite + 128*pieceType + 1024*hasMoved + 2048*justMovedDouble;
 }
 
 Tile *Piece::getTile() const

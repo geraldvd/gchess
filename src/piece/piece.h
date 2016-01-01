@@ -19,6 +19,9 @@ public:
     Piece(const PieceType &type, const PieceColor &c, const bool &hasMoved=false,  Tile* tile=NULL);
     virtual ~Piece();
 
+    // Single number representation
+    short toShort() const;
+
     // Type methods
     PieceType getType() const;
     std::string getTypeString(const bool &shortNotation=false) const;

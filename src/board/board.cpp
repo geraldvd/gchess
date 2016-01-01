@@ -31,6 +31,24 @@ Board::Board(const PieceColor &activePlayer, const BoardStatus &bs) :
     }
 }
 
+Board::Board(const int &board_int) :
+    Board(WHITE, BS_NORMAL)
+{
+
+}
+
+int Board::get() const
+{
+    // Note: bitshift right => fill with 0; bitshift left => fill with 1
+    bool whiteActive = this->activePlayer==WHITE ? true : false;
+    unsigned int boardStatus = int(this->board_status);
+
+    vector<short> pieces;
+    for(Piece_ptr p : this->pieces) {
+
+    }
+}
+
 Tile *Board::getTile(const unsigned int &x, const unsigned int &y)
 {
     if(find(this->tiles.begin(), this->tiles.end(), Field(x, y).getPosition()) != this->tiles.end()) {
@@ -151,9 +169,6 @@ string Board::getBoardStatusString() const
     switch(this->board_status) {
     case BS_NORMAL:
         status = "Normal";
-        break;
-    case BS_UNKNOWN:
-        status = "Unknonw";
         break;
     case BS_CHECKBLACK:
         status = "Check black";

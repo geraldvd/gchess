@@ -36,7 +36,7 @@ public slots:
     void moveIntoCheckTest();
     void moveOutOfCheckTest();
     void staleMateTest();
-    void enPassentTest();
+    void enPassantTest();
 
     // Slot for highlighting
     void toggleHighlighting();

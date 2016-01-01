@@ -21,7 +21,6 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-#if 1
 #ifdef WITH_QT
     // Initialize Qt application
     QApplication a(argc,argv);
@@ -75,27 +74,6 @@ int main(int argc, char **argv) {
 
     } while(game.getBoard()->getBoardStatus() != BS_CHECKMATEBLACK && game.getBoard()->getBoardStatus() != BS_CHECKMATEWHITE &&
             game.getBoard()->getBoardStatus() != BS_STALEMATE);
-
-
-    return 0;
-#endif
-#else
-    #include "board/board.h"
-    Board b;
-    b.addPiece(1,5,KING,BLACK,true);
-    b.addPiece(4,0,KING,WHITE,false);
-    b.addPiece(7, 0, ROOK, WHITE, false);
-    b.addPiece(1, 6, PAWN, BLACK, true, false);
-    b.addPiece(2,4,PAWN, BLACK, true, true);
-
-    cout << b << endl;
-    cout << "--------------" << endl;
-    cout << b.get() << endl;
-    cout << "--------------" << endl;
-    Board b2(b.get());
-    cout << b2.get() << endl;
-    cout << "--------------" << endl;
-    cout << b2 << endl;
 
 
     return 0;

@@ -105,7 +105,7 @@ void ChessGame::staleMateTest()
     this->newGame(6);
 }
 
-void ChessGame::enPassentTest()
+void ChessGame::enPassantTest()
 {
     this->newGame(5);
 }

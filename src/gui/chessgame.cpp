@@ -53,7 +53,7 @@ ChessGame::ChessGame(QWidget *parent) :
     connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(close()));
 
     // Start new game
-    this->newGame(0);
+    this->newGame(7);
 }
 
 ChessGame::~ChessGame()

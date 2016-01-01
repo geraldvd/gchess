@@ -15,11 +15,10 @@ class Board
 {
 public:
     Board(const PieceColor &activePlayer=WHITE, const BoardStatus &bs=BS_NORMAL);
-    Board(const int &board_int);
+    Board(const std::string & board);
 
     // Get total board in a single int
-    int get() const;
-    short pieceToShort() const;
+    std::string get() const;
 
     // Tile methods
     Tile* getTile(const unsigned int &x, const unsigned int &y);
@@ -29,7 +28,8 @@ public:
 
     // Piece methods
     std::vector<Piece_ptr> getPieces();
-    void addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color);
+    void addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color,
+                  const bool & moved=false, const bool & justMovedDouble=false);
     std::shared_ptr<King> getActiveKing();
     std::shared_ptr<King> getInActiveKing();
     bool activeKingCheck() const;
@@ -71,6 +71,7 @@ private:
 
     // Possible moves
     std::vector<Move> moves;
+    std::map<Move,std::string > boardsAfterMoves;
     std::vector<Move> potentialMoves;
 };
 

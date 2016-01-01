@@ -9,7 +9,7 @@
 using namespace std;
 
 LinePiece::LinePiece(const PieceType &type, const PieceColor & c, const bool & hasMoved, Tile *parent) :
-    Piece(type, c, hasMoved, parent)
+    Piece(type, c, hasMoved, false, parent)
 {
 }
 

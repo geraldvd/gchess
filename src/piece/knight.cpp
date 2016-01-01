@@ -12,7 +12,7 @@
 using namespace std;
 
 Knight::Knight(const PieceColor & c, const bool &hasMoved, Tile *parent) :
-    Piece(KNIGHT, c, hasMoved, parent)
+    Piece(KNIGHT, c, hasMoved, false, parent)
 {
 }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 // Include project files
 #include "piece.h"
 #include "../board/tile.h"
@@ -6,11 +7,12 @@
 // Specify namespaces
 using namespace std;
 
-Piece::Piece(const PieceType &type, const PieceColor & c, const bool &hasMoved, Tile *tile) :
+Piece::Piece(const PieceType &type, const PieceColor & c, const bool &hasMoved, const bool & justMovedDouble, Tile *tile) :
     tile(tile),
     type(type),
     color(c),
-    moved(hasMoved)
+    moved(hasMoved),
+    justMovedDouble(justMovedDouble)
 {
 }
 
@@ -19,22 +21,34 @@ Piece::~Piece()
 
 }
 
-short Piece::toShort() const
+string Piece::toString() const
 {
-    short piecePosition = this->getTile()->getPosition(); // 0...63 (5 bits)
-    short pieceIsWhite = this->getColor()==WHITE ? 1 : 0; // (1 bit)
-    short pieceType = int(this->getType()); // 0...5 (3 bits)
-    short hasMoved = this->hasMoved() ? 1 : 0; // 1 bit
-    short justMovedDouble = 0; // 1 bit
-    if(this->getType() == PAWN) {
-        Pawn* pawn = dynamic_pointer_cast<Pawn*>(this);
-        if(pawn->getJustMovedDouble()) {
-            justMovedDouble = 1;
-        }
+    string result = this->tile->getPositionString();
+    result += this->color==WHITE ? "w" : "b";
+    switch(this->type) {
+    case KING:
+        result += "K";
+        break;
+    case QUEEN:
+        result += "Q";
+        break;
+    case ROOK:
+        result += "R";
+        break;
+    case BISHOP:
+        result += "B";
+        break;
+    case KNIGHT:
+        result += "N";
+        break;
+    case PAWN:
+        result += "P";
+        break;
     }
+    result += this->moved ? "1" : "0";
+    result += this->justMovedDouble ? "1" : "0";
 
-    // Add piece to single number
-    return piecePosition + 64*pieceIsWhite + 128*pieceType + 1024*hasMoved + 2048*justMovedDouble;
+    return result;
 }
 
 Tile *Piece::getTile() const
@@ -101,6 +115,16 @@ bool Piece::hasMoved() const
 void Piece::setMoved(const bool &hasMoved)
 {
     this->moved = hasMoved;
+}
+
+bool Piece::getJustMovedDouble() const
+{
+    return this->justMovedDouble;
+}
+
+void Piece::setJustMovedDouble(const bool & d)
+{
+    this->justMovedDouble = d;
 }
 
 unsigned int Piece::getHash() const

@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 // Include project files
 #include "board.h"
@@ -31,22 +32,66 @@ Board::Board(const PieceColor &activePlayer, const BoardStatus &bs) :
     }
 }
 
-Board::Board(const int &board_int) :
+Board::Board(const string & board) :
     Board(WHITE, BS_NORMAL)
 {
+    // Active player
+    if(board.at(0) == 'w') {
+        this->setActivePlayer(WHITE);
+    } else {
+        this->setActivePlayer(BLACK);
+    }
 
+    // Board status
+    this->setBoardStatus(BoardStatus(static_cast<int>(board.at(1)) - '0'));
+
+    // Pieces
+    for(unsigned i=2; i<board.length(); i+=6) {
+        Field position(board.substr(i, 2));
+        PieceColor color = board.at(i+2)=='w' ? WHITE : BLACK;
+        PieceType type;
+        switch(board.at(i+3)) {
+        case 'K':
+            type = KING;
+            break;
+        case 'Q':
+            type = QUEEN;
+            break;
+        case 'R':
+            type = ROOK;
+            break;
+        case 'B':
+            type = BISHOP;
+            break;
+        case 'N':
+            type = KNIGHT;
+            break;
+        case 'P':
+            type = PAWN;
+            break;
+        }
+        bool hasMoved = static_cast<int>(board.at(i+4)) - '0';
+        bool justMovedDouble = static_cast<int>(board.at(i+5)) - '0';
+
+        this->addPiece(position.getX(), position.getY(), type, color, hasMoved, justMovedDouble);
+    }
 }
 
-int Board::get() const
+string Board::get() const
 {
     // Note: bitshift right => fill with 0; bitshift left => fill with 1
-    bool whiteActive = this->activePlayer==WHITE ? true : false;
-    unsigned int boardStatus = int(this->board_status);
+    string board;
 
-    vector<short> pieces;
-    for(Piece_ptr p : this->pieces) {
+    // Other board info
+    board += this->activePlayer==WHITE ? "w" : "b";
+    board += to_string(this->board_status);
 
+    // Pieces
+    for(auto &p : this->pieces) {
+        board += p->toString();
     }
+
+    return board;
 }
 
 Tile *Board::getTile(const unsigned int &x, const unsigned int &y)
@@ -92,7 +137,8 @@ bool Board::isOnBoard(const int &x, const int &y) const
     return false;
 }
 
-void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color)
+void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceType &type, const PieceColor &color,
+                     const bool &moved, const bool &justMovedDouble)
 {
     // Create piece
     Piece_ptr p;
@@ -132,6 +178,10 @@ void Board::addPiece(const unsigned int &x, const unsigned int &y, const PieceTy
     default:
         throw invalid_argument("Type not recognized.");
     }
+
+    // Set properties
+    p->setMoved(moved);
+    p->setJustMovedDouble(justMovedDouble);
 
     this->pieces.push_back(p);
     p->setTile(this->getTile(x, y));
@@ -247,13 +297,15 @@ Board Board::move(Move & m)
     if(find(this->moves.begin(), this->moves.end(), m) == this->moves.end()) {
         return *this;
     } else {
-        return m.execute(this);
+        //return m.execute(this);
+        return Board(this->boardsAfterMoves[m]);
     }
 }
 
 void Board::updateMoves()
 {
     this->calculatePotentialMoves();
+    map<Move, string> boardsAfterMoves;
     vector<Move> finalMoves;
 
     for(auto &m : this->potentialMoves) {
@@ -290,6 +342,7 @@ void Board::updateMoves()
 
         // Add move to  allowed moves
         finalMoves.push_back(m);
+        boardsAfterMoves[m] = boardAfterMove.get();
     }
 
 
@@ -305,6 +358,7 @@ void Board::updateMoves()
     }
 
     this->moves = finalMoves;
+    this->boardsAfterMoves = boardsAfterMoves;
 }
 
 std::vector<Move> Board::getMoves() const

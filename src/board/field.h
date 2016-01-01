@@ -12,6 +12,7 @@ public:
     // Constructors
     Field(const int &x, const int &y);
     Field(const int &p);
+    Field(const std::string &s);
 
     // Getters
     int getX() const;

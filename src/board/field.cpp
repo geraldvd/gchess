@@ -20,6 +20,11 @@ Field::Field(const int &p)
     this->setPosition(p);
 }
 
+Field::Field(const std::string &s) :
+    Field(string2field(s))
+{
+}
+
 int Field::getX() const {
     return this->x;
 }
@@ -36,8 +41,8 @@ int Field::getPosition() const
 std::string Field::getPositionString() const
 {
     // ASCII 65 == A; ASCII 49 == 1
-    char xPos = static_cast<char>(this->getX()+65);
-    char yPos = static_cast<char>(this->getY()+49);
+    char xPos = static_cast<char>(this->getX()+'A');
+    char yPos = static_cast<char>(this->getY()+'1');
 
     stringstream ss;
     ss << xPos << yPos;
@@ -81,7 +86,7 @@ Field Field::string2field(const string &s)
 
 
     int x = s.at(0) >= 'A' && s.at(0) <= 'Z' ? static_cast<int>(s.at(0)) - 'A' : static_cast<int>(s.at(0)) - 'a';
-    int y = static_cast<int>(s.at(1)) - 49;
+    int y = static_cast<int>(s.at(1)) - '1';
 
     if(x<0 || x>NUM_TILES_X-1 || y<0 || y>NUM_TILES_Y-1) {
         throw invalid_argument("Format: 'Xn', where X is a letter between A and H, and n is a number between 1 and 8.");
@@ -98,6 +103,9 @@ unsigned int Field::getHash() const
 
     return h % HASH_C;
 }
+
+
+
 
 
 

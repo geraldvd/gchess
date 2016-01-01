@@ -8,20 +8,9 @@
 // Specify namespaces
 using namespace std;
 
-Pawn::Pawn(const PieceColor &c, const bool &hasMoved, const bool &justMovedDouble, Tile *parent) :
-    Piece(PAWN, c, hasMoved, parent),
-    justMovedDouble(justMovedDouble)
+Pawn::Pawn(const PieceColor &c, const bool &justMovedDouble, const bool &hasMoved, Tile *parent) :
+    Piece(PAWN, c, hasMoved, justMovedDouble, parent)
 {
-}
-
-bool Pawn::getJustMovedDouble() const
-{
-    return this->justMovedDouble;
-}
-
-void Pawn::setJustMovedDouble(const bool &d)
-{
-    this->justMovedDouble = d;
 }
 
 std::vector<Move> Pawn::calculateMoves(Board *b)

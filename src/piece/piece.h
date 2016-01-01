@@ -16,11 +16,11 @@ class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const PieceType &type, const PieceColor &c, const bool &hasMoved=false,  Tile* tile=NULL);
+    Piece(const PieceType &type, const PieceColor &c, const bool &hasMoved=false, const bool &justMovedDouble=false,  Tile* tile=NULL);
     virtual ~Piece();
 
-    // Single number representation
-    short toShort() const;
+    // Board representations
+    std::string toString() const;
 
     // Type methods
     PieceType getType() const;
@@ -38,6 +38,8 @@ public:
     bool hasMoved() const;
     void setMoved(const bool &hasMoved);
     virtual std::vector<Move> calculateMoves(Board *b) = 0;
+    bool getJustMovedDouble() const;
+    void setJustMovedDouble(const bool &d);
 
     // Hash for comparison
     unsigned int getHash() const;
@@ -54,6 +56,9 @@ protected:
 
     // Piece moved already? (Needed for castling)
     bool moved;
+
+    // Needed for En Passant moves
+    bool justMovedDouble;
 };
 
 #endif // PIECE_H

@@ -48,6 +48,9 @@ void GameManager::initBoard(const int &board_layout)
     case 6:
         this->enPassantTest();
         break;
+    case 7:
+        this->staleMateTest();
+        break;
     default:
         this->standardBoard();
         break;
@@ -159,6 +162,19 @@ void GameManager::enPassantTest()
     // Pawns
     this->board.addPiece(4, 6, PAWN, BLACK);
     this->board.addPiece(3, 4, PAWN, WHITE);
+
+    this->board.setActivePlayer(BLACK);
+}
+
+void GameManager::staleMateTest()
+{
+    // Kings
+    this->board.addPiece(0, 0, KING, WHITE);
+    this->board.addPiece(7, 7, KING, BLACK);
+
+    // Other pieces
+    this->board.addPiece(1, 2, ROOK, BLACK);
+    this->board.addPiece(3, 2, KNIGHT, BLACK);
 
     this->board.setActivePlayer(BLACK);
 }

@@ -37,5 +37,13 @@ const unsigned int HASH_A{54059};
 const unsigned int HASH_B{76963};
 const unsigned int HASH_C{86969};
 
+// Primes
+const unsigned short P_A{2};
+const unsigned short P_B{3};
+const unsigned short P_C{5};
+const unsigned short P_D{7};
+const unsigned short P_E{11};
+const unsigned short P_F{13};
+
 
 #endif // UTILS_H

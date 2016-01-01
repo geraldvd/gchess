@@ -25,6 +25,7 @@ public:
     void moveOutCheckTest();
     void moveOutCheckTest2();
     void enPassantTest();
+    void staleMateTest();
 
     // Move
     MoveStatus move(const Field &from, const Field &to, const PromotionType &pt=PT_QUEEN);

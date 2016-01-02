@@ -33,7 +33,7 @@ ChessGame::ChessGame(QWidget *parent) :
     QList<QAction *> actions;
     actions.append(new QAction("New Game", this->game_menu));
     actions.append(new QAction("Test: Promotion", this->game_menu));
-    actions.append(new QAction("Test: Castling", this->game_menu));
+    actions.append(new QAction("Test: rCastling", this->game_menu));
     actions.append(new QAction("Test: Move into check", this->game_menu));
     actions.append(new QAction("Test: Move out check", this->game_menu));
     actions.append(new QAction("Test: En Passent", this->game_menu));

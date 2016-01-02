@@ -44,6 +44,9 @@ ChessGame::ChessGame(QWidget *parent) :
     this->game_menu = this->menuBar()->addMenu("&Game");
     this->game_menu->addActions(actions);
 
+    // Mac OS trick (non-native menubar)
+    this->menuBar()->setNativeMenuBar(false);
+
     // Setup menu signals and slots
     connect(this->game_menu->actions().at(0), SIGNAL(triggered()), this, SLOT(newGame()));
     connect(this->game_menu->actions().at(1), SIGNAL(triggered()), this, SLOT(promotionTest()));

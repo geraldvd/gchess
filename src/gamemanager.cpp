@@ -193,11 +193,13 @@ MoveStatus GameManager::move(const Field &from, const Field &to, const Promotion
                 // Wrong promotion type
                 continue;
             }
+            // Add move to history (with board before move)
+            this->moveHistory.push_back(pair<Move,std::string>(m,this->board.get()));
+
+            // Perform move
             this->board = this->board.move(m);
             this->board.updateMoves();
 
-            // Add move to history
-            this->moveHistory.push_back(pair<Move,std::string>(m,this->board.get()));
 
             return MS_OK;
         }

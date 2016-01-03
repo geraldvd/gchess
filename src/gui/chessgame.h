@@ -13,6 +13,7 @@
 #include <QHBoxLayout>
 #include <QListView>
 #include <QListWidget>
+#include <QGroupBox>
 
 // Include project files
 #include "chessboard.h"
@@ -29,10 +30,11 @@ public:
     explicit ChessGame(QWidget *parent=0);
     ~ChessGame();
 
-signals:
+    // Draw entire board
+    void drawBoard(Board * b);
 
 public slots:
-    // Slot for starting new game
+    // Slots for starting games
     void newGame(const int &board_layout=0);
     void promotionTest();
     void castlingTest();
@@ -47,13 +49,16 @@ public slots:
 
     // Move history slots
     void updateMoveHistory();
+    void drawBoardSlot(QListWidgetItem * i);
 
 private:
     // Widgets
     QWidget *container;
+    // Actual playing board
     Chessboard *chessboard;
-    QListView *moveHistoryView;
-    QListWidget* moveHistory;
+    // Move history widgets
+    QGroupBox *moveHistoryBox;
+    QListWidget *moveHistory;
 
     // Menu's
     QMenu *game_menu;
@@ -61,9 +66,10 @@ private:
     // Game variables
     GameManager game;
     ChessLabel *activeField;
+    bool boardActive;
 
     // Extra methods
-    QString getStatusMessage();
+    QString getStatusMessage(Board * b);
 };
 
 #endif // CHESSGAME_H

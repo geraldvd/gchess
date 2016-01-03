@@ -41,8 +41,8 @@ int Field::getPosition() const
 std::string Field::getPositionString() const
 {
     // ASCII 65 == A; ASCII 49 == 1
-    char xPos = static_cast<char>(this->getX()+'A');
-    char yPos = static_cast<char>(this->getY()+'1');
+    char xPos = static_cast<char>(this->x+'A');
+    char yPos = static_cast<char>(this->y+'1');
 
     stringstream ss;
     ss << xPos << yPos;

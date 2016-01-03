@@ -1,5 +1,6 @@
 // Include standard library
 #include <stdexcept>
+#include <iostream>
 
 // Include project files
 #include "move.h"
@@ -161,4 +162,10 @@ unsigned int Move::getHash() const
     h = (h*HASH_A) ^ (this->promotionType*HASH_B);
 
     return h % HASH_C;
+}
+
+string Move::getMoveString() const
+{
+    //cout << this->getMovingPiece()->getTile()->getPositionString() << " + " << this->destination.getPositionString() << endl;
+    return string(this->getMovingPiece()->getTile()->getPositionString() + " to " + this->destination.getPositionString());
 }

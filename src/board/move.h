@@ -37,6 +37,8 @@ public:
     // Hash for comparison
     unsigned int getHash() const;
 
+    // Pretty representation
+    std::string getMoveString() const;
 private:
     // Basic move information
     MoveType moveType;

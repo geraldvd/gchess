@@ -13,14 +13,16 @@ ChessGame::ChessGame(QWidget *parent) :
     // Initialize widgets
     container(new QWidget(this)),
     chessboard(new Chessboard(this)),
-    moveHistory(new QListWidget(this)),
+    moveHistoryBox(new QGroupBox("Move history", this)),
+    moveHistory(new QListWidget(this->moveHistoryBox)),
 
     // Initialize menu's
     game_menu(new QMenu("file")),
 
     // Initialize game
     game(),
-    activeField(NULL)
+    activeField(NULL),
+    boardActive(false)
 {
 
     // Setup window parameters
@@ -28,12 +30,15 @@ ChessGame::ChessGame(QWidget *parent) :
     //this->setFixedWidth(this->chessboard->width());
     //this->setFixedHeight(this->chessboard->height() + this->statusBar()->height() + this->menuBar()->height());
 
-    // Setup layout
+    // Layout move history box
+    this->moveHistoryBox->setFlat(true);
+    QLayout *vertical = new QVBoxLayout(this->moveHistoryBox);
+    vertical->addWidget(this->moveHistory);
+    // Overall layout
     QLayout *horizontal = new QHBoxLayout(this->container);
     horizontal->addWidget(this->chessboard);
-    horizontal->addWidget(this->moveHistory);
+    horizontal->addWidget(this->moveHistoryBox);
     this->setCentralWidget(this->container);
-    //this->setCentralWidget(this->chessboard);
 
     // Setup menubar
     QList<QAction *> actions;
@@ -72,21 +77,36 @@ ChessGame::~ChessGame()
     delete this->game_menu;
 }
 
-void ChessGame::newGame(const int &board_layout)
+void ChessGame::drawBoard(Board *b)
 {
     // Empty board
     this->chessboard->clearPieces();
-    this->chessboard->clearHighlights();
     this->chessboard->unCheckField();
+    this->chessboard->clearHighlights();
 
-    // Start new game
-    this->game.initBoard(board_layout);
-    this->statusBar()->showMessage(this->getStatusMessage());
-
-    // Add pieces
-    for(auto p : this->game.getBoard()->getPieces()) {
+    // Draw pieces
+    for(auto &p : b->getPieces()) {
         this->chessboard->addPiece(p->getTile()->getPosition(), p->getColor(), p->getType());
     }
+
+    // Draw board status
+    this->statusBar()->showMessage(this->getStatusMessage(b));
+
+    // Highlight if king is in check position
+    if(b->activeKingCheck()) {
+        this->chessboard->checkField(b->getActiveKing()->getTile()->getPosition());
+    }
+}
+
+void ChessGame::newGame(const int &board_layout)
+{
+    // Start new game
+    this->game.initBoard(board_layout);
+
+    // Draw board
+    this->drawBoard(this->game.getBoard());
+    this->boardActive = true;
+    this->updateMoveHistory();
 }
 
 void ChessGame::promotionTest()
@@ -121,116 +141,122 @@ void ChessGame::enPassantTest()
 
 void ChessGame::toggleHighlighting()
 {
-    // Obtain piece to be toggled
-    ChessLabel* l = dynamic_cast<ChessLabel*>(sender());
+    // Only do this if board is active (i.e., current)
+    if(this->boardActive) {
+        // Obtain piece to be toggled
+        ChessLabel* l = dynamic_cast<ChessLabel*>(sender());
 
-    // Check whether already highlighted and toggle
-    if(l == this->activeField) {
-        this->chessboard->clearHighlights();
-        this->activeField = NULL;
-    } else {
-        // Check whether piece is allowed to move
-        if(this->game.getBoard()->getActivePlayer() == this->game.getBoard()->getTile(l->getPosition())->getPiece()->getColor()) {
-            this->activeField = l;
-
-            // Clear old highlights
-            this->chessboard->clearHighlights();
-
-            // Highlight moves
-            for(auto &m : this->game.getBoard()->getMoves()) {
-                // Only highlight moves of clicked piece
-                if(*m.getMovingPiece()->getTile() == l->getPosition()) {
-                    this->chessboard->highlightField(m);
-                }
-            }
-        } else {
+        // Check whether already highlighted and toggle
+        if(l == this->activeField) {
             this->chessboard->clearHighlights();
             this->activeField = NULL;
+        } else {
+            // Check whether piece is allowed to move
+            if(this->game.getBoard()->getActivePlayer() == this->game.getBoard()->getTile(l->getPosition())->getPiece()->getColor()) {
+                this->activeField = l;
+
+                // Clear old highlights
+                this->chessboard->clearHighlights();
+
+                // Highlight moves
+                for(auto &m : this->game.getBoard()->getMoves()) {
+                    // Only highlight moves of clicked piece
+                    if(*m.getMovingPiece()->getTile() == l->getPosition()) {
+                        this->chessboard->highlightField(m);
+                    }
+                }
+            } else {
+                this->chessboard->clearHighlights();
+                this->activeField = NULL;
+            }
         }
     }
 }
 
 void ChessGame::slotMovePiece()
 {
-    // Obtain destination for move
-    ChessLabel* to = dynamic_cast<ChessLabel*>(sender());
+    // Only do this if board is active (i.e., current)
+    if(this->boardActive) {
+        // Obtain destination for move
+        ChessLabel* to = dynamic_cast<ChessLabel*>(sender());
 
-    // Move piece if allowed
-    if(this->activeField != NULL && to->hasMove()) {
-        Field from = this->activeField->getPosition();
+        // Move piece if allowed
+        if(this->activeField != NULL && to->hasMove()) {
+            Field from = this->activeField->getPosition();
 
-        switch(to->getMove()->getMoveType()) {
-        case MT_PROMOTION:
-            {
-                PromotionDialog pd(to->getMove()->getMovingPiece()->getColor());
-                if(pd.exec()) {
-                    // TODO move return bool?
-                    to->getMove()->setPromotionType(pd.getPromotionType());
-                    if(this->game.move(from, to->getMove()->getDestination(), pd.getPromotionType()) == MS_OK) {
-                        this->chessboard->removePiece(from.getPosition());
-                        this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), pd.getPieceType());
+            switch(to->getMove()->getMoveType()) {
+            case MT_PROMOTION:
+                {
+                    PromotionDialog pd(to->getMove()->getMovingPiece()->getColor());
+                    if(pd.exec()) {
+                        // TODO move return bool?
+                        to->getMove()->setPromotionType(pd.getPromotionType());
+                        if(this->game.move(from, to->getMove()->getDestination(), pd.getPromotionType()) == MS_OK) {
+                            this->chessboard->removePiece(from.getPosition());
+                            this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), pd.getPieceType());
+                        }
+                    } else {
+                        // Assume queen
+                        to->getMove()->setPromotionType(PT_QUEEN);
+                        if(this->game.move(from, to->getMove()->getDestination(), PT_QUEEN) == MS_OK) {
+                            this->chessboard->removePiece(from.getPosition());
+                            this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), QUEEN);
+                        }
                     }
-                } else {
-                    // Assume queen
-                    to->getMove()->setPromotionType(PT_QUEEN);
-                    if(this->game.move(from, to->getMove()->getDestination(), PT_QUEEN) == MS_OK) {
-                        this->chessboard->removePiece(from.getPosition());
-                        this->chessboard->addPiece(to->getPosition().getPosition(), pd.getPieceColor(), QUEEN);
+                }
+                break;
+            case MT_CASTLING:
+                if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
+                    // Move king
+                    this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
+                    // Move rook
+                    if(this->game.getBoard()->getTile(to->getPosition())->getX() == 2) {
+                        this->chessboard->movePiece(to->getPosition().getPosition()-2, to->getPosition().getPosition()+1);
+                    } else {
+                        this->chessboard->movePiece(to->getPosition().getPosition()+1, to->getPosition().getPosition()-1);
                     }
                 }
-            }
-            break;
-        case MT_CASTLING:
-            if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
-                // Move king
-                this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
-                // Move rook
-                if(this->game.getBoard()->getTile(to->getPosition())->getX() == 2) {
-                    this->chessboard->movePiece(to->getPosition().getPosition()-2, to->getPosition().getPosition()+1);
-                } else {
-                    this->chessboard->movePiece(to->getPosition().getPosition()+1, to->getPosition().getPosition()-1);
+                break;
+            case MT_ENPASSANT:
+                if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
+                    if(this->game.getBoard()->getTile(to->getPosition())->getPiece()->getColor() == WHITE) {
+                        this->chessboard->removePiece(to->getPosition().getPosition()-8);
+                    } else {
+                        this->chessboard->removePiece(to->getPosition().getPosition()+8);
+                    }
+                    this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
                 }
-            }
-            break;
-        case MT_ENPASSANT:
-            if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
-                if(this->game.getBoard()->getTile(to->getPosition())->getPiece()->getColor() == WHITE) {
-                    this->chessboard->removePiece(to->getPosition().getPosition()-8);
-                } else {
-                    this->chessboard->removePiece(to->getPosition().getPosition()+8);
+                break;
+            case MT_PAWNJUMP:
+            case MT_NORMAL:
+                if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
+                    this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
                 }
-                this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
+                break;
+            case MT_NONE:
+                // Do nothing
+                return;
             }
-            break;
-        case MT_PAWNJUMP:
-        case MT_NORMAL:
-            if(this->game.move(from, to->getMove()->getDestination()) == MS_OK) {
-                this->chessboard->movePiece(from.getPosition(), to->getPosition().getPosition());
+
+            // Unhighlight all fields
+            this->activeField = NULL;
+            this->chessboard->clearHighlights();
+
+            // Unhighlight check position
+            this->chessboard->unCheckField();
+
+            // Set new active player
+            this->statusBar()->showMessage(this->getStatusMessage(this->game.getBoard()));
+
+
+            // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
+            if(this->game.getBoard()->activeKingCheck()) {
+                this->chessboard->checkField(this->game.getBoard()->getActiveKing()->getTile()->getPosition());
             }
-            break;
-        case MT_NONE:
-            // Do nothing
-            return;
+
+            // Update move history pane
+            this->updateMoveHistory();
         }
-
-        // Unhighlight all fields
-        this->activeField = NULL;
-        this->chessboard->clearHighlights();
-
-        // Unhighlight check position
-        this->chessboard->unCheckField();
-
-        // Set new active player
-        this->statusBar()->showMessage(this->getStatusMessage());
-
-
-        // Highlight if king is in check position; Note: only one king can be check - TODO: is this a task for the gui?
-        if(this->game.getBoard()->activeKingCheck()) {
-            this->chessboard->checkField(this->game.getBoard()->getActiveKing()->getTile()->getPosition());
-        }
-
-        // Update move history pane
-        this->updateMoveHistory();
     }
 }
 
@@ -238,14 +264,35 @@ void ChessGame::updateMoveHistory() {
     this->moveHistory->clear();
 
     for(auto &mh : this->game.getMoveHistory()) {
-        this->moveHistory->addItem(QString::fromStdString(mh.second));
+        QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(mh.first.getMoveString()));
+        item->setToolTip(QString::fromStdString(mh.second));
+        this->moveHistory->addItem(item);
+    }
 
+    // Add current board
+    QListWidgetItem *item = new QListWidgetItem("- current -");
+    item->setToolTip(QString::fromStdString(this->game.getBoard()->get()));
+    this->moveHistory->addItem(item);
+
+    connect(this->moveHistory, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(drawBoardSlot(QListWidgetItem*)));
+}
+
+void ChessGame::drawBoardSlot(QListWidgetItem *i)
+{
+    Board b(i->toolTip().toStdString());
+    this->drawBoard(&b);
+
+    // Board only active when it is the final board
+    if(b.get() == this->game.getBoard()->get()) {
+        this->boardActive = true;
+    } else {
+        this->boardActive = false;
     }
 }
 
-QString ChessGame::getStatusMessage()
+QString ChessGame::getStatusMessage(Board *b)
 {
-    return QString::fromStdString(this->game.getBoard()->getActivePlayerString() +
-                                  " (Board status: " + this->game.getBoard()->getBoardStatusString() + ")");
+    return QString::fromStdString(b->getActivePlayerString() +
+                                  " (Board status: " + b->getBoardStatusString() + ")");
 }
 

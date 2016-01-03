@@ -195,8 +195,17 @@ MoveStatus GameManager::move(const Field &from, const Field &to, const Promotion
             }
             this->board = this->board.move(m);
             this->board.updateMoves();
+
+            // Add move to history
+            this->moveHistory.push_back(pair<Move,std::string>(m,this->board.get()));
+
             return MS_OK;
         }
     }
     return MS_INVALID;
+}
+
+std::vector<std::pair<Move, string> > GameManager::getMoveHistory() const
+{
+    return this->moveHistory;
 }

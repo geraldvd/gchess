@@ -10,6 +10,9 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QListView>
+#include <QListWidget>
 
 // Include project files
 #include "chessboard.h"
@@ -42,9 +45,15 @@ public slots:
     void toggleHighlighting();
     void slotMovePiece();
 
+    // Move history slots
+    void updateMoveHistory();
+
 private:
     // Widgets
+    QWidget *container;
     Chessboard *chessboard;
+    QListView *moveHistoryView;
+    QListWidget* moveHistory;
 
     // Menu's
     QMenu *game_menu;

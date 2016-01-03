@@ -11,7 +11,9 @@ ChessGame::ChessGame(QWidget *parent) :
     QMainWindow(parent),
 
     // Initialize widgets
+    container(new QWidget(this)),
     chessboard(new Chessboard(this)),
+    moveHistory(new QListWidget(this)),
 
     // Initialize menu's
     game_menu(new QMenu("file")),
@@ -23,11 +25,15 @@ ChessGame::ChessGame(QWidget *parent) :
 
     // Setup window parameters
     this->setWindowTitle("Chess");
-    this->setFixedWidth(this->chessboard->width());
-    this->setFixedHeight(this->chessboard->height() + this->statusBar()->height() + this->menuBar()->height());
+    //this->setFixedWidth(this->chessboard->width());
+    //this->setFixedHeight(this->chessboard->height() + this->statusBar()->height() + this->menuBar()->height());
 
     // Setup layout
-    this->setCentralWidget(this->chessboard);
+    QLayout *horizontal = new QHBoxLayout(this->container);
+    horizontal->addWidget(this->chessboard);
+    horizontal->addWidget(this->moveHistory);
+    this->setCentralWidget(this->container);
+    //this->setCentralWidget(this->chessboard);
 
     // Setup menubar
     QList<QAction *> actions;
@@ -222,6 +228,18 @@ void ChessGame::slotMovePiece()
         if(this->game.getBoard()->activeKingCheck()) {
             this->chessboard->checkField(this->game.getBoard()->getActiveKing()->getTile()->getPosition());
         }
+
+        // Update move history pane
+        this->updateMoveHistory();
+    }
+}
+
+void ChessGame::updateMoveHistory() {
+    this->moveHistory->clear();
+
+    for(auto &mh : this->game.getMoveHistory()) {
+        this->moveHistory->addItem(QString::fromStdString(mh.second));
+
     }
 }
 

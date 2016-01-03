@@ -2,6 +2,7 @@
 #define GAMEMANAGER_H
 
 // Include standard libraries
+#include <utility>
 
 // Include project files
 #include "utils.h"
@@ -29,8 +30,14 @@ public:
     // Move
     MoveStatus move(const Field &from, const Field &to, const PromotionType &pt=PT_QUEEN);
 
+    // Move history
+    std::vector<std::pair<Move,std::string> > getMoveHistory() const;
+
 private:
     Board board;
+
+    // Move record
+    std::vector<std::pair<Move,std::string> > moveHistory;
 };
 
 #endif // GAMEMANAGER_H

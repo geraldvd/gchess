@@ -70,7 +70,6 @@ private:
     PieceColor activePlayer;
 
     // Possible moves
-    std::vector<Move> moves;
     std::map<Move,std::string > boardsAfterMoves;
     std::vector<Move> potentialMoves;
 };

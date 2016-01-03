@@ -294,7 +294,7 @@ void Board::calculatePotentialMoves()
 
 Board Board::move(Move & m)
 {
-    if(find(this->moves.begin(), this->moves.end(), m) == this->moves.end()) {
+    if(this->boardsAfterMoves.find(m) == boardsAfterMoves.end()) {
         return *this;
     } else {
         //return m.execute(this);
@@ -306,7 +306,6 @@ void Board::updateMoves()
 {
     this->calculatePotentialMoves();
     map<Move, string> boardsAfterMoves;
-    vector<Move> finalMoves;
 
     for(auto &m : this->potentialMoves) {
         if(m.getMovingPiece()->getColor() != this->activePlayer) {
@@ -341,13 +340,12 @@ void Board::updateMoves()
         }
 
         // Add move to  allowed moves
-        finalMoves.push_back(m);
         boardsAfterMoves[m] = boardAfterMove.get();
     }
 
 
     // Checkmate or stalemate?
-    if(finalMoves.size() == 0) {
+    if(boardsAfterMoves.size() == 0) {
         if(this->getBoardStatus() == BS_CHECKWHITE && this->getActivePlayer() == WHITE) {
                 this->setBoardStatus(BS_CHECKMATEWHITE);
         } else if(this->getBoardStatus() == BS_CHECKBLACK && this->getActivePlayer() == BLACK) {
@@ -357,13 +355,18 @@ void Board::updateMoves()
         }
     }
 
-    this->moves = finalMoves;
     this->boardsAfterMoves = boardsAfterMoves;
 }
 
 std::vector<Move> Board::getMoves() const
 {
-    return this->moves;
+    vector<Move> moves;
+
+    for(auto &m : this->boardsAfterMoves) {
+        moves.push_back(m.first);
+    }
+
+    return moves;
 }
 
 std::vector<Move> Board::getPotentialMoves() const

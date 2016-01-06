@@ -14,6 +14,7 @@
 #include <QListView>
 #include <QListWidget>
 #include <QGroupBox>
+#include <QPushButton>
 
 // Include project files
 #include "chessboard.h"
@@ -50,6 +51,7 @@ public slots:
     // Move history slots
     void updateMoveHistory();
     void drawBoardSlot(QListWidgetItem * i);
+    void revertMove();
 
 private:
     // Widgets
@@ -59,6 +61,9 @@ private:
     // Move history widgets
     QGroupBox *moveHistoryBox;
     QListWidget *moveHistory;
+    QPushButton *revertMoveButton;
+//    // AI widgets
+//    QGroupBox *aiBox;
 
     // Menu's
     QMenu *game_menu;

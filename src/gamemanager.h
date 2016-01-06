@@ -32,6 +32,7 @@ public:
 
     // Move history
     std::vector<std::pair<Move,std::string> > getMoveHistory() const;
+    bool revertMove(const std::string &b);
 
 private:
     Board board;

@@ -15,6 +15,7 @@ ChessGame::ChessGame(QWidget *parent) :
     chessboard(new Chessboard(this)),
     moveHistoryBox(new QGroupBox("Move history", this)),
     moveHistory(new QListWidget(this->moveHistoryBox)),
+    revertMoveButton(new QPushButton("Revert move", this->moveHistoryBox)),
 
     // Initialize menu's
     game_menu(new QMenu("file")),
@@ -34,6 +35,7 @@ ChessGame::ChessGame(QWidget *parent) :
     this->moveHistoryBox->setFlat(true);
     QLayout *vertical = new QVBoxLayout(this->moveHistoryBox);
     vertical->addWidget(this->moveHistory);
+    vertical->addWidget(this->revertMoveButton);
     // Overall layout
     QLayout *horizontal = new QHBoxLayout(this->container);
     horizontal->addWidget(this->chessboard);
@@ -67,6 +69,9 @@ ChessGame::ChessGame(QWidget *parent) :
     connect(this->game_menu->actions().at(5), SIGNAL(triggered()), this, SLOT(enPassantTest()));
     connect(this->game_menu->actions().at(6), SIGNAL(triggered()), this, SLOT(staleMateTest()));
     connect(this->game_menu->actions().at(7), SIGNAL(triggered()), this, SLOT(close()));
+
+    // Setup signals and slots revert move
+    connect(this->revertMoveButton, SIGNAL(pressed()), this, SLOT(revertMove()));
 
     // Start new game
     this->newGame(0);
@@ -275,6 +280,7 @@ void ChessGame::updateMoveHistory() {
     this->moveHistory->addItem(item);
 
     connect(this->moveHistory, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(drawBoardSlot(QListWidgetItem*)));
+    emit this->moveHistory->itemClicked(item);
 }
 
 void ChessGame::drawBoardSlot(QListWidgetItem *i)
@@ -287,6 +293,16 @@ void ChessGame::drawBoardSlot(QListWidgetItem *i)
         this->boardActive = true;
     } else {
         this->boardActive = false;
+    }
+}
+
+void ChessGame::revertMove()
+{
+    if(this->moveHistory->selectedItems().size() > 0 && this->moveHistory->selectedItems().at(0)->text() != "- current -") {
+        // Revert move
+        if(this->game.revertMove(this->moveHistory->selectedItems().at(0)->toolTip().toStdString())) {
+            this->updateMoveHistory();
+        }
     }
 }
 

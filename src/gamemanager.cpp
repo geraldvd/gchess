@@ -53,6 +53,7 @@ void GameManager::initBoard(const int &board_layout)
     }
 
     this->getBoard()->updateMoves();
+    this->moveHistory.clear();
 }
 
 void GameManager::standardBoard()
@@ -210,4 +211,27 @@ MoveStatus GameManager::move(const Field &from, const Field &to, const Promotion
 std::vector<std::pair<Move, string> > GameManager::getMoveHistory() const
 {
     return this->moveHistory;
+}
+
+bool GameManager::revertMove(const string &b)
+{
+    // Check whether move existed
+    bool validBoard{false};
+    vector<pair<Move, string> > previousMoves;
+    for(auto &m : this->moveHistory) {
+        if(m.second == b) {
+            validBoard = true;
+            break;
+        }
+        previousMoves.push_back(m);
+    }
+
+    // Revert board if allowed
+    if(validBoard) {
+        this->moveHistory = previousMoves;
+        this->board = Board(b);
+        this->board.updateMoves();
+    }
+
+    return validBoard;
 }

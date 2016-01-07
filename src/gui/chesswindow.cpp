@@ -1,7 +1,11 @@
+// Include Qt libraries
+#include <QDebug>
+
 // Include project files
 #include "chesswindow.h"
 #include "ui_chesswindow.h"
 #include "promotiondialog/promotiondialog.h"
+#include "newgamedialog/newgamedialog.h"
 #include "../piece/king.h"
 
 ChessWindow::ChessWindow(QWidget *parent) :
@@ -18,6 +22,7 @@ ChessWindow::ChessWindow(QWidget *parent) :
 
     // Setup signals and slots
     connect(this->ui->revertButton, SIGNAL(clicked(bool)), this, SLOT(revertMove()));
+    connect(this->ui->menuGame->actions().at(0), SIGNAL(triggered(bool)), this, SLOT(newGameDialog()));
 }
 
 ChessWindow::~ChessWindow()
@@ -55,6 +60,16 @@ void ChessWindow::newGame(const int & board_layout)
     this->drawBoard(this->game.getBoard());
     this->boardActive = true;
     this->updateMoveHistory();
+}
+
+void ChessWindow::newGameDialog()
+{
+    NewGameDialog ngd;
+    if(ngd.exec()) {
+        this->newGame(ngd.getBoardLayout());
+        qDebug() << "Board layout: " << ngd.getBoardLayout() << endl
+                 << "White computer? " << ngd.whiteIsComputer() << ", Black computer? " << ngd.blackIsComputer() << endl;
+    }
 }
 
 void ChessWindow::toggleHighlighting()

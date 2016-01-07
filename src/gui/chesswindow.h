@@ -26,9 +26,12 @@ public:
     // Draw entire board
     void drawBoard(Board * b);
 
-public slots:
-    // Slots for starting games
+    // Starting new game
     void newGame(const int &board_layout=0);
+
+public slots:
+    // New game dialog slot
+    void newGameDialog();
 
     // Slot for highlighting
     void toggleHighlighting();

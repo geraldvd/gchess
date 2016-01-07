@@ -6,6 +6,9 @@ if(WITH_QT)
     add_subdirectory(promotiondialog)
     INCLUDE_DIRECTORIES(promotiondialog)
 
+    add_subdirectory(newgamedialog)
+    INCLUDE_DIRECTORIES(newgamedialog)
+
     # Specify source files
     set(gui_SRCS
         chesswindow.cpp
@@ -16,6 +19,7 @@ if(WITH_QT)
 
         # Dialogs
         promotiondialog/promotiondialog.cpp
+        newgamedialog/newgamedialog.cpp
     )
 
     # For Ubuntu/gcc - automoc is not working
@@ -25,6 +29,7 @@ if(WITH_QT)
 
         # Dialogs
         promotiondialog/promotiondialog.ui
+        newgamedialog/newgamedialog.ui
     )
 
     add_library(${PROJECT_NAME}_gui ${gui_SRCS} ${gui_hdr_moc} ${gui_ui_moc})

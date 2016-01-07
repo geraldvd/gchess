@@ -36,13 +36,13 @@ void GameManager::initBoard(const int &board_layout)
         this->castlingTest();
         break;
     case 3:
-        this->movingInCheckTest();
+        this->enPassantTest();
         break;
     case 4:
-        this->moveOutCheckTest();
+        this->movingInCheckTest();
         break;
     case 5:
-        this->enPassantTest();
+        this->moveOutCheckTest();
         break;
     case 6:
         this->staleMateTest();

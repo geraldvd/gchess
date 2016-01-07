@@ -5,17 +5,15 @@
 #include <string>
 #include <limits>
 
-// Include Qt
 #ifdef WITH_QT
     #include <QApplication>
-    #include "gui/chessgame.h"
+    #include "gui/chesswindow.h"
+#else
+    #include "board/field.h"
 #endif
 
 // Include project files
 #include "gamemanager.h"
-#ifndef WITH_QT
-    #include "board/field.h"
-#endif
 
 // Namespaces
 using namespace std;
@@ -26,8 +24,8 @@ int main(int argc, char **argv) {
     QApplication a(argc,argv);
 
     // Initialize board
-    ChessGame chess;
-    chess.show();
+    ChessWindow chessWindow;
+    chessWindow.show();
 
     return a.exec();
 #else

@@ -43,9 +43,6 @@ public:
 
 
 private:
-    // Parent needed for signals and slots (moving pieces)
-    QWidget *parent;
-
     // Get image filename of piece
     QString getImageFilename(const PieceColor & c, const PieceType & p);
     QString getPieceHTML(const PieceColor & c, const PieceType & p);

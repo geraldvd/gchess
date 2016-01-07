@@ -21,7 +21,6 @@ using namespace std;
 
 Chessboard::Chessboard(QWidget *parent) :
     QLabel(parent),
-    parent(parent),
     check_field(NULL)
 {
     // Setup chessboard - TODO add resource file using cmake, so that images are packed in executable
@@ -66,7 +65,7 @@ void Chessboard::addPiece(const unsigned int &position, const PieceColor &c, con
     }
 
     // Setup signals and slots
-    connect(l, SIGNAL(clicked()), this->parent, SLOT(toggleHighlighting()));
+    connect(l, SIGNAL(clicked()), this->parentWidget()->parentWidget(), SLOT(toggleHighlighting()));
 
     // Store new piece
     this->pieces[position] = l;
@@ -136,7 +135,7 @@ void Chessboard::highlightField(const Move &move)
         l->setMove(move);
 
         // Setup signals and slots
-        connect(l, SIGNAL(clicked()), this->parent, SLOT(slotMovePiece()));
+        connect(l, SIGNAL(clicked()), this->parentWidget()->parentWidget(), SLOT(slotMovePiece()));
 
         // Add piece to highlighted fields
         this->highlights[move.getDestination().getPosition()] = l;

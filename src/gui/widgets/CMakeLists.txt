@@ -1,0 +1,2 @@
+add_subdirectory(chessboard)
+INCLUDE_DIRECTORIES(chessboard)

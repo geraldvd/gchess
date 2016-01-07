@@ -51,6 +51,7 @@ public:
     Board move(Move &m);
     void updateMoves();
     std::vector<Move> getMoves() const;
+    std::map<Move,std::string> getBoardsAfterMoves() const;
     std::vector<Move> getPotentialMoves() const;
 
 
@@ -70,7 +71,7 @@ private:
     PieceColor activePlayer;
 
     // Possible moves
-    std::map<Move,std::string > boardsAfterMoves;
+    std::map<Move,std::string> boardsAfterMoves;
     std::vector<Move> potentialMoves;
 };
 

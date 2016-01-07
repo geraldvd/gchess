@@ -71,6 +71,10 @@ add_executable(${PROJECT_NAME}
     piece/bishop.cpp
     piece/knight.cpp
     piece/pawn.cpp
+
+    # Engine
+    engine/movetree.cpp
+    engine/moveply.cpp
 )
 
 if(WITH_QT)

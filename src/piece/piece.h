@@ -16,7 +16,7 @@ class Piece
 {
 public:
     // Constructor and destructor
-    Piece(const PieceType &type, const PieceColor &c, const bool &hasMoved=false, const bool &justMovedDouble=false,  Tile* tile=NULL);
+    Piece(const PieceType &type, const PieceColor &c, const int &v, const bool &hasMoved=false, const bool &justMovedDouble=false,  Tile* tile=NULL);
     virtual ~Piece();
 
     // Board representations
@@ -41,6 +41,9 @@ public:
     bool getJustMovedDouble() const;
     void setJustMovedDouble(const bool &d);
 
+    // Value methods
+    int getValue() const;
+
     // Hash for comparison
     unsigned int getHash() const;
 
@@ -59,6 +62,9 @@ protected:
 
     // Needed for En Passant moves
     bool justMovedDouble;
+
+    // Value of piece
+    int value;
 };
 
 #endif // PIECE_H

@@ -7,12 +7,13 @@
 // Specify namespaces
 using namespace std;
 
-Piece::Piece(const PieceType &type, const PieceColor & c, const bool &hasMoved, const bool & justMovedDouble, Tile *tile) :
+Piece::Piece(const PieceType &type, const PieceColor &c, const int &v, const bool &hasMoved, const bool &justMovedDouble, Tile *tile) :
     tile(tile),
     type(type),
     color(c),
     moved(hasMoved),
-    justMovedDouble(justMovedDouble)
+    justMovedDouble(justMovedDouble),
+    value(v)
 {
 }
 
@@ -125,6 +126,11 @@ bool Piece::getJustMovedDouble() const
 void Piece::setJustMovedDouble(const bool & d)
 {
     this->justMovedDouble = d;
+}
+
+int Piece::getValue() const
+{
+    return this->value;
 }
 
 unsigned int Piece::getHash() const

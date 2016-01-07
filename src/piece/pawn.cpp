@@ -9,7 +9,7 @@
 using namespace std;
 
 Pawn::Pawn(const PieceColor &c, const bool &justMovedDouble, const bool &hasMoved, Tile *parent) :
-    Piece(PAWN, c, hasMoved, justMovedDouble, parent)
+    Piece(PAWN, c, 1, hasMoved, justMovedDouble, parent)
 {
 }
 

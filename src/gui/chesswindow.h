@@ -10,6 +10,7 @@
 #include "widgets/chessboard/chessboard.h"
 #include "../gamemanager.h"
 #include "../board/board.h"
+#include "../engine/movetree.h"
 
 namespace Ui {
     class ChessWindow;
@@ -28,6 +29,7 @@ public:
 
     // Starting new game
     void newGame(const int &board_layout=0);
+    void updateEngine();
 
 public slots:
     // New game dialog slot
@@ -49,6 +51,7 @@ private:
     GameManager game;
     ChessLabel *activeField;
     bool boardActive;
+    MoveTree engine;
 
     // Extra methods
     QString getStatusMessage(Board * b);

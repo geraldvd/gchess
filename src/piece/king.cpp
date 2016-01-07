@@ -9,7 +9,7 @@
 using namespace std;
 
 King::King(const PieceColor &c, const bool &has_moved, Tile *tile) :
-    Piece(KING, c, has_moved, false, tile)
+    Piece(KING, c, 0, has_moved, false, tile)
 {
 }
 

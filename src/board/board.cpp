@@ -369,6 +369,11 @@ std::vector<Move> Board::getMoves() const
     return moves;
 }
 
+std::map<Move, string> Board::getBoardsAfterMoves() const
+{
+    return this->boardsAfterMoves;
+}
+
 std::vector<Move> Board::getPotentialMoves() const
 {
     return this->potentialMoves;

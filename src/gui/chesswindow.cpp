@@ -20,6 +20,10 @@ ChessWindow::ChessWindow(QWidget *parent) :
     // Start game
     this->newGame();
 
+    // Setup engine
+    this->updateEngine();
+
+
     // Setup signals and slots
     connect(this->ui->revertButton, SIGNAL(clicked(bool)), this, SLOT(revertMove()));
     connect(this->ui->menuGame->actions().at(0), SIGNAL(triggered(bool)), this, SLOT(newGameDialog()));
@@ -60,6 +64,14 @@ void ChessWindow::newGame(const int & board_layout)
     this->drawBoard(this->game.getBoard());
     this->boardActive = true;
     this->updateMoveHistory();
+}
+
+void ChessWindow::updateEngine()
+{
+    this->engine = MoveTree(3, this->game.getBoard()->get());
+    this->ui->numPlies->setText(QString::number(this->engine.getNumPlies()));
+    this->ui->numMoves->setText(QString::number(this->engine.getNumMoves()));
+    this->ui->duration->setText(QString::number(this->engine.getDurationSeconds()));
 }
 
 void ChessWindow::newGameDialog()
@@ -189,6 +201,9 @@ void ChessWindow::slotMovePiece()
 
             // Update move history pane
             this->updateMoveHistory();
+
+            // Update engine
+            this->updateEngine();
         }
     }
 }

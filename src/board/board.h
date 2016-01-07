@@ -54,6 +54,9 @@ public:
     std::map<Move,std::string> getBoardsAfterMoves() const;
     std::vector<Move> getPotentialMoves() const;
 
+    // Board value
+    int computeBoardValue();
+
 
 private:
     // Tiles on board

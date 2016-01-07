@@ -378,3 +378,30 @@ std::vector<Move> Board::getPotentialMoves() const
 {
     return this->potentialMoves;
 }
+
+int Board::computeBoardValue()
+{
+
+    // Checkmate
+    if(this->board_status == BS_CHECKMATEWHITE) {
+        return 100;
+    } else if(this->board_status == BS_CHECKMATEBLACK) {
+        return -100;
+    }
+
+    // Check value if not checkmate
+    int value{0};
+
+    // Compute piece values
+    for(auto &p : this->getPieces()) {
+        value += p->getColor()==WHITE ? p->getValue() : -p->getValue();
+    }
+
+    // Check status
+    if(this->board_status == BS_CHECKWHITE || this->board_status == BS_CHECKBLACK) {
+        // TODO
+    }
+
+    // TDOO extend this!
+    return value;
+}

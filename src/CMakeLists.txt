@@ -74,7 +74,8 @@ add_executable(${PROJECT_NAME}
 
     # Engine
     engine/movetree.cpp
-    engine/moveply.cpp
+    engine/movelayer.cpp
+    engine/aiplayer.cpp
 )
 
 if(WITH_QT)

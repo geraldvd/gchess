@@ -5,6 +5,9 @@
 #include <string>
 #include <chrono>
 
+// Include project libraries
+#include "../board/move.h"
+
 
 class MoveTree
 {
@@ -22,6 +25,8 @@ private:
     unsigned int numPlies;
     std::chrono::system_clock::time_point startTime;
     unsigned int numMoves;
+
+    Move bestMove;
 };
 
 #endif // MOVETREE_H

@@ -11,6 +11,11 @@
 // Specify namespaces
 using namespace std;
 
+Move::Move() :
+    Move(0, 0, NULL, MT_NONE, PT_NONE)
+{
+}
+
 Move::Move(const Field &f, Piece_ptr movingPiece, const MoveType &mt, const PromotionType &pt) :
     Move(f.getX(), f.getY(), movingPiece, mt, pt)
 {

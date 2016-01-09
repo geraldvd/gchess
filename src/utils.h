@@ -4,6 +4,7 @@
 // Include standard libraries
 #include <memory>
 #include <string>
+#include <cstdint>
 
 // Forward declarations
 class Piece;
@@ -44,6 +45,21 @@ const unsigned short P_C{5};
 const unsigned short P_D{7};
 const unsigned short P_E{11};
 const unsigned short P_F{13};
+
+// BitBoard
+class BitBoard {
+    uint64_t bb;
+public:
+    bool get(const int &p)
+    {
+      // Checks to see if the bitboard has a value of
+      // true at the bit "p" bits from the right.
+      return (bb & (1 << p));
+    }
+    bool get(const int &x, const int &y) {
+        return this->get(x+NUM_TILES_X*y);
+    }
+};
 
 
 #endif // UTILS_H

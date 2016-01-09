@@ -53,6 +53,9 @@ void ChessWindow::drawBoard(Board * b)
     if(b->activeKingCheck()) {
         this->ui->chessBoard->checkField(b->getActiveKing()->getTile()->getPosition());
     }
+
+    // Set board value
+    this->ui->boardValue->setText(QString::number(b->computeBoardValue()));
 }
 
 void ChessWindow::newGame(const int & board_layout)
@@ -68,10 +71,9 @@ void ChessWindow::newGame(const int & board_layout)
 
 void ChessWindow::updateEngine()
 {
-    this->engine = MoveTree(3, this->game.getBoard()->get());
-    this->ui->numPlies->setText(QString::number(this->engine.getNumPlies()));
-    this->ui->numMoves->setText(QString::number(this->engine.getNumMoves()));
-    this->ui->duration->setText(QString::number(this->engine.getDurationSeconds()));
+//    this->ui->numPlies->setText(QString::number(this->engine.getNumPlies()));
+//    this->ui->numMoves->setText(QString::number(this->engine.getNumMoves()));
+//    this->ui->duration->setText(QString::number(this->engine.getDurationSeconds()));
 }
 
 void ChessWindow::newGameDialog()

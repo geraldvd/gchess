@@ -14,7 +14,6 @@ class AiPlayer
 {
 public:
     AiPlayer();
-//    AiPlayer(const PieceColor &alliance);
 
     // Evaluate board and find best move
     void eval(const std::string &board);

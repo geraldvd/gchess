@@ -7,7 +7,7 @@
 // Include project files
 #include "utils.h"
 #include "board/board.h"
-
+#include "engine/aiplayer.h"
 
 class GameManager
 {

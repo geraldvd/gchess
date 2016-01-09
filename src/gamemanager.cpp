@@ -201,7 +201,6 @@ MoveStatus GameManager::move(const Field &from, const Field &to, const Promotion
             this->board = this->board.move(m);
             this->board.updateMoves();
 
-
             return MS_OK;
         }
     }

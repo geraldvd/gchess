@@ -8,7 +8,7 @@ import java.util.Map;
 
 public abstract class Tile {
     protected final int tileCoordinate;
-    private final static Map<Integer, Tile> EMPTY_TILES_CACHE = createAllPossibleEmptyTile();
+    private final static Map<Integer, Tile> EMPTY_TILES_CACHE = createAllPossibleEmptyTile(); // Ask Rick: can be Lambda??
     
     private Tile(int tileCoordinate) {
         this.tileCoordinate = tileCoordinate;

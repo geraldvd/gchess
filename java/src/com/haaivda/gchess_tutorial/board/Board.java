@@ -1,4 +1,4 @@
-package com.haaivda.gchess.board;
+package com.haaivda.gchess_tutorial.board;
 
 
 public class Board {

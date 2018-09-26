@@ -1,10 +1,10 @@
-package com.haaivda.gchess.pieces;
+package com.haaivda.gchess_tutorial.pieces;
 
-import com.haaivda.gchess.Alliance;
-import com.haaivda.gchess.board.Board;
-import com.haaivda.gchess.board.BoardUtils;
-import com.haaivda.gchess.board.Move;
-import com.haaivda.gchess.board.Move.MajorMove;
+import com.haaivda.gchess_tutorial.Alliance;
+import com.haaivda.gchess_tutorial.board.Board;
+import com.haaivda.gchess_tutorial.board.BoardUtils;
+import com.haaivda.gchess_tutorial.board.Move;
+import com.haaivda.gchess_tutorial.board.Move.MajorMove;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

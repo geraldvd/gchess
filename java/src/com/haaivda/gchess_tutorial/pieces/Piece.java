@@ -1,8 +1,8 @@
-package com.haaivda.gchess.pieces;
+package com.haaivda.gchess_tutorial.pieces;
 
-import com.haaivda.gchess.Alliance;
-import com.haaivda.gchess.board.Board;
-import com.haaivda.gchess.board.Move;
+import com.haaivda.gchess_tutorial.Alliance;
+import com.haaivda.gchess_tutorial.board.Board;
+import com.haaivda.gchess_tutorial.board.Move;
 import java.util.Collection;
 
 

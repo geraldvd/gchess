@@ -1,4 +1,4 @@
-package com.haaivda.gchess;
+package com.haaivda.gchess_tutorial;
 
 
 public enum Alliance {

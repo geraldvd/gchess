@@ -1,6 +1,6 @@
-package com.haaivda.gchess.board;
+package com.haaivda.gchess_tutorial.board;
 
-import com.haaivda.gchess.pieces.Piece;
+import com.haaivda.gchess_tutorial.pieces.Piece;
 
 public abstract class Move {
     

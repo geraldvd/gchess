@@ -12,6 +12,7 @@ public class BoardUtils {
 
     public static final int NUM_TILES = 64;
     public static final int NUM_TILES_PER_ROW = 8;
+    public static final int NUM_TILES_PER_COLUMN = 8;
     
     private BoardUtils() {
         throw new RuntimeException("You cannot instantiate me!");
@@ -28,11 +29,11 @@ public class BoardUtils {
     
     private static boolean[] initRow(int rowNumber) {
         final boolean[] row = new boolean[NUM_TILES];
-        do {
-            row[8*rowNumber] = true;
-            columnNumber += NUM_TILES_PER_ROW;
-        } while(columnNumber < NUM_TILES);
-        return column;
+        rowNumber *= 8;
+        for(int i = rowNumber; i < rowNumber + NUM_TILES_PER_COLUMN; i++) {
+            row[i] = true;
+        }
+        return row;
     }
     
     public static boolean isValidTileCoordinate(int candidateMovePosition) {

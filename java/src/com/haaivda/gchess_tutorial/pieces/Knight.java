@@ -45,6 +45,11 @@ public class Knight extends Piece {
         return Collections.unmodifiableList(legalMoves);
     }
     
+    @Override
+    public String toString() {
+        return PieceType.KNIGHT.toString();
+    }
+    
     private static boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
         return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -17 || candidateOffset == -10 || 
                 candidateOffset == 6 || candidateOffset == 15);

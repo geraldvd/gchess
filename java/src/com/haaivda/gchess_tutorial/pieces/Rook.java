@@ -45,6 +45,11 @@ public class Rook extends Piece {
         return Collections.unmodifiableList(legalMoves);
     }
     
+    @Override
+    public String toString() {
+        return PieceType.ROOK.toString();
+    }
+    
     private static boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
         return BoardUtils.FIRST_COLUMN[currentPosition] && candidateOffset == -1;
     }

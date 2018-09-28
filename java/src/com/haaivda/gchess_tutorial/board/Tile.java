@@ -8,11 +8,12 @@ import java.util.Map;
 
 public abstract class Tile {
     protected final int tileCoordinate;
-    private final static Map<Integer, Tile> EMPTY_TILES_CACHE = createAllPossibleEmptyTile(); // Ask Rick: can be Lambda??
+    private final static Map<Integer, Tile> EMPTY_TILES_CACHE = createAllPossibleEmptyTile();
     
     private Tile(int tileCoordinate) {
         this.tileCoordinate = tileCoordinate;
     }
+    
     
     public static Tile createTile(int tileCoordinate, Piece piece) {
         return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES_CACHE.get(tileCoordinate);
@@ -34,6 +35,11 @@ public abstract class Tile {
         private EmptyTile(int tileCoordinate) {
             super(tileCoordinate);
         }
+        
+        @Override
+        public String toString() {
+            return "-";
+        }
 
         @Override
         public boolean isTileOccupied() {
@@ -52,6 +58,11 @@ public abstract class Tile {
         private OccupiedTile(int tileCoordinate, Piece piece) {
             super(tileCoordinate);
             this.pieceOnTile = piece;
+        }
+        
+        @Override
+        public String toString() {
+            return this.pieceOnTile.getPieceAlliance().isBlack() ? this.pieceOnTile.toString().toLowerCase() : this.pieceOnTile.toString().toUpperCase();
         }
 
         @Override

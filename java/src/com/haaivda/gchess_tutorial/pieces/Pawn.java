@@ -47,12 +47,19 @@ public class Pawn extends Piece {
             } else if(currentCandidateOffset == 9 && 
                     !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceAlliance().isBlack()) ||
                     (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceAlliance().isWhite()))) {
-                final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
-                    if(this.getPieceAlliance() != pieceOnCandidate.getPieceAlliance()) {
+                if(board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
+                    final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+                    if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
                         legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
                     }
+                }
             }
         }
         return Collections.unmodifiableList(legalMoves);
+    }
+    
+    @Override
+    public String toString() {
+        return PieceType.PAWN.toString();
     }
 }

@@ -1,9 +1,10 @@
 nbproject/
 out/
+build/
 .idea/
+dist/
 
 *.iml
-
 build.xml
 manifest.mf
 

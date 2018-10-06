@@ -7,11 +7,13 @@ import java.util.Collection;
 
 
 public abstract class Piece {
+    protected final PieceType pieceType;
     protected final int piecePosition;
     protected final Alliance pieceAlliance;
     protected final boolean isFirstMove;
     
-    Piece(int piecePosition, Alliance pieceAlliance) {
+    Piece(PieceType pieceType, int piecePosition, Alliance pieceAlliance) {
+        this.pieceType = pieceType;
         this.piecePosition = piecePosition;
         this.pieceAlliance = pieceAlliance;
         this.isFirstMove = false; // TODO more work here!
@@ -30,14 +32,48 @@ public abstract class Piece {
     }
     
     public abstract Collection<Move> calculateLegalMoves(Board board);
-    
+
+    public PieceType getPieceType() {
+        return this.pieceType;
+    }
+
     public enum PieceType {
-        KING("K"),
-        QUEEN("Q"),
-        ROOK("R"),
-        BISHOP("B"),
-        KNIGHT("N"),
-        PAWN("P");
+        KING("K") {
+            @Override
+            public boolean isKing() {
+                return true;
+            }
+        },
+        QUEEN("Q") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        ROOK("R") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        BISHOP("B") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        KNIGHT("N") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        PAWN("P") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        };
         
         private String pieceName;
         
@@ -49,5 +85,7 @@ public abstract class Piece {
         public String toString() {
             return this.pieceName;
         }
+
+        public abstract boolean isKing();
     }
 }

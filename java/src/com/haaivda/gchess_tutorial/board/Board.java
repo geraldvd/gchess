@@ -8,6 +8,10 @@ import com.haaivda.gchess_tutorial.pieces.Pawn;
 import com.haaivda.gchess_tutorial.pieces.Piece;
 import com.haaivda.gchess_tutorial.pieces.Queen;
 import com.haaivda.gchess_tutorial.pieces.Rook;
+import com.haaivda.gchess_tutorial.player.BlackPlayer;
+import com.haaivda.gchess_tutorial.player.Player;
+import com.haaivda.gchess_tutorial.player.WhitePlayer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,14 +24,20 @@ public class Board {
     private final List<Tile> gameBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
+
+    private final WhitePlayer whitePlayer;
+    private final BlackPlayer blackplayer;
+    private final Player currentPlayer;
     
     private Board(Builder builder) {
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
         this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
-        
         final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
         final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
+        this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.blackplayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.currentPlayer = null;
     }
     
     @Override
@@ -123,7 +133,27 @@ public class Board {
         
         return Collections.unmodifiableList(legalMoves);
     }
-    
+
+    public Collection<Piece> getWhitePieces() {
+        return this.whitePieces;
+    }
+
+    public Collection<Piece> getBlackPieces() {
+        return this.blackPieces;
+    }
+
+    public WhitePlayer getWhitePlayer() {
+        return this.whitePlayer;
+    }
+
+    public BlackPlayer getBlackplayer() {
+        return this.blackplayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
     public static class Builder {
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;

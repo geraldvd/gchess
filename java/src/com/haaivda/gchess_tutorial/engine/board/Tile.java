@@ -1,6 +1,7 @@
-package com.haaivda.gchess_tutorial.board;
+package com.haaivda.gchess_tutorial.engine.board;
 
-import com.haaivda.gchess_tutorial.pieces.Piece;
+import com.haaivda.gchess_tutorial.engine.pieces.Piece;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

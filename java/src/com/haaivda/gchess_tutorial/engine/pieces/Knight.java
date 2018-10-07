@@ -1,12 +1,12 @@
-package com.haaivda.gchess_tutorial.pieces;
+package com.haaivda.gchess_tutorial.engine.pieces;
 
-import com.haaivda.gchess_tutorial.Alliance;
-import com.haaivda.gchess_tutorial.board.Board;
-import com.haaivda.gchess_tutorial.board.BoardUtils;
-import com.haaivda.gchess_tutorial.board.Move;
-import com.haaivda.gchess_tutorial.board.Move.AttackMove;
-import com.haaivda.gchess_tutorial.board.Move.MajorMove;
-import com.haaivda.gchess_tutorial.board.Tile;
+import com.haaivda.gchess_tutorial.engine.Alliance;
+import com.haaivda.gchess_tutorial.engine.board.Board;
+import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
+import com.haaivda.gchess_tutorial.engine.board.Move;
+import com.haaivda.gchess_tutorial.engine.board.Move.AttackMove;
+import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
+import com.haaivda.gchess_tutorial.engine.board.Tile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

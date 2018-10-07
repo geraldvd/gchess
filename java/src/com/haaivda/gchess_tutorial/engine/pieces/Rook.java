@@ -1,23 +1,21 @@
-package com.haaivda.gchess_tutorial.pieces;
+package com.haaivda.gchess_tutorial.engine.pieces;
 
-import com.haaivda.gchess_tutorial.Alliance;
-import com.haaivda.gchess_tutorial.board.Board;
-import com.haaivda.gchess_tutorial.board.BoardUtils;
-import com.haaivda.gchess_tutorial.board.Move;
-import com.haaivda.gchess_tutorial.board.Move.AttackMove;
-import com.haaivda.gchess_tutorial.board.Move.MajorMove;
-import com.haaivda.gchess_tutorial.board.Tile;
+import com.haaivda.gchess_tutorial.engine.Alliance;
+import com.haaivda.gchess_tutorial.engine.board.Board;
+import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
+import com.haaivda.gchess_tutorial.engine.board.Move;
+import com.haaivda.gchess_tutorial.engine.board.Tile;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 
-public class Bishop extends Piece {
-    private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -7, 7, 9};
+public class Rook extends Piece {
+    private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-8, -1, 1, 8};
 
-    public Bishop(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.BISHOP, piecePosition, pieceAlliance);
+    public Rook(int piecePosition, Alliance pieceAlliance) {
+        super(PieceType.ROOK, piecePosition, pieceAlliance);
     }
 
     @Override
@@ -33,10 +31,10 @@ public class Bishop extends Piece {
                 if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tile destinationTile = board.getTile(candidateDestinationCoordinate);
                     if(!destinationTile.isTileOccupied()) {
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
                     } else {
                         if (this.pieceAlliance != destinationTile.getPiece().getPieceAlliance()) {
-                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, destinationTile.getPiece()));
+                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, destinationTile.getPiece()));
                         }
                         // Break, if tile on the line is occupied; cannot go past that piece!
                         break;
@@ -48,20 +46,20 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public Bishop movePiece(Move move) {
-        return new Bishop(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance());
+    public Rook movePiece(Move move) {
+        return new Rook(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance());
     }
-
+    
     @Override
     public String toString() {
-        return PieceType.BISHOP.toString();
+        return PieceType.ROOK.toString();
     }
     
     private static boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7);
+        return BoardUtils.FIRST_COLUMN[currentPosition] && candidateOffset == -1;
     }
      
     private static boolean isEighthColumnExclusion(int currentPosition, int candidateOffset) {
-        return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 9);
+        return BoardUtils.EIGHTH_COLUMN[currentPosition] && candidateOffset == 1;
     }
 }

@@ -1,9 +1,8 @@
-package com.haaivda.gchess_tutorial.board;
+package com.haaivda.gchess_tutorial.engine.board;
 
-import com.haaivda.gchess_tutorial.board.Board.Builder;
-import com.haaivda.gchess_tutorial.pieces.Pawn;
-import com.haaivda.gchess_tutorial.pieces.Piece;
-import com.haaivda.gchess_tutorial.pieces.Rook;
+import com.haaivda.gchess_tutorial.engine.pieces.Pawn;
+import com.haaivda.gchess_tutorial.engine.pieces.Piece;
+import com.haaivda.gchess_tutorial.engine.pieces.Rook;
 
 public abstract class Move {
     
@@ -59,7 +58,7 @@ public abstract class Move {
     }
 
     public Board execute() {
-        final Builder builder = new Builder();
+        final Board.Builder builder = new Board.Builder();
         for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
             //TODO hashcode and quals for pieces
             if(!this.movedPiece.equals(piece)) {
@@ -147,7 +146,7 @@ public abstract class Move {
 
         @Override
         public Board execute() {
-            final Builder builder = new Builder();
+            final Board.Builder builder = new Board.Builder();
             for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
                 if(!this.movedPiece.equals(piece)) {
                     builder.setPiece(piece);
@@ -191,7 +190,7 @@ public abstract class Move {
 
         @Override
         public Board execute() {
-            final Builder builder = new Builder();
+            final Board.Builder builder = new Board.Builder();
             for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
                 if(!this.movedPiece.equals(piece) && !this.castleRook.equals(piece)) {
                     builder.setPiece(piece);

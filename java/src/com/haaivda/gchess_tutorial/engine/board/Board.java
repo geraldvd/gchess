@@ -1,25 +1,23 @@
-package com.haaivda.gchess_tutorial.board;
+package com.haaivda.gchess_tutorial.engine.board;
 
-import com.haaivda.gchess_tutorial.pieces.Knight;
-import com.haaivda.gchess_tutorial.Alliance;
-import com.haaivda.gchess_tutorial.pieces.Bishop;
-import com.haaivda.gchess_tutorial.pieces.King;
-import com.haaivda.gchess_tutorial.pieces.Pawn;
-import com.haaivda.gchess_tutorial.pieces.Piece;
-import com.haaivda.gchess_tutorial.pieces.Queen;
-import com.haaivda.gchess_tutorial.pieces.Rook;
-import com.haaivda.gchess_tutorial.player.BlackPlayer;
-import com.haaivda.gchess_tutorial.player.Player;
-import com.haaivda.gchess_tutorial.player.WhitePlayer;
+import com.haaivda.gchess_tutorial.engine.player.BlackPlayer;
+import com.haaivda.gchess_tutorial.engine.player.Player;
+import com.haaivda.gchess_tutorial.engine.player.WhitePlayer;
+import com.haaivda.gchess_tutorial.engine.pieces.Knight;
+import com.haaivda.gchess_tutorial.engine.Alliance;
+import com.haaivda.gchess_tutorial.engine.pieces.Bishop;
+import com.haaivda.gchess_tutorial.engine.pieces.King;
+import com.haaivda.gchess_tutorial.engine.pieces.Pawn;
+import com.haaivda.gchess_tutorial.engine.pieces.Piece;
+import com.haaivda.gchess_tutorial.engine.pieces.Queen;
+import com.haaivda.gchess_tutorial.engine.pieces.Rook;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 
 public class Board {
@@ -100,7 +98,8 @@ public class Board {
         builder.setPiece(new Pawn(13, Alliance.BLACK));
         builder.setPiece(new Pawn(14, Alliance.BLACK));
         builder.setPiece(new Pawn(15, Alliance.BLACK));
-        
+
+        builder.setMoveMaker(Alliance.WHITE);
         return builder.build();
     }
     

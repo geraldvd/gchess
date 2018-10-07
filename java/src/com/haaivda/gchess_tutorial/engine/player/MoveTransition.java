@@ -1,9 +1,7 @@
-package com.haaivda.gchess_tutorial.player;
+package com.haaivda.gchess_tutorial.engine.player;
 
-import com.haaivda.gchess_tutorial.board.Board;
-import com.haaivda.gchess_tutorial.board.Move;
-
-import java.util.concurrent.Future;
+import com.haaivda.gchess_tutorial.engine.board.Board;
+import com.haaivda.gchess_tutorial.engine.board.Move;
 
 public class MoveTransition {
     private final Board transitionBoard;
@@ -18,5 +16,9 @@ public class MoveTransition {
 
     public MoveStatus getMoveStatus() {
         return this.moveStatus;
+    }
+
+    public Board getTransitionBoard() {
+        return this.transitionBoard;
     }
 }

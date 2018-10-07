@@ -1,13 +1,13 @@
-package com.haaivda.gchess_tutorial.player;
+package com.haaivda.gchess_tutorial.engine.player;
 
-import com.haaivda.gchess_tutorial.Alliance;
-import com.haaivda.gchess_tutorial.board.Board;
-import com.haaivda.gchess_tutorial.board.Move;
-import com.haaivda.gchess_tutorial.board.Move.KingSideCastleMove;
-import com.haaivda.gchess_tutorial.board.Move.QueenSideCastleMove;
-import com.haaivda.gchess_tutorial.board.Tile;
-import com.haaivda.gchess_tutorial.pieces.Piece;
-import com.haaivda.gchess_tutorial.pieces.Rook;
+import com.haaivda.gchess_tutorial.engine.pieces.Piece;
+import com.haaivda.gchess_tutorial.engine.pieces.Rook;
+import com.haaivda.gchess_tutorial.engine.Alliance;
+import com.haaivda.gchess_tutorial.engine.board.Board;
+import com.haaivda.gchess_tutorial.engine.board.Move;
+import com.haaivda.gchess_tutorial.engine.board.Move.KingSideCastleMove;
+import com.haaivda.gchess_tutorial.engine.board.Move.QueenSideCastleMove;
+import com.haaivda.gchess_tutorial.engine.board.Tile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,8 +56,11 @@ public class WhitePlayer extends Player {
                     !this.board.getTile(57).isTileOccupied()) {
                 final Tile rookTile = this.board.getTile(56);
                 if(rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()) {
-                    kingCastles.add(new QueenSideCastleMove(this.board, this.playerKing, 58,
-                            (Rook)rookTile.getPiece(), rookTile.getTileCoordinate(), 59));
+                    if(Player.calculateAttacksOnTile(58, opponentLegals).isEmpty() && Player.calculateAttacksOnTile(59, opponentLegals).isEmpty() &&
+                            rookTile.getPiece().getPieceType().isRook()) {
+                        kingCastles.add(new QueenSideCastleMove(this.board, this.playerKing, 58,
+                                (Rook)rookTile.getPiece(), rookTile.getTileCoordinate(), 59));
+                    }
                 }
             }
         }

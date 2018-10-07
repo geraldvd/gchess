@@ -1,12 +1,12 @@
-package com.haaivda.gchess_tutorial.player;
+package com.haaivda.gchess_tutorial.engine.player;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.haaivda.gchess_tutorial.Alliance;
-import com.haaivda.gchess_tutorial.board.Board;
-import com.haaivda.gchess_tutorial.board.Move;
-import com.haaivda.gchess_tutorial.pieces.King;
-import com.haaivda.gchess_tutorial.pieces.Piece;
+import com.haaivda.gchess_tutorial.engine.Alliance;
+import com.haaivda.gchess_tutorial.engine.board.Board;
+import com.haaivda.gchess_tutorial.engine.board.Move;
+import com.haaivda.gchess_tutorial.engine.pieces.King;
+import com.haaivda.gchess_tutorial.engine.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.Collection;

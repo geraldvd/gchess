@@ -1,10 +1,10 @@
-package com.haaivda.gchess_tutorial.pieces;
+package com.haaivda.gchess_tutorial.engine.pieces;
 
-import com.haaivda.gchess_tutorial.Alliance;
-import com.haaivda.gchess_tutorial.board.Board;
-import com.haaivda.gchess_tutorial.board.BoardUtils;
-import com.haaivda.gchess_tutorial.board.Move;
-import com.haaivda.gchess_tutorial.board.Move.MajorMove;
+import com.haaivda.gchess_tutorial.engine.Alliance;
+import com.haaivda.gchess_tutorial.engine.board.Board;
+import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
+import com.haaivda.gchess_tutorial.engine.board.Move;
+import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,8 +29,8 @@ public class Pawn extends Piece {
             }
             if(currentCandidateOffset == 8 && !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
                 legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
-            } else if(currentCandidateOffset == 16 && this.isFirstMove() && (BoardUtils.SECOND_ROW[this.piecePosition] && (this.getPieceAlliance().isBlack()) || 
-                    (BoardUtils.SEVENTH_ROW[this.piecePosition] && this.getPieceAlliance().isWhite()))) {
+            } else if(currentCandidateOffset == 16 && this.isFirstMove() && (BoardUtils.SEVENTH_RANK[this.piecePosition] && (this.getPieceAlliance().isBlack()) ||
+                    (BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceAlliance().isWhite()))) {
                 final int behindCandidateDestinationCoordinate = this.piecePosition + this.getPieceAlliance().getDirection()*8;
                 if(!board.getTile(behindCandidateDestinationCoordinate).isTileOccupied() && !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
                     legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)

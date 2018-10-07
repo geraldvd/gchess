@@ -1,9 +1,9 @@
-package com.haaivda.gchess_tutorial;
+package com.haaivda.gchess_tutorial.engine;
 
 
-import com.haaivda.gchess_tutorial.player.BlackPlayer;
-import com.haaivda.gchess_tutorial.player.Player;
-import com.haaivda.gchess_tutorial.player.WhitePlayer;
+import com.haaivda.gchess_tutorial.engine.player.BlackPlayer;
+import com.haaivda.gchess_tutorial.engine.player.Player;
+import com.haaivda.gchess_tutorial.engine.player.WhitePlayer;
 
 public enum Alliance {
     WHITE {

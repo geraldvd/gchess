@@ -12,12 +12,14 @@ import com.haaivda.gchess_tutorial.player.BlackPlayer;
 import com.haaivda.gchess_tutorial.player.Player;
 import com.haaivda.gchess_tutorial.player.WhitePlayer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 
 public class Board {
@@ -37,7 +39,7 @@ public class Board {
         final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackplayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-        this.currentPlayer = null;
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackplayer);
     }
     
     @Override
@@ -157,7 +159,8 @@ public class Board {
     public static class Builder {
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
-        
+        Pawn enPassantPawn;
+
         public Builder() {
             this.boardConfig = new HashMap<>();
         }
@@ -175,6 +178,9 @@ public class Board {
         public Board build() {
             return new Board(this);
         }
+
+        public void setEnPassantPawn(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
+        }
     }
-    
 }

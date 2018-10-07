@@ -26,7 +26,6 @@ public class Board {
     private final List<Tile> gameBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackplayer;
     private final Player currentPlayer;
@@ -52,7 +51,6 @@ public class Board {
                 builder.append("\n");
             }
         }
-        
         return builder.toString();
     }
     
@@ -61,7 +59,6 @@ public class Board {
         for(int i = 0; i<BoardUtils.NUM_TILES; i++) {
             tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
         }
-        
         return Collections.unmodifiableList(tiles);
     }
     
@@ -113,7 +110,6 @@ public class Board {
 
     private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Alliance alliance) {
         final List<Piece> activePieces = new ArrayList<>();
-        
         for (Tile tile : gameBoard) {
             if(tile.isTileOccupied()) {
                 Piece piece = tile.getPiece();
@@ -122,17 +118,14 @@ public class Board {
                 }
             }
         }
-        
         return Collections.unmodifiableList(activePieces);
     }
 
     private Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
         final List<Move> legalMoves = new ArrayList<>();
-        
         for(Piece piece : pieces) {
             legalMoves.addAll(piece.calculateLegalMoves(this));
         }
-        
         return Collections.unmodifiableList(legalMoves);
     }
 

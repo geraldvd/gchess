@@ -139,7 +139,6 @@ public class Table {
                             if(humanMovedPiece == null) {
                                 sourceTile = null;
                             }
-                            System.out.println("First click: " + tileId);
                         } else {
                             // Second click on tile to move piece
                             desintationTile = chessBoard.getTile(tileId);

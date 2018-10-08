@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bbc68a92-5f52-46d0-aaaf-5be4e0ef6acf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gui/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gui/Table.java" afterDir="false" />
+    <list default="true" id="bbc68a92-5f52-46d0-aaaf-5be4e0ef6acf" name="Default Changelist" comment="Finished up to video #36.">
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Rook.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,43 +52,138 @@
     <session id="-1127930727">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="1" />
+          <entry key="java" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="1" />
+          <entry key="JAVA" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1221" />
+          <entry key="java" value="1672" />
+          <entry key="txt" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1221" />
+          <entry key="JAVA" value="1672" />
+          <entry key="PLAIN_TEXT" value="25" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gui/Table.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Piece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="58" column="40" selection-start-line="58" selection-start-column="40" selection-end-line="58" selection-end-column="40" />
+            <state relative-caret-position="238">
+              <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3304#3305#0" expanded="true" />
-                <element signature="e#3347#3348#0" expanded="true" />
-                <element signature="e#3277#3278#0" expanded="true" />
-                <element signature="e#3320#3321#0" expanded="true" />
-                <element signature="e#3572#3573#0" expanded="true" />
-                <element signature="e#3615#3616#0" expanded="true" />
-                <element signature="e#3412#3413#0" expanded="true" />
-                <element signature="e#3455#3456#0" expanded="true" />
+                <element signature="e#1815#1816#0" expanded="true" />
+                <element signature="e#1854#1855#0" expanded="true" />
+                <element signature="e#2023#2024#0" expanded="true" />
+                <element signature="e#2060#2061#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Bishop.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+              <folding>
+                <element signature="e#2699#2700#0" expanded="true" />
+                <element signature="e#2749#2750#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/King.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="45" column="103" selection-start-line="45" selection-start-column="103" selection-end-line="45" selection-end-column="103" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Knight.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="49" column="105" selection-start-line="49" selection-start-column="105" selection-end-line="49" selection-end-column="105" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Board.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1525">
+              <caret line="25" column="48" lean-forward="true" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Move.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2958">
+              <caret line="198" column="94" lean-forward="true" selection-start-line="198" selection-start-column="94" selection-end-line="198" selection-end-column="94" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/player/MoveTransition.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Pawn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="680">
+              <caret line="48" column="52" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Queen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="22" column="56" lean-forward="true" selection-start-line="22" selection-start-column="56" selection-end-line="22" selection-end-column="56" />
+              <folding>
+                <element signature="e#2594#2595#0" expanded="true" />
+                <element signature="e#2643#2644#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Rook.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+              <folding>
+                <element signature="e#2574#2575#0" expanded="true" />
+                <element signature="e#2622#2623#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -96,6 +199,15 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gChessTutorial.java" />
         <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gui/Table.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Piece.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Board.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/King.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Knight.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Pawn.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Move.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Bishop.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Rook.java" />
+        <option value="$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Queen.java" />
       </list>
     </option>
   </component>
@@ -204,7 +316,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539033226840" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539034775804" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -259,8 +371,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -281,6 +393,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Finished up to video #36." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished up to video #36." />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gChessTutorial.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -295,8 +411,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/gui/Table.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="119" column="58" selection-start-line="119" selection-start-column="58" selection-end-line="119" selection-end-column="58" />
+        <state relative-caret-position="189">
+          <caret line="224" column="27" lean-forward="true" selection-start-line="224" selection-start-column="27" selection-end-line="224" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3304#3305#0" expanded="true" />
@@ -308,6 +424,94 @@
             <element signature="e#3412#3413#0" expanded="true" />
             <element signature="e#3455#3456#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/player/MoveTransition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Piece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
+          <folding>
+            <element signature="e#1815#1816#0" expanded="true" />
+            <element signature="e#1854#1855#0" expanded="true" />
+            <element signature="e#2023#2024#0" expanded="true" />
+            <element signature="e#2060#2061#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/King.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="45" column="103" selection-start-line="45" selection-start-column="103" selection-end-line="45" selection-end-column="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Knight.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="49" column="105" selection-start-line="49" selection-start-column="105" selection-end-line="49" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Move.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2958">
+          <caret line="198" column="94" lean-forward="true" selection-start-line="198" selection-start-column="94" selection-end-line="198" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Bishop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+          <folding>
+            <element signature="e#2699#2700#0" expanded="true" />
+            <element signature="e#2749#2750#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Rook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+          <folding>
+            <element signature="e#2574#2575#0" expanded="true" />
+            <element signature="e#2622#2623#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Queen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="22" column="56" lean-forward="true" selection-start-line="22" selection-start-column="56" selection-end-line="22" selection-end-column="56" />
+          <folding>
+            <element signature="e#2594#2595#0" expanded="true" />
+            <element signature="e#2643#2644#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/board/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1525">
+          <caret line="25" column="48" lean-forward="true" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/haaivda/gchess_tutorial/engine/pieces/Pawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="48" column="52" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="52" />
         </state>
       </provider>
     </entry>

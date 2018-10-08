@@ -201,7 +201,7 @@ public abstract class Move {
             }
             builder.setPiece(this.movedPiece.movePiece(this));
             //TODO look into the first move on normal pieces
-            builder.setPiece(new Rook(this.castleRookDestination, this.castleRook.getPieceAlliance()));
+            builder.setPiece(new Rook(this.castleRookDestination, this.castleRook.getPieceAlliance(), false));
             return builder.build();
         }
     }

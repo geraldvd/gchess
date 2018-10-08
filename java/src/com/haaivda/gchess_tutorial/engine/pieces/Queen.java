@@ -14,8 +14,8 @@ import java.util.List;
 public class Queen extends Piece {
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
 
-    public Queen(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.QUEEN, piecePosition, pieceAlliance);
+    public Queen(int piecePosition, Alliance pieceAlliance, boolean isFirstMove) {
+        super(PieceType.QUEEN, piecePosition, pieceAlliance, isFirstMove);
     }
 
     @Override
@@ -25,7 +25,9 @@ public class Queen extends Piece {
             int candidateDestinationCoordinate = this.piecePosition;
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 if(isFirstColumnExclusion(candidateDestinationCoordinate, currentCandidateCoordinateOffset) ||
-                        isEighthColumnExclusion(candidateDestinationCoordinate, currentCandidateCoordinateOffset))
+                        isEighthColumnExclusion(candidateDestinationCoordinate, currentCandidateCoordinateOffset)) {
+                    break;
+                }
                 
                 candidateDestinationCoordinate += currentCandidateCoordinateOffset;
                 if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -47,7 +49,7 @@ public class Queen extends Piece {
 
     @Override
     public Queen movePiece(Move move) {
-        return new Queen(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance());
+        return new Queen(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance(), false);
     }
 
     @Override

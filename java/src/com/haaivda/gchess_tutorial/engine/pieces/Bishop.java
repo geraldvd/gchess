@@ -16,8 +16,8 @@ import java.util.List;
 public class Bishop extends Piece {
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -7, 7, 9};
 
-    public Bishop(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.BISHOP, piecePosition, pieceAlliance);
+    public Bishop(int piecePosition, Alliance pieceAlliance, boolean isFirstMove) {
+        super(PieceType.BISHOP, piecePosition, pieceAlliance, isFirstMove);
     }
 
     @Override
@@ -27,7 +27,9 @@ public class Bishop extends Piece {
             int candidateDestinationCoordinate = this.piecePosition;
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 if(isFirstColumnExclusion(candidateDestinationCoordinate, currentCandidateCoordinateOffset) ||
-                        isEighthColumnExclusion(candidateDestinationCoordinate, currentCandidateCoordinateOffset))
+                        isEighthColumnExclusion(candidateDestinationCoordinate, currentCandidateCoordinateOffset)) {
+                    break;
+                }
                 
                 candidateDestinationCoordinate += currentCandidateCoordinateOffset;
                 if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -49,7 +51,7 @@ public class Bishop extends Piece {
 
     @Override
     public Bishop movePiece(Move move) {
-        return new Bishop(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance());
+        return new Bishop(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance(), false);
     }
 
     @Override

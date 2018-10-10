@@ -10,8 +10,20 @@ import com.haaivda.gchess_tutorial.engine.pieces.Piece;
 import com.haaivda.gchess_tutorial.engine.player.MoveTransition;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -45,7 +57,7 @@ public class Table {
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
     private static final Color LIGHT_TILE_COLOR = new Color(245, 222, 179);
     private static final Color DARK_TILE_COLOR = new Color(139, 69, 19);
-    private static final String PIECE_ICON_PATH = "media/piece_images/";
+    static final String PIECE_ICON_PATH = "media/piece_images/";
 
     public Table() {
         this.gameFrame = new JFrame("gChess");
@@ -173,6 +185,38 @@ public class Table {
             }
             validate();
             repaint();
+        }
+    }
+
+    public static class MoveLog {
+        private final List<Move> moves;
+
+        MoveLog() {
+            this.moves = new ArrayList<>();
+        }
+
+        public List<Move> getMoves() {
+            return this.moves;
+        }
+
+        public void addMove(Move move) {
+            this.moves.add(move);
+        }
+
+        public int size() {
+            return this.moves.size();
+        }
+
+        public void clear() {
+            this.moves.clear();
+        }
+
+        public boolean removeMove(Move move) {
+            return this.moves.remove(move);
+        }
+
+        public Move removeMove(int index) {
+            return this.moves.remove(index);
         }
     }
 

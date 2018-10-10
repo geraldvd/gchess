@@ -18,6 +18,10 @@ public class Rook extends Piece {
         super(PieceType.ROOK, piecePosition, pieceAlliance, isFirstMove);
     }
 
+    public Rook(int piecePosition, Alliance pieceAlliance) {
+        super(PieceType.ROOK, piecePosition, pieceAlliance, true);
+    }
+
     @Override
     public Collection<Move> calculateLegalMoves(Board board) {
         final List<Move> legalMoves = new ArrayList<>();

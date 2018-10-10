@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static com.haaivda.gchess_tutorial.engine.board.Move.*;
+
 
 public class Pawn extends Piece {
 
@@ -17,6 +19,10 @@ public class Pawn extends Piece {
     
     public Pawn(int piecePosition, Alliance pieceAlliance, boolean isFirstMove) {
         super(PieceType.PAWN, piecePosition, pieceAlliance, isFirstMove);
+    }
+
+    public Pawn(int piecePosition, Alliance pieceAlliance) {
+        super(PieceType.PAWN, piecePosition, pieceAlliance, true);
     }
 
     @Override
@@ -29,14 +35,14 @@ public class Pawn extends Piece {
             }
             // Normal step move
             if(currentCandidateOffset == 8 && !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
-                legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
+                legalMoves.add(new PawnMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
             }
             // Pawn jump
             else if(currentCandidateOffset == 16 && this.isFirstMove() && (BoardUtils.SEVENTH_RANK[this.piecePosition] && (this.getPieceAlliance().isBlack()) ||
                     (BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceAlliance().isWhite()))) {
                 final int behindCandidateDestinationCoordinate = this.piecePosition + this.getPieceAlliance().getDirection()*8;
                 if(!board.getTile(behindCandidateDestinationCoordinate).isTileOccupied() && !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
-                    legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
+                    legalMoves.add(new PawnJump(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
                 }
             }
             // Attach moves
@@ -46,7 +52,7 @@ public class Pawn extends Piece {
                 if(board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
                     final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
                     if(this.getPieceAlliance() != pieceOnCandidate.getPieceAlliance()) {
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, pieceOnCandidate)); // TODO more work to do here (pawn promotion)
                     }
                 }
             } else if(currentCandidateOffset == 9 && 
@@ -55,7 +61,7 @@ public class Pawn extends Piece {
                 if(board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
                     final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
                     if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, pieceOnCandidate)); // TODO more work to do here (pawn promotion)
                     }
                 }
             }

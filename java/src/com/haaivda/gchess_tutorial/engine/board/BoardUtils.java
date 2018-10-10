@@ -1,6 +1,8 @@
 package com.haaivda.gchess_tutorial.engine.board;
 
 
+import java.util.Map;
+
 public class BoardUtils {
     public static final boolean[] FIRST_COLUMN = initColumn(0);
     public static final boolean[] SECOND_COLUMN = initColumn(1);
@@ -16,14 +18,18 @@ public class BoardUtils {
     public static final boolean[] SECOND_RANK = initRow(6);
     public static final boolean[] FIRST_RANK = initRow(7);
 
+    public static final String[] ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
+    public static final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordindateMap();
+
+
     public static final int NUM_TILES = 64;
     public static final int NUM_TILES_PER_ROW = 8;
     public static final int NUM_TILES_PER_COLUMN = 8;
-    
+
     private BoardUtils() {
         throw new RuntimeException("You cannot instantiate me!");
     }
-    
+
     private static boolean[] initColumn(int columnNumber) {
         final boolean[] column = new boolean[NUM_TILES];
         do {
@@ -32,7 +38,7 @@ public class BoardUtils {
         } while(columnNumber < NUM_TILES);
         return column;
     }
-    
+
     private static boolean[] initRow(int rowNumber) {
         final boolean[] row = new boolean[NUM_TILES];
         rowNumber *= 8;
@@ -41,8 +47,27 @@ public class BoardUtils {
         }
         return row;
     }
-    
+
+    private static String[] initializeAlgebraicNotation() {
+        // TODO
+        return null;
+    }
+
+    private static Map<String, Integer> initializePositionToCoordindateMap() {
+        // TODO
+        return null;
+    }
+
     public static boolean isValidTileCoordinate(int candidateMovePosition) {
         return candidateMovePosition >= 0 && candidateMovePosition < NUM_TILES;
+    }
+
+    public static int getCoordinatePosition(String position) {
+        return POSITION_TO_COORDINATE.get(position);
+
+    }
+
+    public static String getPositionAtCoordinate(int coordinate) {
+        return ALGEBRAIC_NOTATION[coordinate];
     }
 }

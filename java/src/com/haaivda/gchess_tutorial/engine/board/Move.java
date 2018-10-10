@@ -107,6 +107,7 @@ public abstract class Move {
 
         @Override
         public Board execute() {
+            // TODO: nullPointerException for all AttackMoves.
             return null;
         }
 
@@ -202,6 +203,7 @@ public abstract class Move {
             builder.setPiece(this.movedPiece.movePiece(this));
             //TODO look into the first move on normal pieces
             builder.setPiece(new Rook(this.castleRookDestination, this.castleRook.getPieceAlliance(), false));
+            builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
             return builder.build();
         }
     }

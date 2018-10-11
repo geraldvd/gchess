@@ -36,13 +36,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static javax.swing.SwingUtilities.invokeLater;
-import static javax.swing.SwingUtilities.isLeftMouseButton;
-import static javax.swing.SwingUtilities.isRightMouseButton;
+import static javax.swing.SwingUtilities.*;
 
 public class Table {
     private final JFrame gameFrame;
+    private final GameHistoryPanel gameHistoryPanel;
+    private final TakenPiecesPanel takenPiecesPanel;
     private final BoardPanel boardPanel;
+    private final MoveLog moveLog;
     private Board chessBoard;
 
     private Tile sourceTile;
@@ -52,7 +53,7 @@ public class Table {
 
     private boolean highlightLegalMoves;
 
-    private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
+    private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(600 + 100 + 40, 600);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
     private static final Color LIGHT_TILE_COLOR = new Color(245, 222, 179);
@@ -66,11 +67,15 @@ public class Table {
         this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
         this.chessBoard = Board.createStandardBoard();
+        this.gameHistoryPanel = new GameHistoryPanel();
+        this.takenPiecesPanel = new TakenPiecesPanel();
         this.boardPanel = new BoardPanel();
+        this.moveLog = new MoveLog();
         this.boardDirection = BoardDirection.NORMAL;
         this.highlightLegalMoves = true;
+        this.gameFrame.add(this.takenPiecesPanel, BorderLayout.WEST);
+        this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
-
         this.gameFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         this.gameFrame.setVisible(true);
@@ -255,7 +260,7 @@ public class Table {
                             final MoveTransition transition = chessBoard.getCurrentPlayer().makeMove(move);
                             if(transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getTransitionBoard();
-                                // TODO add move to move log
+                                moveLog.addMove(move);
                             }
                             sourceTile = null;
                             desintationTile = null;
@@ -264,6 +269,8 @@ public class Table {
                         invokeLater(new Runnable() {
                             @Override
                             public void run() {
+                                gameHistoryPanel.redo(chessBoard, moveLog);
+                                takenPiecesPanel.redo(moveLog);
                                 boardPanel.drawBoard(chessBoard);
                             }
                         });

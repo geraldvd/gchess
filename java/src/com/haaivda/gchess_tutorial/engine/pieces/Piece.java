@@ -67,8 +67,12 @@ public abstract class Piece {
         return this.pieceType;
     }
 
+    public int getPieceValue() {
+        return this.pieceType.getPieceValue();
+    }
+
     public enum PieceType {
-        KING("K") {
+        KING("K", 10000) {
             @Override
             public boolean isKing() {
                 return true;
@@ -79,7 +83,7 @@ public abstract class Piece {
                 return false;
             }
         },
-        QUEEN("Q") {
+        QUEEN("Q", 900) {
             @Override
             public boolean isKing() {
                 return false;
@@ -90,7 +94,7 @@ public abstract class Piece {
                 return false;
             }
         },
-        ROOK("R") {
+        ROOK("R", 500) {
             @Override
             public boolean isKing() {
                 return false;
@@ -101,7 +105,7 @@ public abstract class Piece {
                 return true;
             }
         },
-        BISHOP("B") {
+        BISHOP("B", 300) {
             @Override
             public boolean isKing() {
                 return false;
@@ -112,7 +116,7 @@ public abstract class Piece {
                 return false;
             }
         },
-        KNIGHT("N") {
+        KNIGHT("N", 300) {
             @Override
             public boolean isKing() {
                 return false;
@@ -123,7 +127,7 @@ public abstract class Piece {
                 return false;
             }
         },
-        PAWN("P") {
+        PAWN("P", 100) {
             @Override
             public boolean isKing() {
                 return false;
@@ -136,9 +140,11 @@ public abstract class Piece {
         };
         
         private String pieceName;
-        
-        PieceType(String pieceName) {
+        private int pieceValue;
+
+        PieceType(String pieceName, int pieceValue) {
             this.pieceName = pieceName;
+            this.pieceValue = pieceValue;
         }
         
         @Override
@@ -148,5 +154,9 @@ public abstract class Piece {
 
         public abstract boolean isKing();
         public abstract boolean isRook();
+
+        public int getPieceValue() {
+            return this.pieceValue;
+        }
     }
 }

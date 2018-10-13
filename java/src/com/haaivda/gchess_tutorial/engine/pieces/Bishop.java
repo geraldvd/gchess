@@ -4,7 +4,6 @@ import com.haaivda.gchess_tutorial.engine.Alliance;
 import com.haaivda.gchess_tutorial.engine.board.Board;
 import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
 import com.haaivda.gchess_tutorial.engine.board.Move;
-import com.haaivda.gchess_tutorial.engine.board.Move.AttackMove;
 import com.haaivda.gchess_tutorial.engine.board.Move.MajorAttackMove;
 import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
 import com.haaivda.gchess_tutorial.engine.board.Tile;
@@ -19,10 +18,6 @@ public class Bishop extends Piece {
 
     public Bishop(int piecePosition, Alliance pieceAlliance, boolean isFirstMove) {
         super(PieceType.BISHOP, piecePosition, pieceAlliance, isFirstMove);
-    }
-
-    public Bishop(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.BISHOP, piecePosition, pieceAlliance, true);
     }
 
     @Override

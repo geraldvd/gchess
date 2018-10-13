@@ -47,7 +47,7 @@ public class Table {
     private Board chessBoard;
 
     private Tile sourceTile;
-    private Tile desintationTile;
+    private Tile destinationTile;
     private Piece humanMovedPiece;
     private BoardDirection boardDirection;
 
@@ -58,7 +58,6 @@ public class Table {
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
     private static final Color LIGHT_TILE_COLOR = new Color(245, 222, 179);
     private static final Color DARK_TILE_COLOR = new Color(139, 69, 19);
-    static final String PIECE_ICON_PATH = "media/piece_images/";
 
     public Table() {
         this.gameFrame = new JFrame("gChess");
@@ -77,7 +76,6 @@ public class Table {
         this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
         this.gameFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
         this.gameFrame.setVisible(true);
     }
 
@@ -182,7 +180,7 @@ public class Table {
             validate();
         }
 
-        public void drawBoard(Board board) {
+        void drawBoard(Board board) {
             this.removeAll();
             for(TilePanel tilePanel : boardDirection.traverse(boardTiles)) {
                 tilePanel.drawTile(board);
@@ -200,15 +198,15 @@ public class Table {
             this.moves = new ArrayList<>();
         }
 
-        public List<Move> getMoves() {
+        List<Move> getMoves() {
             return this.moves;
         }
 
-        public void addMove(Move move) {
+        void addMove(Move move) {
             this.moves.add(move);
         }
 
-        public int size() {
+        int size() {
             return this.moves.size();
         }
 
@@ -242,7 +240,7 @@ public class Table {
                     if(isRightMouseButton(e)) {
                         // Reset previous click action
                         sourceTile = null;
-                        desintationTile = null;
+                        destinationTile = null;
                         humanMovedPiece = null;
                     } else if(isLeftMouseButton(e)) {
                         // First click on tile (only doing something if it contains a piece: select that piece)
@@ -255,15 +253,15 @@ public class Table {
                             highlightLegalMoves(chessBoard);
                         } else {
                             // Second click on tile to move piece
-                            desintationTile = chessBoard.getTile(tileId);
-                            final Move move = MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), desintationTile.getTileCoordinate());
+                            destinationTile = chessBoard.getTile(tileId);
+                            final Move move = MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
                             final MoveTransition transition = chessBoard.getCurrentPlayer().makeMove(move);
                             if(transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getTransitionBoard();
                                 moveLog.addMove(move);
                             }
                             sourceTile = null;
-                            desintationTile = null;
+                            destinationTile = null;
                             humanMovedPiece = null;
                         }
                         invokeLater(new Runnable() {
@@ -305,7 +303,7 @@ public class Table {
             this.removeAll();
             if(board.getTile(this.tileId).isTileOccupied()) {
                 try {
-                    String fileName = PIECE_ICON_PATH + board.getTile(this.tileId).getPiece().toString() +
+                    String fileName = "media/piece_images/" + board.getTile(this.tileId).getPiece().toString() +
                             "_" + board.getTile(this.tileId).getPiece().getPieceAlliance().toString() + ".png";
                     final BufferedImage image = ImageIO.read(new File(fileName));
                     this.add(new JLabel(new ImageIcon(image)));
@@ -350,7 +348,7 @@ public class Table {
             }
         }
 
-        public void drawTile(Board board) {
+        void drawTile(Board board) {
             assignTileColor();
             assignTilePieceIcon(board);
             highlightLegalMoves(board);

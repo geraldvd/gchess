@@ -11,11 +11,10 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameHistoryPanel extends JPanel {
+class GameHistoryPanel extends JPanel {
 
     private final DataModel model;
     private final JScrollPane scrollPane;
-    private final Dimension HISTORY_PANEL_DIMENSION = new Dimension(100, 400);
 
     GameHistoryPanel() {
         this.setLayout(new BorderLayout());
@@ -24,6 +23,7 @@ public class GameHistoryPanel extends JPanel {
         table.setRowHeight(15);
         this.scrollPane = new JScrollPane(table);
         scrollPane.setColumnHeaderView(table.getTableHeader());
+        Dimension HISTORY_PANEL_DIMENSION = new Dimension(100, 400);
         scrollPane.setPreferredSize(HISTORY_PANEL_DIMENSION);
         this.add(scrollPane, BorderLayout.CENTER);
         this.setVisible(true);
@@ -38,8 +38,9 @@ public class GameHistoryPanel extends JPanel {
                 this.model.setValueAt(moveText, currentRow, 0);
             } else if(move.getMovedPiece().getPieceAlliance().isBlack()) {
                 this.model.setValueAt(moveText, currentRow, 1);
+                // Increase when black has also moved!
+                currentRow++;
             }
-            currentRow++;
         }
         if(moveHistory.getMoves().size() > 0) {
             final Move lastMove = moveHistory.getMoves().get(moveHistory.size() - 1);
@@ -74,7 +75,7 @@ public class GameHistoryPanel extends JPanel {
             this.values = new ArrayList<>();
         }
 
-        public void clear() {
+        void clear() {
             this.values.clear();
             setRowCount(0);
         }
@@ -140,19 +141,19 @@ public class GameHistoryPanel extends JPanel {
         Row() {
         }
 
-        public String getWhiteMove() {
+        String getWhiteMove() {
             return this.whiteMove;
         }
 
-        public String getBlackMove() {
+        String getBlackMove() {
             return this.blackMove;
         }
 
-        public void setWhiteMove(String move) {
+        void setWhiteMove(String move) {
             this.whiteMove = move;
         }
 
-        public void setBlackMove(String move) {
+        void setBlackMove(String move) {
             this.blackMove = move;
         }
     }

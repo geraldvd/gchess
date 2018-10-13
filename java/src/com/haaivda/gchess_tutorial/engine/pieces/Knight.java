@@ -4,7 +4,6 @@ import com.haaivda.gchess_tutorial.engine.Alliance;
 import com.haaivda.gchess_tutorial.engine.board.Board;
 import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
 import com.haaivda.gchess_tutorial.engine.board.Move;
-import com.haaivda.gchess_tutorial.engine.board.Move.AttackMove;
 import com.haaivda.gchess_tutorial.engine.board.Move.MajorAttackMove;
 import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
 import com.haaivda.gchess_tutorial.engine.board.Tile;
@@ -18,10 +17,6 @@ public class Knight extends Piece {
 
     public Knight(int piecePosition, Alliance pieceAlliance, boolean isFirstMove) {
         super(PieceType.KNIGHT, piecePosition, pieceAlliance, isFirstMove);
-    }
-
-    public Knight(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.KNIGHT, piecePosition, pieceAlliance, true);
     }
 
     @Override

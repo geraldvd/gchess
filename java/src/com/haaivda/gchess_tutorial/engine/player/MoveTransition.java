@@ -5,10 +5,10 @@ import com.haaivda.gchess_tutorial.engine.board.Move;
 
 public class MoveTransition {
     private final Board transitionBoard;
-    private final Move move;
+    private final Move move; // TODO: is this class parameter needed?
     private final MoveStatus moveStatus;
 
-    public MoveTransition(Board transitionBoard, Move move, MoveStatus moveStatus) {
+    MoveTransition(Board transitionBoard, Move move, MoveStatus moveStatus) {
         this.transitionBoard = transitionBoard;
         this.move = move;
         this.moveStatus = moveStatus;

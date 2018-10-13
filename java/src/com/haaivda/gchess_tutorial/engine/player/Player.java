@@ -16,8 +16,8 @@ import java.util.List;
 public abstract class Player {
 
     protected final Board board;
-    protected final King playerKing;
-    protected final Collection<Move> legalMoves;
+    final King playerKing;
+    private final Collection<Move> legalMoves;
     private final boolean isInCheck;
 
     Player(Board board, Collection<Move> legalMoves, Collection<Move> opponentMoves) {
@@ -27,7 +27,7 @@ public abstract class Player {
         this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
     }
 
-    protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
+    static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
         final List<Move> attackMoves = new ArrayList<>();
         for(Move move : moves) {
             if(piecePosition == move.getDestinationCoordinate()) {
@@ -56,7 +56,7 @@ public abstract class Player {
         return king;
     }
 
-    public boolean isMoveLegal(Move move) {
+    private boolean isMoveLegal(Move move) {
         return this.legalMoves.contains(move);
     }
 
@@ -68,8 +68,6 @@ public abstract class Player {
         return this.isInCheck && !this.hasEscapeMoves();
     }
 
-
-    //TODO implement
     public boolean isInStaleMate() {
         return !this.isInCheck && !this.hasEscapeMoves();
     }
@@ -79,7 +77,7 @@ public abstract class Player {
         return false;
     }
 
-    protected boolean hasEscapeMoves() {
+    private boolean hasEscapeMoves() {
         for(Move move : this.legalMoves) {
             final MoveTransition transition = this.makeMove(move);
             if(transition.getMoveStatus().isDone()) {
@@ -110,7 +108,7 @@ public abstract class Player {
         return this.legalMoves;
     }
 
-    public King getPlayerKing() {
+    private King getPlayerKing() {
         return this.playerKing;
     }
 

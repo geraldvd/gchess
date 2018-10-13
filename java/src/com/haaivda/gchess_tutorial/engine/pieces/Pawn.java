@@ -4,7 +4,6 @@ import com.haaivda.gchess_tutorial.engine.Alliance;
 import com.haaivda.gchess_tutorial.engine.board.Board;
 import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
 import com.haaivda.gchess_tutorial.engine.board.Move;
-import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,10 +18,6 @@ public class Pawn extends Piece {
     
     public Pawn(int piecePosition, Alliance pieceAlliance, boolean isFirstMove) {
         super(PieceType.PAWN, piecePosition, pieceAlliance, isFirstMove);
-    }
-
-    public Pawn(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.PAWN, piecePosition, pieceAlliance, true);
     }
 
     @Override
@@ -47,7 +42,7 @@ public class Pawn extends Piece {
                     (BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceAlliance().isWhite()))) {
                 final int behindCandidateDestinationCoordinate = this.piecePosition + this.getPieceAlliance().getDirection()*8;
                 if(!board.getTile(behindCandidateDestinationCoordinate).isTileOccupied() && !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
-                    legalMoves.add(new PawnJump(board, this, candidateDestinationCoordinate)); // TODO more work to do here (pawn promotion)
+                    legalMoves.add(new PawnJump(board, this, candidateDestinationCoordinate));
                 }
             }
             // Attack moves (incl. En Passant)

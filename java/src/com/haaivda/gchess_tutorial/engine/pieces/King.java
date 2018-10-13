@@ -20,10 +20,6 @@ public class King extends Piece {
         super(PieceType.KING, piecePosition, pieceAlliance, isFirstMove);
     }
 
-    public King(int piecePosition, Alliance pieceAlliance) {
-        super(PieceType.KING, piecePosition, pieceAlliance, true);
-    }
-
     @Override
     public Collection<Move> calculateLegalMoves(Board board) {
         final List<Move> legalMoves = new ArrayList<>();

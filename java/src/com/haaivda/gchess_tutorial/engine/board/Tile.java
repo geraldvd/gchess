@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 public abstract class Tile {
-    protected final int tileCoordinate;
+    private final int tileCoordinate;
     private final static Map<Integer, Tile> EMPTY_TILES_CACHE = createAllPossibleEmptyTile();
     
     private Tile(int tileCoordinate) {
@@ -19,7 +19,7 @@ public abstract class Tile {
         return this.tileCoordinate;
     }
 
-    public static Tile createTile(int tileCoordinate, Piece piece) {
+    static Tile createTile(int tileCoordinate, Piece piece) {
         return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES_CACHE.get(tileCoordinate);
     }
         

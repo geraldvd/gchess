@@ -1,9 +1,5 @@
 package com.haaivda.gchess_tutorial.engine.board;
 
-
-import com.sun.javafx.collections.UnmodifiableObservableMap;
-
-import javax.net.ssl.SSLEngineResult;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,13 +19,13 @@ public class BoardUtils {
     public static final boolean[] SECOND_RANK = initRow(6);
     public static final boolean[] FIRST_RANK = initRow(7);
 
-    public static final String[] ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
-    public static final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordindateMap();
+    private static final String[] ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
+    private static final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordinate();
 
 
     public static final int NUM_TILES = 64;
-    public static final int NUM_TILES_PER_ROW = 8;
-    public static final int NUM_TILES_PER_COLUMN = 8;
+    static final int NUM_TILES_PER_ROW = 8;
+    private static final int NUM_TILES_PER_COLUMN = 8;
 
     private BoardUtils() {
         throw new RuntimeException("You cannot instantiate me!");
@@ -66,7 +62,7 @@ public class BoardUtils {
         };
     }
 
-    private static Map<String, Integer> initializePositionToCoordindateMap() {
+    private static Map<String, Integer> initializePositionToCoordinate() {
         final Map<String, Integer> positionToCoordinate = new HashMap<>();
 
         for(int i = 0; i < NUM_TILES; i++) {
@@ -84,7 +80,7 @@ public class BoardUtils {
 
     }
 
-    public static String getPositionAtCoordinate(int coordinate) {
+    static String getPositionAtCoordinate(int coordinate) {
         return ALGEBRAIC_NOTATION[coordinate];
     }
 }

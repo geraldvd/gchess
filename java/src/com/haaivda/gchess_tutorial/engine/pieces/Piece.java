@@ -7,9 +7,9 @@ import java.util.Collection;
 
 
 public abstract class Piece {
-    protected final PieceType pieceType;
-    protected final int piecePosition;
-    protected final Alliance pieceAlliance;
+    private final PieceType pieceType;
+    final int piecePosition;
+    final Alliance pieceAlliance;
     protected final boolean isFirstMove;
     private final int cachedHashCode;
     

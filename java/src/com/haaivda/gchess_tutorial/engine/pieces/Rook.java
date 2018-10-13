@@ -4,6 +4,8 @@ import com.haaivda.gchess_tutorial.engine.Alliance;
 import com.haaivda.gchess_tutorial.engine.board.Board;
 import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
 import com.haaivda.gchess_tutorial.engine.board.Move;
+import com.haaivda.gchess_tutorial.engine.board.Move.MajorAttackMove;
+import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
 import com.haaivda.gchess_tutorial.engine.board.Tile;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,10 +39,10 @@ public class Rook extends Piece {
                 if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tile destinationTile = board.getTile(candidateDestinationCoordinate);
                     if(!destinationTile.isTileOccupied()) {
-                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
                     } else {
                         if (this.pieceAlliance != destinationTile.getPiece().getPieceAlliance()) {
-                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, destinationTile.getPiece()));
+                            legalMoves.add(new MajorAttackMove(board, this, candidateDestinationCoordinate, destinationTile.getPiece()));
                         }
                         // Break, if tile on the line is occupied; cannot go past that piece!
                         break;

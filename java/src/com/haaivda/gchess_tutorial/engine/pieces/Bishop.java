@@ -5,6 +5,7 @@ import com.haaivda.gchess_tutorial.engine.board.Board;
 import com.haaivda.gchess_tutorial.engine.board.BoardUtils;
 import com.haaivda.gchess_tutorial.engine.board.Move;
 import com.haaivda.gchess_tutorial.engine.board.Move.AttackMove;
+import com.haaivda.gchess_tutorial.engine.board.Move.MajorAttackMove;
 import com.haaivda.gchess_tutorial.engine.board.Move.MajorMove;
 import com.haaivda.gchess_tutorial.engine.board.Tile;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Bishop extends Piece {
                         legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
                     } else {
                         if (this.pieceAlliance != destinationTile.getPiece().getPieceAlliance()) {
-                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, destinationTile.getPiece()));
+                            legalMoves.add(new MajorAttackMove(board, this, candidateDestinationCoordinate, destinationTile.getPiece()));
                         }
                         // Break, if tile on the line is occupied; cannot go past that piece!
                         break;

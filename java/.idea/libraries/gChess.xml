@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="gChess">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/gChess.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
